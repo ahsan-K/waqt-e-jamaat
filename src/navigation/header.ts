@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import type { Stack } from 'expo-router';
 import type { ComponentProps } from 'react';
@@ -22,8 +23,12 @@ export function useNativeHeader(title = ''): ScreenOptions {
     headerShown: true,
     title,
     headerBackTitle: t('common.back'),
+    // Chevron only: iOS 26 renders it as the round Liquid Glass back button.
+    headerBackButtonDisplayMode: 'minimal',
     headerShadowVisible: false,
-    headerStyle: { backgroundColor: colors.background },
+    // iOS: keep the system bar (transparent at scroll edge) so iOS 26 draws Liquid Glass
+    // bar buttons; a solid custom colour would disable the glass back button.
+    headerStyle: Platform.OS === 'ios' ? undefined : { backgroundColor: colors.background },
     headerTintColor: colors.primary,
     headerTitleStyle: { fontFamily: fontFamilyFor(language, 'extrabold'), color: colors.ink },
   };

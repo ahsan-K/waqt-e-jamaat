@@ -35,7 +35,7 @@ Living log of decisions not spelled out in PLAN.md, deviations, and things the o
 See `.env.example` and FIREBASE_SETUP.md. Summary:
 - `EXPO_PUBLIC_FIREBASE_*` web config (7 values) and set `EXPO_PUBLIC_USE_FIREBASE_EMULATOR=false`
 - `EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID`, `EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID`, `GOOGLE_IOS_URL_SCHEME`
-- `GOOGLE_MAPS_ANDROID_API_KEY`
+- `GOOGLE_MAPS_ANDROID_API_KEY`, `GOOGLE_MAPS_IOS_API_KEY` (Google Maps on both platforms)
 - `GoogleService-Info.plist`, `google-services.json` (git-ignored)
 - Service-account JSON for `scripts/set-admin.ts` / `approve-masjid.ts` (keep outside the repo)
 
@@ -45,6 +45,18 @@ See `.env.example` and FIREBASE_SETUP.md. Summary:
 - E2E: Maestro flows in `.maestro/` (needs Metro on :8081, `npm run emulators`, `npm run seed`, device location 24.8607,67.0011):
   `maestro test .maestro/phase1-language-rtl.yaml` etc.
 - Firebase emulators need **JDK 21+** (firebase-tools 15).
+
+## Status / resume point (2026-10-17, end of session)
+
+- Phases 1–3 done and committed (tested on iOS sim + Android emulator).
+- Phase 4 in progress (WIP commit): auth service (anonymous → link), namazi auth screen,
+  favourites, profile, notifications inbox, local reminders + change alerts, report sheet.
+  Remaining: (1) Maestro phase4 flow — password field focus flake in the iOS simulator;
+  (2) on the iOS 18.6 sim "Set reminder" after registering showed "Something went wrong" —
+  the same multi-path writes succeed against the emulator from Node, so debug in-app
+  (dev alert now shows the error message); (3) run on Android; (4) commit Phase 4.
+- Use the **iOS 26.5 "iPhone 17 Pro"** simulator to see Liquid Glass (round back button,
+  glass tab bar). "iPhone 16 Pro*" sims run iOS 18.6.
 
 ## Open questions
 

@@ -23,7 +23,9 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { JsSplash } from '@/components/JsSplash';
 import { AuthProvider, useAuth } from '@/features/auth/AuthProvider';
+import { useNamaziSync } from '@/features/notifications/useNamaziSync';
 import { ensureDirection } from '@/i18n/applyLanguage';
+import { listenForTaps } from '@/services/notifications';
 import { queryClient, queryPersister } from '@/services/queryClient';
 import { useSettings } from '@/store/settings';
 import { colors } from '@/theme/tokens';
@@ -32,6 +34,13 @@ void SplashScreen.preventAutoHideAsync();
 SplashScreen.setOptions({ duration: 300, fade: true });
 
 const JS_SPLASH_MS = 1200;
+
+/** Background effects that need auth + providers (local notifications, inbox). */
+function AppEffects() {
+  useNamaziSync();
+  useEffect(() => listenForTaps(), []);
+  return null;
+}
 
 function RootNavigator() {
   const [fontsLoaded, fontError] = useFonts({
@@ -83,6 +92,7 @@ function RootNavigator() {
         <Stack.Screen name="language" options={{ presentation: 'card' }} />
         <Stack.Screen name="(namazi)" options={{ animation: 'fade' }} />
       </Stack>
+      <AppEffects />
       {showJsSplash && <JsSplash />}
     </View>
   );

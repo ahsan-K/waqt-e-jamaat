@@ -1,0 +1,96 @@
+# Phase 4: guest → register (links the anonymous user) → favourite + reminder → favourites → logout.
+appId: com.ahsan.waqtejamaat
+---
+- runFlow: _open-app.yaml
+- extendedWaitUntil:
+    visible:
+      id: "welcome-namazi"
+    timeout: 60000
+- tapOn:
+    id: "welcome-namazi"
+- extendedWaitUntil:
+    visible:
+      text: "Allow While Using App|While using the app|.*masjid.*"
+    timeout: 20000
+- runFlow: _allow-location.yaml
+- extendedWaitUntil:
+    visible:
+      id: "nearby-seed-01"
+    timeout: 30000
+# Guest favourites tab shows the sign-up prompt.
+- tapOn: "My masjids"
+- assertVisible:
+    id: "fav-login"
+- tapOn: "Map"
+- tapOn:
+    id: "nearby-seed-01"
+- extendedWaitUntil:
+    visible:
+      id: "remind-btn"
+    timeout: 20000
+- tapOn:
+    id: "remind-btn"
+- tapOn:
+    id: "gate-cta"
+- extendedWaitUntil:
+    visible:
+      id: "auth-email"
+    timeout: 10000
+- tapOn:
+    id: "auth-name"
+- inputText: "Test Namazi"
+- tapOn:
+    id: "auth-email"
+- inputRandomEmail
+- tapOn:
+    id: "auth-password"
+- waitForAnimationToEnd
+- tapOn:
+    id: "auth-password"
+- inputText: "secret123"
+# Dismiss keyboard by tapping the heading (hideKeyboard is flaky on iOS).
+- tapOn: "Namazi account"
+- tapOn:
+    id: "auth-submit"
+# Back on the detail screen as a registered user.
+- extendedWaitUntil:
+    visible:
+      id: "remind-btn"
+    timeout: 20000
+- tapOn:
+    id: "remind-btn"
+- runFlow:
+    when:
+      visible: "Allow"
+    commands:
+      - tapOn: "Allow"
+- extendedWaitUntil:
+    visible: "Reminder on"
+    timeout: 10000
+- tapOn:
+    id: "confirm-btn"
+- extendedWaitUntil:
+    visible: "Thanks"
+    timeout: 10000
+- takeScreenshot: .maestro/out/detail-registered
+- back
+- tapOn: "My masjids"
+- extendedWaitUntil:
+    visible:
+      id: "fav-seed-01"
+    timeout: 10000
+- takeScreenshot: .maestro/out/favourites
+- tapOn: "Profile"
+- assertVisible: "Test Namazi"
+- tapOn:
+    id: "lead-15"
+- takeScreenshot: .maestro/out/profile
+- scrollUntilVisible:
+    element:
+      id: "logout"
+- tapOn:
+    id: "logout"
+- extendedWaitUntil:
+    visible:
+      id: "welcome-namazi"
+    timeout: 10000

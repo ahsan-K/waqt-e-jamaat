@@ -23,6 +23,7 @@ import { SignInSheet, type GateReason } from '@/components/SignInSheet';
 import { useCalcSettings, useCalculated } from '@/features/masjid/calculated';
 import { useMasjidActions } from '@/features/masjid/useMasjidActions';
 import { PrayerTable } from '@/features/masjid/PrayerTable';
+import { ReportSheet } from '@/features/masjid/ReportSheet';
 import { useMasjid, useMasjidStats } from '@/features/masjid/queries';
 import { useNow } from '@/hooks/useNow';
 import {
@@ -385,7 +386,7 @@ export default function MasjidDetail() {
                     variant={actions.requested ? 'secondary' : 'primary'}
                     label={actions.requested ? t('detail.requestSent') : t('detail.sendRequest')}
                     disabled={actions.requested}
-                    onPress={actions.request}
+                    onPress={() => void actions.request()}
                   />
                   <Button
                     size="sm"
@@ -422,12 +423,17 @@ export default function MasjidDetail() {
             style={styles.flex}
             variant={actions.notifyWhenAdded ? 'secondary' : 'outlinePrimary'}
             label={actions.notifyWhenAdded ? t('detail.willNotify') : t('detail.notifyWhenAdded')}
-            onPress={actions.toggleNotifyWhenAdded}
+            onPress={() => void actions.toggleNotifyWhenAdded()}
           />
         )}
       </Glass>
 
       <SignInSheet reason={gate} onClose={() => setGate(null)} />
+      <ReportSheet
+        visible={actions.reportOpen}
+        onClose={actions.closeReport}
+        onSubmit={actions.submitReport}
+      />
     </View>
   );
 }

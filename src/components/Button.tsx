@@ -6,7 +6,8 @@ import { colors } from '@/theme/tokens';
 import { AppText } from './AppText';
 import { Touchable } from './Pressable';
 
-type Variant = 'primary' | 'secondary' | 'outline' | 'outlinePrimary' | 'ghost' | 'danger' | 'accent';
+type Variant =
+  'primary' | 'secondary' | 'outline' | 'outlinePrimary' | 'ghost' | 'danger' | 'accent';
 
 type Props = {
   label: string;
