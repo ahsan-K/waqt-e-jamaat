@@ -1,0 +1,66 @@
+# Phase 2: guest map with seeded emulator data (npm run emulators && npm run seed).
+# Device location must be the seed centre (24.8607, 67.0011).
+appId: com.ahsan.waqtejamaat
+---
+- runFlow: _open-app.yaml
+- extendedWaitUntil:
+    visible:
+      id: "welcome-namazi"
+    timeout: 60000
+- tapOn:
+    id: "welcome-namazi"
+- extendedWaitUntil:
+    visible:
+      text: "Allow While Using App|While using the app|.*masjid.*"
+    timeout: 20000
+- runFlow: _allow-location.yaml
+- extendedWaitUntil:
+    visible:
+      id: "nearby-count"
+    timeout: 30000
+- extendedWaitUntil:
+    visible:
+      id: "nearby-seed-01"
+    timeout: 30000
+- assertVisible:
+    id: "nearby-count"
+    text: "5 masjids · 2 km"
+- takeScreenshot: .maestro/out/map-2km
+# Default 2 km: seed-01 (0.5 km) is nearest; masjids beyond 2 km are not listed.
+- assertVisible:
+    id: "nearby-seed-01"
+- tapOn:
+    id: "radius-slider"
+    point: "98%,50%"
+- extendedWaitUntil:
+    visible:
+      id: "radius-value"
+      text: "5 km"
+    timeout: 5000
+- extendedWaitUntil:
+    visible:
+      id: "nearby-count"
+      text: "14 masjids · 5 km"
+    timeout: 10000
+- takeScreenshot: .maestro/out/map-5km
+- tapOn:
+    id: "radius-slider"
+    point: "2%,50%"
+- extendedWaitUntil:
+    visible:
+      id: "radius-value"
+      text: "1 km"
+    timeout: 5000
+- extendedWaitUntil:
+    visible:
+      id: "nearby-count"
+      text: "1 masjid · 1 km"
+    timeout: 10000
+- takeScreenshot: .maestro/out/map-1km
+- tapOn:
+    id: "nearby-seed-01"
+- extendedWaitUntil:
+    visible:
+      id: "next-card"
+    timeout: 20000
+- takeScreenshot: .maestro/out/detail

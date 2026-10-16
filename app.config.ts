@@ -2,6 +2,7 @@ import type { ConfigContext, ExpoConfig } from 'expo/config';
 
 const BUNDLE_ID = 'com.ahsan.waqtejamaat';
 const GOOGLE_IOS_URL_SCHEME = process.env.GOOGLE_IOS_URL_SCHEME;
+const GOOGLE_MAPS_IOS_API_KEY = process.env.GOOGLE_MAPS_IOS_API_KEY;
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
@@ -36,8 +37,11 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     [
       'react-native-maps',
       {
-        // Android uses Google Maps (needs a key); iOS uses Apple Maps (no key).
-        androidGoogleMapsApiKey: process.env.GOOGLE_MAPS_ANDROID_API_KEY ?? '',
+        // Google Maps on both platforms (owner decision). The iOS Google Maps SDK is only
+        // linked when an iOS key is present; until then iOS dev builds fall back to Apple Maps.
+        // Placeholder keeps dev builds from crashing ("API key not found"); tiles need a real key.
+        androidGoogleMapsApiKey: process.env.GOOGLE_MAPS_ANDROID_API_KEY || 'MISSING_GOOGLE_MAPS_ANDROID_KEY',
+        ...(GOOGLE_MAPS_IOS_API_KEY ? { iosGoogleMapsApiKey: GOOGLE_MAPS_IOS_API_KEY } : {}),
       },
     ],
     [
@@ -77,6 +81,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       },
     ],
   ],
+  extra: {
+    iosGoogleMaps: !!GOOGLE_MAPS_IOS_API_KEY,
+  },
   experiments: {
     typedRoutes: true,
     reactCompiler: true,

@@ -1,24 +1,30 @@
+import { Stack } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { useNativeHeader } from '@/navigation/header';
 import { colors } from '@/theme/tokens';
 
 import { AppText } from './AppText';
-import { BackButton } from './BackButton';
 
 /** Temporary screen body for routes built in later phases. */
-export function Placeholder({ title, back = true }: { title: string; back?: boolean }) {
-  const insets = useSafeAreaInsets();
+export function Placeholder({
+  title,
+  header: withHeader = true,
+}: {
+  title: string;
+  header?: boolean;
+}) {
+  const header = useNativeHeader(title);
   return (
-    <View style={[styles.root, { paddingTop: insets.top + 16 }]}>
-      {back && <BackButton />}
-      <AppText size={24} weight="extrabold">
-        {title}
+    <View style={styles.root}>
+      {withHeader && <Stack.Screen options={header} />}
+      <AppText size={withHeader ? 16 : 24} weight={withHeader ? 'medium' : 'extrabold'}>
+        {withHeader ? '…' : title}
       </AppText>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: colors.background, paddingHorizontal: 24, gap: 16 },
+  root: { flex: 1, backgroundColor: colors.background, padding: 24 },
 });

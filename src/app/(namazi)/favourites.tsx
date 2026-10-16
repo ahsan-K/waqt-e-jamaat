@@ -1,5 +1,5 @@
 import { Placeholder } from '@/components/Placeholder';
 
 export default function Screen() {
-  return <Placeholder title="Meri masjidein" />;
+  return <Placeholder header={false} title="Meri masjidein" />;
 }

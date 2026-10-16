@@ -1,0 +1,13 @@
+# Accept the OS location permission prompt if shown (iOS / Android wording).
+appId: com.ahsan.waqtejamaat
+---
+- runFlow:
+    when:
+      visible: "Allow While Using App|While using the app|Only this time"
+    commands:
+      - tapOn: "Allow While Using App|While using the app"
+- runFlow:
+    when:
+      visible: ".*Location Accuracy.*"
+    commands:
+      - tapOn: "Turn on"

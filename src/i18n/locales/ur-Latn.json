@@ -73,7 +73,6 @@
     "radius": "Search radius",
     "km": "{{km}} km",
     "nearby": "Qareeb masjidein",
-    "count": "{{n}} masjidein · {{km}} km",
     "away": "{{dist}} door",
     "estimate": "Andaza",
     "none": "Is radius mein koi masjid nahi. Radius barha kar dekhein.",
@@ -81,7 +80,9 @@
     "youAreHere": "Aapki location",
     "noTimings": "Timings abhi nahi",
     "searchArea": "Is area mein dhoondein",
-    "noResults": "Kuch nahi mila"
+    "noResults": "Kuch nahi mila",
+    "count_one": "{{n}} masjid · {{km}} km",
+    "count_other": "{{n}} masjidein · {{km}} km"
   },
   "location": {
     "deniedTitle": "Location band hai",

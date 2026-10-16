@@ -13,6 +13,7 @@ import { Icon } from '@/components/Icon';
 import { Touchable } from '@/components/Pressable';
 import { RadiusSlider } from '@/components/RadiusSlider';
 import { clusterItems, type MapRegion } from '@/features/map/clusters';
+import { MAP_PROVIDER } from '@/features/map/provider';
 import { MasjidPin } from '@/features/map/MasjidPin';
 import { NearbySheet } from '@/features/map/NearbySheet';
 import { useNearby } from '@/features/map/useNearby';
@@ -108,6 +109,7 @@ export default function MapScreen() {
       {origin ? (
         <MapView
           ref={mapRef}
+          provider={MAP_PROVIDER}
           style={StyleSheet.absoluteFill}
           initialRegion={regionForRadius(origin, radiusKm)}
           onRegionChangeComplete={setRegion}
@@ -232,6 +234,7 @@ export default function MapScreen() {
             </AppText>
           </View>
           <RadiusSlider
+            testID="radius-slider"
             value={radiusKm}
             onChange={onRadius}
             accessibilityLabel={t('map.radius')}

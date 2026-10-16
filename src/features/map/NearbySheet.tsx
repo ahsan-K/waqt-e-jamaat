@@ -36,6 +36,7 @@ export function NearbySheet({ items, radiusKm, loading, error, onRetry }: Props)
         </AppText>
         <AppText size={13} weight="semibold" color="muted" testID="nearby-count">
           {t('map.count', {
+            count: items.length,
             n: localizeDigits(items.length, language),
             km: localizeDigits(radiusKm, language),
           })}

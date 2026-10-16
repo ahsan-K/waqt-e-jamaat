@@ -1,4 +1,4 @@
-import { router } from 'expo-router';
+import { router, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -6,13 +6,13 @@ import { ActivityIndicator, I18nManager, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AppText } from '@/components/AppText';
-import { BackButton } from '@/components/BackButton';
 import { Button } from '@/components/Button';
 import { Touchable } from '@/components/Pressable';
 import i18n from '@/i18n';
 import { applyLanguage } from '@/i18n/applyLanguage';
 import { LANGUAGES, type Language } from '@/i18n/languages';
 import { localizeDigits } from '@/lib/digits';
+import { useNativeHeader } from '@/navigation/header';
 import { useSettings } from '@/store/settings';
 import { colors, radii } from '@/theme/tokens';
 import { scriptFor } from '@/theme/typography';
@@ -23,6 +23,7 @@ export default function LanguageScreen() {
   const current = useSettings((s) => s.language);
   const [picked, setPicked] = useState<Language>(current);
   const [restarting, setRestarting] = useState(false);
+  const header = useNativeHeader();
 
   // Live preview renders in the picked language before it is applied.
   const pt = i18n.getFixedT(picked);
@@ -51,9 +52,9 @@ export default function LanguageScreen() {
   }
 
   return (
-    <View style={[styles.root, { paddingTop: insets.top + 16, paddingBottom: insets.bottom + 24 }]}>
+    <View style={[styles.root, { paddingTop: 8, paddingBottom: insets.bottom + 24 }]}>
+      <Stack.Screen options={header} />
       <StatusBar style="dark" />
-      {router.canGoBack() && <BackButton />}
 
       <View style={styles.heading}>
         <AppText size={30} weight="extrabold" script={script} style={dirStyle(previewDir)}>

@@ -13,6 +13,7 @@ type Props = {
   onChange: (v: number) => void;
   accessibilityLabel: string;
   formatValue: (v: number) => string;
+  testID?: string;
 };
 
 const THUMB = 26;
@@ -26,6 +27,7 @@ export function RadiusSlider({
   onChange,
   accessibilityLabel,
   formatValue,
+  testID,
 }: Props) {
   const [width, setWidth] = useState(0);
   const rtl = I18nManager.isRTL;
@@ -54,6 +56,7 @@ export function RadiusSlider({
   return (
     <GestureDetector gesture={pan}>
       <View
+        testID={testID}
         style={styles.hit}
         onLayout={(e: LayoutChangeEvent) => setWidth(e.nativeEvent.layout.width)}
         accessible

@@ -1,0 +1,50 @@
+# Phase 3: masjid detail — real timings and AlAdhan estimate (seed-10 has no timings).
+appId: com.ahsan.waqtejamaat
+---
+- runFlow: _open-app.yaml
+- extendedWaitUntil:
+    visible:
+      id: "welcome-namazi"
+    timeout: 60000
+- tapOn:
+    id: "welcome-namazi"
+- extendedWaitUntil:
+    visible:
+      text: "Allow While Using App|While using the app|.*masjid.*"
+    timeout: 20000
+- runFlow: _allow-location.yaml
+- extendedWaitUntil:
+    visible:
+      id: "nearby-seed-01"
+    timeout: 30000
+- tapOn:
+    id: "nearby-seed-01"
+- extendedWaitUntil:
+    visible:
+      id: "next-card"
+    timeout: 20000
+- assertVisible:
+    id: "row-fajr"
+- assertVisible:
+    id: "row-isha"
+# Guest tapping reminder gets the sign-in sheet. (The star is covered by the dev-build
+# floating button on Android, so the reminder button is used here.)
+- tapOn:
+    id: "remind-btn"
+- extendedWaitUntil:
+    visible:
+      id: "gate-cta"
+    timeout: 5000
+- takeScreenshot: .maestro/out/gate
+- back
+- openLink: "waqtejamaat://masjid/seed-10"
+- extendedWaitUntil:
+    visible:
+      id: "next-card-estimate"
+    timeout: 30000
+- extendedWaitUntil:
+    visible: "Estimate · from location"
+    timeout: 30000
+- assertVisible:
+    id: "request-btn"
+- takeScreenshot: .maestro/out/detail-estimate

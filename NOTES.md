@@ -21,6 +21,14 @@ Living log of decisions not spelled out in PLAN.md, deviations, and things the o
 9. **RTL reload:** `Updates.reloadAsync()` with fallback to `DevSettings.reload()` (expo-updates is disabled in debug builds). On boot, if the native direction doesn't match the saved language, the app flips and reloads once.
 10. **Fonts** are loaded at runtime with `useFonts` from `@expo-google-fonts/*` while the native splash is held.
 11. **First launch** goes to Welcome (language pill on Welcome opens the Language screen), matching the mockup flow Splash → Welcome.
+12. **expo-localization removed.** Its iOS module resets `I18nManager.forceRTL` on every launch, which made the Urdu RTL flip impossible. Device locale now comes from `SettingsManager.AppleLanguages` (iOS) / `I18nManager.localeIdentifier` (Android) in `src/i18n/deviceLocale.ts`. `CFBundleLocalizations: [en, ur]` declared so iOS allows RTL.
+13. **Google Maps on iOS and Android** (owner decision, overrides PLAN §2 Apple Maps). The iOS Google Maps SDK is only linked when `GOOGLE_MAPS_IOS_API_KEY` is set at build time — until then iOS dev builds fall back to Apple Maps (`src/features/map/provider.ts`). Android uses a placeholder key when none is set so dev builds don't crash (tiles stay blank until a real key is added).
+14. **Native header back buttons everywhere** (owner decision, overrides the mockups' round back buttons): `src/navigation/header.ts` (`useNativeHeader`, `useNativeHeaderOnPrimary`). Header actions (share / favourite) live in `headerRight`.
+15. **Radius slider** is a custom gesture-handler component (no extra native dep), accessible as an adjustable control, mirrored in RTL.
+16. **Clustering** uses `supercluster` directly (react-native-map-clustering is unmaintained).
+17. **Map search:** first matches loaded masjid names, otherwise geocodes the text with `expo-location` and re-centres. A "Search this area" button appears when the map is panned outside the radius.
+18. **Routes `/masjid/[id]` deep-link:** `waqtejamaat://masjid/<id>`.
+19. **AlAdhan:** `GET /v1/calendar/{year}/{month}?latitude&longitude&method&school&timezonestring` (verified 2026-10-17). Cached per rounded coords (2 dp) + method + school + month in AsyncStorage; current + next month kept.
 
 ## Owner must provide (from Firebase console etc.)
 
@@ -31,6 +39,13 @@ See `.env.example` and FIREBASE_SETUP.md. Summary:
 - `GoogleService-Info.plist`, `google-services.json` (git-ignored)
 - Service-account JSON for `scripts/set-admin.ts` / `approve-masjid.ts` (keep outside the repo)
 
+## Testing
+
+- Unit: `npm test` (Jest, pure libs in `src/lib`, AlAdhan parser/cache with a saved fixture).
+- E2E: Maestro flows in `.maestro/` (needs Metro on :8081, `npm run emulators`, `npm run seed`, device location 24.8607,67.0011):
+  `maestro test .maestro/phase1-language-rtl.yaml` etc.
+- Firebase emulators need **JDK 21+** (firebase-tools 15).
+
 ## Open questions
 
-- (none yet)
+- Android dev builds show the dev-client floating button over the header's top-right action; harmless in release builds.

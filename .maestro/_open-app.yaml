@@ -4,11 +4,23 @@ appId: com.ahsan.waqtejamaat
 - launchApp:
     clearState: true
     stopApp: true
+    permissions:
+      notifications: allow
 - openLink: "exp+waqt-e-jamaat://expo-development-client/?url=http%3A%2F%2F127.0.0.1%3A8081&__expo_disable_onboarding=1&__expo_disable_fab=1"
 - extendedWaitUntil:
     visible:
-      text: "Continue|Waqt-e-Jamaat.*|وقتِ جماعت|Development Build"
+      text: "Continue|Waqt-e-Jamaat.*|وقتِ جماعت|Development Build|.*nearby devices.*"
     timeout: 60000
+# Android dev launcher asks for "nearby devices" (dev server discovery) — not the app itself.
+- runFlow:
+    when:
+      visible: ".*nearby devices.*"
+    commands:
+      - tapOn: "Allow"
+      - extendedWaitUntil:
+          visible:
+            text: "Continue|Waqt-e-Jamaat.*|وقتِ جماعت|Development Build"
+          timeout: 60000
 # Android dev launcher may ignore the link: pick the running server.
 - runFlow:
     when:

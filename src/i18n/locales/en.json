@@ -73,7 +73,6 @@
     "radius": "Search radius",
     "km": "{{km}} km",
     "nearby": "Nearby masjids",
-    "count": "{{n}} masjids · {{km}} km",
     "away": "{{dist}} away",
     "estimate": "Estimate",
     "none": "No masjids in this radius. Try a bigger radius.",
@@ -81,7 +80,9 @@
     "youAreHere": "Your location",
     "noTimings": "No timings yet",
     "searchArea": "Search this area",
-    "noResults": "No results"
+    "noResults": "No results",
+    "count_one": "{{n}} masjid · {{km}} km",
+    "count_other": "{{n}} masjids · {{km}} km"
   },
   "location": {
     "deniedTitle": "Location is off",

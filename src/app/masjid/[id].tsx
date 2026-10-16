@@ -1,4 +1,5 @@
-import { router, useLocalSearchParams } from 'expo-router';
+import { router, Stack, useLocalSearchParams } from 'expo-router';
+import { useHeaderHeight } from 'expo-router/react-navigation';
 import { StatusBar } from 'expo-status-bar';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -42,6 +43,7 @@ import { dayRows, getNextJamaat, hasDailyTimings, upcomingChanges } from '@/lib/
 import { dateKey } from '@/lib/time';
 import { useLastLocation } from '@/store/location';
 import { colors, radii, TOUCH } from '@/theme/tokens';
+import { useNativeHeader, useNativeHeaderOnPrimary } from '@/navigation/header';
 import { DEFAULT_TIMEZONE } from '@/types/masjid';
 
 function HeaderButton({
@@ -91,10 +93,14 @@ export default function MasjidDetail() {
   const next = useMemo(() => (m ? getNextJamaat(m, now) : null), [m, now]);
   const changes = useMemo(() => (m ? upcomingChanges(m, now) : []), [m, now]);
   const dist = m && userLoc ? distanceKm(userLoc, m) : null;
+  const headerOnPrimary = useNativeHeaderOnPrimary();
+  const headerPlain = useNativeHeader();
+  const headerHeight = useHeaderHeight();
 
   if (masjidQ.isLoading) {
     return (
       <View style={[styles.root, styles.center]}>
+        <Stack.Screen options={headerPlain} />
         <ActivityIndicator color={colors.primary} size="large" />
       </View>
     );
@@ -102,6 +108,7 @@ export default function MasjidDetail() {
   if (!m) {
     return (
       <View style={[styles.root, styles.center, { padding: 24 }]}>
+        <Stack.Screen options={headerPlain} />
         <AppText size={16} weight="bold" align="center">
           {masjidQ.isError ? t('common.error') : t('detail.notFound')}
         </AppText>
@@ -143,20 +150,12 @@ export default function MasjidDetail() {
 
   return (
     <View style={styles.root}>
-      <StatusBar style="light" />
-      <ScrollView
-        contentContainerStyle={{ paddingBottom: insets.bottom + 110 }}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={[styles.header, { paddingTop: insets.top + 12 }]}>
-          <View style={styles.headerRow}>
-            <HeaderButton
-              icon="back"
-              label={t('detail.backToMap')}
-              onPress={() => (router.canGoBack() ? router.back() : router.replace('/map'))}
-            />
+      <Stack.Screen
+        options={{
+          ...headerOnPrimary,
+          headerRight: () => (
             <View style={styles.headerActions}>
-              <HeaderButton icon="send" label={t('detail.share')} onPress={share} />
+              <HeaderButton icon="share" label={t('detail.share')} onPress={share} />
               <HeaderButton
                 testID="fav-toggle"
                 icon="star"
@@ -165,7 +164,15 @@ export default function MasjidDetail() {
                 onPress={actions.toggleFavourite}
               />
             </View>
-          </View>
+          ),
+        }}
+      />
+      <StatusBar style="light" />
+      <ScrollView
+        contentContainerStyle={{ paddingBottom: insets.bottom + 110 }}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={[styles.header, { paddingTop: headerHeight + 4 }]}>
           <View style={styles.titleBlock}>
             <AppText size={26} weight="extrabold" color="white" accessibilityRole="header">
               {name}
@@ -298,7 +305,7 @@ export default function MasjidDetail() {
                 <Button
                   testID="confirm-btn"
                   size="sm"
-                  variant={actions.confirmed ? 'primary' : 'outline'}
+                  variant={actions.confirmed ? 'primary' : 'outlinePrimary'}
                   label={actions.confirmed ? t('detail.thanks') : t('detail.timeCorrect')}
                   disabled={actions.confirmed}
                   onPress={actions.confirm}
@@ -405,7 +412,7 @@ export default function MasjidDetail() {
           <Button
             testID="remind-btn"
             style={styles.flex}
-            variant={actions.reminderOn ? 'secondary' : 'outline'}
+            variant={actions.reminderOn ? 'secondary' : 'outlinePrimary'}
             label={actions.reminderOn ? t('detail.remindOn') : t('detail.remind')}
             onPress={actions.toggleReminder}
           />
@@ -413,7 +420,7 @@ export default function MasjidDetail() {
           <Button
             testID="notify-btn"
             style={styles.flex}
-            variant={actions.notifyWhenAdded ? 'secondary' : 'outline'}
+            variant={actions.notifyWhenAdded ? 'secondary' : 'outlinePrimary'}
             label={actions.notifyWhenAdded ? t('detail.willNotify') : t('detail.notifyWhenAdded')}
             onPress={actions.toggleNotifyWhenAdded}
           />
@@ -435,16 +442,8 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
     gap: 14,
   },
-  headerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   headerActions: { flexDirection: 'row', gap: 8 },
-  headerBtn: {
-    width: TOUCH,
-    height: TOUCH,
-    borderRadius: 14,
-    backgroundColor: 'rgba(255,255,255,0.14)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  headerBtn: { width: 36, height: TOUCH, alignItems: 'center', justifyContent: 'center' },
   titleBlock: { gap: 4 },
   nextCard: {
     backgroundColor: colors.accentBg,

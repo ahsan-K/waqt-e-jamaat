@@ -26,6 +26,7 @@ const paths = {
   flag: ['M5 21V4', 'M5 4h11l-2 4 2 4H5'],
   camera: ['M4 8h3l2-3h6l2 3h3v11H4z', 'circle:12,13,3.5'],
   send: ['M4 12l16-8-6 16-3-7z'],
+  share: ['M12 3v12', 'M8 7l4-4 4 4', 'M5 12v8h14v-8'],
   info: ['circle:12,12,9', 'M12 11v5', 'M12 8h.01'],
   edit: ['M4 20h4L19 9l-4-4L4 16z', 'M14 6l4 4'],
   trash: ['M4 7h16', 'M9 7V4h6v3', 'M6 7l1 13h10l1-13'],
