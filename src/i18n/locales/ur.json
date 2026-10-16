@@ -1,0 +1,152 @@
+{
+  "appName": "وقتِ جماعت",
+  "appNameUr": "وقتِ جماعت",
+  "common": {
+    "back": "واپس",
+    "continue": "جاری رکھیں",
+    "cancel": "منسوخ",
+    "save": "محفوظ کریں",
+    "retry": "دوبارہ کوشش",
+    "loading": "لوڈ ہو رہا ہے…",
+    "restarting": "ایپ دوبارہ شروع ہو رہی ہے…",
+    "close": "بند کریں",
+    "comingSoon": "جلد آ رہا ہے",
+    "error": "کچھ غلط ہو گیا۔",
+    "offline": "آپ آف لائن ہیں — محفوظ ڈیٹا دکھا رہے ہیں۔"
+  },
+  "language": {
+    "title": "زبان منتخب کریں",
+    "subtitle": "آپ اسے بعد میں پروفائل سے بدل سکتے ہیں۔",
+    "group": "زبان",
+    "previewLabel": "جھلک",
+    "preview": "اگلی جماعت: عصر {{time}}",
+    "preview2": "مسجدِ نور، {{min}} منٹ میں",
+    "hint_ur-Latn": "Urdu, English huroof mein",
+    "hint_ur": "Urdu · daayen se baayen",
+    "hint_en": "English",
+    "name_ur-Latn": "Roman Urdu",
+    "name_ur": "اردو",
+    "name_en": "English"
+  },
+  "welcome": {
+    "tagline": "اپنے قریب کی مسجد میں جماعت کبھی نہ چھوٹے۔",
+    "question": "آپ کیسے آگے بڑھنا چاہتے ہیں؟",
+    "namaziTitle": "نمازی",
+    "namaziBody": "مہمان کے طور پر سیدھا اوقات دیکھیں۔ پسندیدہ اور یاد دہانی کے لیے اکاؤنٹ بنائیں۔",
+    "intezamiaTitle": "مسجد انتظامیہ",
+    "intezamiaBody": "اپنی مسجد رجسٹر کریں اور جماعت کے اوقات اپ ڈیٹ کریں۔",
+    "namaziLogin": "نمازی اکاؤنٹ ہے؟ لاگ ان کریں",
+    "changeLanguage": "زبان بدلیں"
+  },
+  "prayer": {
+    "fajr": "فجر",
+    "sunrise": "طلوعِ آفتاب",
+    "zuhr": "ظہر",
+    "asr": "عصر",
+    "maghrib": "مغرب",
+    "isha": "عشاء"
+  },
+  "special": {
+    "jumma": "جمعہ",
+    "taraweeh": "تراویح",
+    "eid_ul_fitr": "عید الفطر",
+    "eid_ul_adha": "عید الاضحیٰ",
+    "custom": "خاص نماز"
+  },
+  "time": {
+    "am": "صبح",
+    "pm": "شام",
+    "inMin": "{{min}} منٹ میں",
+    "inHours": "{{h}} گھنٹے {{m}} منٹ میں",
+    "now": "ابھی"
+  },
+  "tabs": {
+    "map": "نقشہ",
+    "favourites": "میری مساجد",
+    "profile": "پروفائل"
+  },
+  "map": {
+    "search": "مسجد یا علاقہ تلاش کریں",
+    "myLocation": "میری لوکیشن پر واپس جائیں",
+    "notifications": "اطلاعات، {{count}} نئی",
+    "notificationsNone": "اطلاعات",
+    "radius": "تلاش کا دائرہ",
+    "km": "{{km}} کلومیٹر",
+    "nearby": "قریبی مساجد",
+    "count": "{{n}} مساجد · {{km}} کلومیٹر",
+    "away": "{{dist}} دور",
+    "estimate": "اندازہ",
+    "none": "اس دائرے میں کوئی مسجد نہیں۔ دائرہ بڑھا کر دیکھیں۔",
+    "loadError": "مساجد لوڈ نہیں ہو سکیں۔",
+    "youAreHere": "آپ کی لوکیشن",
+    "noTimings": "اوقات ابھی نہیں",
+    "searchArea": "اس علاقے میں تلاش کریں",
+    "noResults": "کچھ نہیں ملا"
+  },
+  "location": {
+    "deniedTitle": "لوکیشن بند ہے",
+    "deniedBody": "قریبی مساجد دیکھنے کے لیے لوکیشن کی اجازت دیں، یا علاقہ تلاش کریں۔",
+    "allow": "لوکیشن آن کریں",
+    "openSettings": "سیٹنگز کھولیں",
+    "usingDefault": "کراچی دکھا رہے ہیں۔ اپنا علاقہ تلاش کریں۔"
+  },
+  "detail": {
+    "backToMap": "نقشے پر واپس",
+    "share": "شیئر",
+    "favAdd": "پسندیدہ بنائیں",
+    "favRemove": "پسندیدہ سے ہٹائیں",
+    "addressDistance": "{{address}} · {{dist}} دور",
+    "nextJamaat": "اگلی جماعت",
+    "walking": "پیدل {{min}} منٹ",
+    "minShort": "{{min}} منٹ",
+    "todaySchedule": "آج کا شیڈول",
+    "azaanJamaat": "اذان · جماعت",
+    "khutbaJamaat": "خطبہ {{khutba}} · جماعت",
+    "expected": "متوقع",
+    "start": "آغاز",
+    "updatedDaysAgo": "{{n}} دن پہلے اپ ڈیٹ",
+    "updatedToday": "آج اپ ڈیٹ ہوا",
+    "confirmedBy": "{{n}} لوگوں نے تصدیق کی",
+    "timeCorrect": "وقت درست ہے",
+    "thanks": "شکریہ",
+    "reportLink": "وقت غلط ہے؟ اپ ڈیٹ یا تصویر بھیجیں",
+    "directions": "راستہ",
+    "remind": "یاد دہانی لگائیں",
+    "remindOn": "یاد دہانی آن",
+    "notifyWhenAdded": "اوقات آنے پر بتائیں",
+    "willNotify": "بتائیں گے",
+    "upcomingChange": "{{date}} سے جماعت {{time}}",
+    "notFound": "یہ مسجد دستیاب نہیں۔",
+    "nextEstimate": "اگلی نماز · اندازہ",
+    "timeStarts": "وقت شروع",
+    "jamaatUnconfirmed": "جماعت کی تصدیق نہیں",
+    "todayTimes": "آج کے اوقات",
+    "estimateBadge": "اندازہ · لوکیشن سے",
+    "estimateNote": "مسجد کی لوکیشن سے حساب کیے گئے نماز کے آغاز کے اوقات ({{method}} طریقہ، {{school}} عصر)۔ اصل جماعت ان کے کچھ دیر بعد ہوتی ہے اور مسجد کے حساب سے مختلف ہو سکتی ہے۔",
+    "noTimingsCard": "اس مسجد کی جماعت کے اوقات ابھی شامل نہیں ہوئے",
+    "sendRequest": "درخواست بھیجیں",
+    "requestSent": "درخواست بھیج دی",
+    "boardPhoto": "بورڈ کی تصویر",
+    "estimateError": "اندازے کے اوقات ابھی لوڈ نہیں ہو سکے",
+    "shareText": "{{name}} — اگلی جماعت {{next}}۔ وقتِ جماعت",
+    "noJamaatToday": "جماعت کے اوقات نہیں"
+  },
+  "method": {
+    "karachi": "کراچی",
+    "mwl": "مسلم ورلڈ لیگ",
+    "ummAlQura": "ام القریٰ",
+    "isna": "اسنا"
+  },
+  "school": {
+    "hanafi": "حنفی",
+    "shafi": "شافعی"
+  },
+  "gate": {
+    "favTitle": "مسجد پسندیدہ کرنے کے لیے اکاؤنٹ بنائیں",
+    "remindTitle": "یاد دہانی لگانے کے لیے اکاؤنٹ بنائیں",
+    "confirmTitle": "اوقات کی تصدیق کے لیے اکاؤنٹ بنائیں",
+    "body": "مفت اکاؤنٹ سے آپ کی پسندیدہ مساجد اور یاد دہانیاں محفوظ رہیں گی، فون بدلنے پر بھی۔",
+    "cta": "اکاؤنٹ بنائیں یا لاگ ان کریں",
+    "notNow": "ابھی نہیں"
+  }
+}

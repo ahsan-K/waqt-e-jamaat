@@ -1,0 +1,75 @@
+{
+  "code": 200,
+  "status": "OK",
+  "data": [
+    {
+      "timings": {
+        "Fajr": "05:08 (PKT)",
+        "Sunrise": "06:24 (PKT)",
+        "Dhuhr": "12:22 (PKT)",
+        "Asr": "16:40 (PKT)",
+        "Sunset": "18:19 (PKT)",
+        "Maghrib": "18:19 (PKT)",
+        "Isha": "19:35 (PKT)",
+        "Imsak": "04:58 (PKT)",
+        "Midnight": "00:22 (PKT)",
+        "Firstthird": "22:21 (PKT)",
+        "Lastthird": "02:22 (PKT)"
+      },
+      "date": {
+        "gregorian": {
+          "date": "01-10-2026"
+        }
+      },
+      "meta": {
+        "timezone": "Asia/Karachi"
+      }
+    },
+    {
+      "timings": {
+        "Fajr": "05:09 (PKT)",
+        "Sunrise": "06:24 (PKT)",
+        "Dhuhr": "12:21 (PKT)",
+        "Asr": "16:39 (PKT)",
+        "Sunset": "18:18 (PKT)",
+        "Maghrib": "18:18 (PKT)",
+        "Isha": "19:34 (PKT)",
+        "Imsak": "04:59 (PKT)",
+        "Midnight": "00:21 (PKT)",
+        "Firstthird": "22:20 (PKT)",
+        "Lastthird": "02:22 (PKT)"
+      },
+      "date": {
+        "gregorian": {
+          "date": "02-10-2026"
+        }
+      },
+      "meta": {
+        "timezone": "Asia/Karachi"
+      }
+    },
+    {
+      "timings": {
+        "Fajr": "05:09 (PKT)",
+        "Sunrise": "06:25 (PKT)",
+        "Dhuhr": "12:21 (PKT)",
+        "Asr": "16:38 (PKT)",
+        "Sunset": "18:17 (PKT)",
+        "Maghrib": "18:17 (PKT)",
+        "Isha": "19:33 (PKT)",
+        "Imsak": "04:59 (PKT)",
+        "Midnight": "00:21 (PKT)",
+        "Firstthird": "22:20 (PKT)",
+        "Lastthird": "02:22 (PKT)"
+      },
+      "date": {
+        "gregorian": {
+          "date": "03-10-2026"
+        }
+      },
+      "meta": {
+        "timezone": "Asia/Karachi"
+      }
+    }
+  ]
+}

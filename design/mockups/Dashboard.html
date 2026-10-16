@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Intezamia dashboard</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0F5C4A}a:hover{color:#0A4235}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #F6F4EE; font-family: 'Manrope', 'Segoe UI', sans-serif; color: #14201C; display: flex; flex-direction: column">
+
+<div style="background: #0F5C4A; color: #FFFFFF; padding: 20px 20px 22px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; justify-content: space-between; align-items: center">
+<span style="font-size: 12px; font-weight: 700; color: #CFE3DB; text-transform: uppercase; letter-spacing: 0.08em">Intezamia dashboard</span>
+<div style="display: flex; gap: 8px">
+<a href="NotificationsIntezamia.dc.html" aria-label="Notifications, 3 nayi" style="position: relative; width: 44px; height: 44px; border-radius: 22px; background: rgba(255, 255, 255, 0.14); display: flex; align-items: center; justify-content: center">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"></path><path d="M10 21h4"></path></svg>
+<span aria-hidden="true" style="position: absolute; top: 4px; right: 4px; min-width: 18px; height: 18px; padding: 0 4px; box-sizing: border-box; border-radius: 9px; background: #F2B66D; color: #14201C; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center">3</span>
+</a>
+<a href="Welcome.dc.html" aria-label="Logout" style="width: 44px; height: 44px; border-radius: 22px; background: rgba(255, 255, 255, 0.14); display: flex; align-items: center; justify-content: center">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4h4v16h-4"></path><path d="M10 8l-4 4 4 4"></path><path d="M6 12h10"></path></svg>
+</a>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h1 style="margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.01em">Masjid-e-Noor</h1>
+<span style="align-self: flex-start; display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 16px; background: {{badgeBg}}; color: {{badgeColor}}; font-size: 12px; font-weight: 800">
+<span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 4px; background: {{badgeDot}}"></span>{{badgeText}}</span>
+</div>
+</div>
+
+<div style="flex: 1; padding: 16px 20px 0; display: flex; flex-direction: column; gap: 14px">
+
+<sc-if value="{{showReminder}}" hint-placeholder-val="{{true}}">
+<div style="background: #FBEBD6; border: 1.5px solid #E9C89E; border-radius: 26px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: center; gap: 10px">
+<span style="width: 36px; height: 36px; border-radius: 18px; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A4B0F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"></path><path d="M10 21h4"></path></svg></span>
+<span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 800; color: #14201C">Kal: Eid-ul-Fitr</span><span style="font-size: 13px; font-weight: 600; color: #5B3108">Pehli jamaat 7:00 · Doosri 8:00</span></span>
+</div>
+<span style="font-size: 13px; line-height: 1.45; font-weight: 600; color: #5B3108">Kya timings wahi rahengi? Koi tabdeeli ho to abhi kar dein, namaziyon ko foran ittela chali jayegi.</span>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+<button type="button" onClick="{{confirmEvent}}" style="min-height: 46px; border: none; border-radius: 23px; background: #0F5C4A; color: #FFFFFF; font-family: inherit; font-size: 14px; font-weight: 800; cursor: pointer">Haan, sahi hain</button>
+<a href="Schedule.dc.html" style="min-height: 46px; border-radius: 23px; border: 1.5px solid #0F5C4A; background: #FFFFFF; color: #0F5C4A; font-size: 14px; font-weight: 800; display: flex; align-items: center; justify-content: center; text-decoration: none">Timings badlein</a>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{confirmedMsg}}" hint-placeholder-val="{{false}}">
+<div role="status" style="background: #E3EFEA; border-radius: 22px; padding: 12px 16px; font-size: 13px; font-weight: 700; color: #0F5C4A">Shukriya. Eid-ul-Fitr ki timings confirm ho gayin.</div>
+</sc-if>
+
+<sc-if value="{{pending}}" hint-placeholder-val="{{false}}">
+<div style="background: #FBEBD6; border-radius: 22px; padding: 14px 16px; font-size: 13px; line-height: 1.5; font-weight: 600; color: #5B3108">Verification jaari hai. Approve hone tak masjid map par nazar nahi aayegi, lekin aap timings abhi se set kar sakte hain.</div>
+</sc-if>
+
+<div style="background: #FFFFFF; border: 1px solid #E4E1D7; border-radius: 28px; padding: 16px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; justify-content: space-between; align-items: center">
+<h2 style="margin: 0; font-size: 16px; font-weight: 800">Aaj ki jamaat timings</h2>
+<a href="Schedule.dc.html" aria-label="Timings edit karein" style="width: 40px; height: 40px; border-radius: 20px; background: #E3EFEA; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F5C4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"></path><path d="M14 6l4 4"></path></svg></a>
+</div>
+<div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px">
+<sc-for list="{{today}}" as="t" hint-placeholder-count="5">
+<div style="border-radius: 16px; background: {{t.bg}}; padding: 10px 4px; display: flex; flex-direction: column; align-items: center; gap: 4px">
+<span style="font-size: 11px; font-weight: 700; color: {{t.label}}">{{t.name}}</span>
+<span style="font-size: 14px; font-weight: 800; color: {{t.color}}">{{t.time}}</span>
+</div>
+</sc-for>
+</div>
+<span style="font-size: 12px; font-weight: 600; color: #5B6660">Jumu'ah · Khutba 1:00 · Jamaat 1:30</span>
+</div>
+
+<div style="background: #FFFFFF; border: 1px solid #E4E1D7; border-radius: 28px; padding: 16px; display: flex; flex-direction: column; gap: 10px">
+<h2 style="margin: 0; font-size: 16px; font-weight: 800">Aane wali tabdeeliyan</h2>
+<div style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 18px; background: #F6F4EE">
+<span style="width: 48px; text-align: center; display: flex; flex-direction: column; font-weight: 800; color: #8A4B0F"><span style="font-size: 18px">1</span><span style="font-size: 11px">NOV</span></span>
+<span style="flex: 1; font-size: 13px; line-height: 1.45; font-weight: 600">Isha 8:00 → <b style="color: #0F5C4A">7:45</b>, Fajr 5:40 → <b style="color: #0F5C4A">5:50</b></span>
+</div>
+<span style="font-size: 12px; font-weight: 500; color: #5B6660">Is tareekh se pehle favourite karne walon ko ittela chali jayegi.</span>
+</div>
+
+</div>
+
+<nav aria-label="Intezamia tabs" style="margin: 14px 16px 18px; height: 68px; padding: 6px; box-sizing: border-box; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; background: rgba(255, 255, 255, 0.72); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.85); border-radius: 34px; box-shadow: 0 8px 24px rgba(20, 32, 28, 0.16)">
+<span aria-current="page" style="border-radius: 28px; background: #E3EFEA; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: #0F5C4A; font-size: 11px; font-weight: 800">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0F5C4A" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-6 8 6v9H4z"></path></svg>Dashboard</span>
+<a href="Schedule.dc.html" style="border-radius: 28px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: #3E4A45; font-size: 11px; font-weight: 700; text-decoration: none">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3E4A45" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>Schedule</a>
+</nav>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"status":{"editor":"enum","options":["approved","pending"],"default":"approved"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const pending = (this.props.status || 'approved') === 'pending';
+    const list = [['Fajr', '5:40'], ['Zuhr', '1:15'], ['Asr', '4:45'], ['Maghrib', '6:03'], ['Isha', '8:00']];
+    const today = list.map((t) => {
+      const next = t[0] === 'Asr';
+      return { name: t[0], time: t[1], bg: next ? '#0F5C4A' : '#F6F4EE', color: next ? '#FFFFFF' : '#14201C', label: next ? '#CFE3DB' : '#5B6660' };
+    });
+    return {
+      showReminder: !(this.state && this.state.confirmed),
+      confirmedMsg: !!(this.state && this.state.confirmed),
+      confirmEvent: () => this.setState({ confirmed: true }),
+      pending: pending,
+      today: today,
+      badgeText: pending ? 'Verification pending' : 'Approved · map par live',
+      badgeBg: pending ? '#FBEBD6' : 'rgba(255, 255, 255, 0.16)',
+      badgeColor: pending ? '#6E3A0A' : '#FFFFFF',
+      badgeDot: pending ? '#B86B1E' : '#7FE0B5'
+    };
+  }
+}
+</script>
+</body>
+</html>

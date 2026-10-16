@@ -1,0 +1,152 @@
+{
+  "appName": "Waqt-e-Jamaat",
+  "appNameUr": "وقتِ جماعت",
+  "common": {
+    "back": "Back",
+    "continue": "Continue",
+    "cancel": "Cancel",
+    "save": "Save",
+    "retry": "Retry",
+    "loading": "Loading…",
+    "restarting": "Restarting the app…",
+    "close": "Close",
+    "comingSoon": "Coming soon",
+    "error": "Something went wrong.",
+    "offline": "You're offline — showing saved data."
+  },
+  "language": {
+    "title": "Choose language",
+    "subtitle": "You can change this later from Profile.",
+    "group": "Language",
+    "previewLabel": "Preview",
+    "preview": "Next jamaat: Asr {{time}}",
+    "preview2": "Masjid-e-Noor · in {{min}} min",
+    "hint_ur-Latn": "Urdu, English huroof mein",
+    "hint_ur": "Urdu · daayen se baayen",
+    "hint_en": "English",
+    "name_ur-Latn": "Roman Urdu",
+    "name_ur": "اردو",
+    "name_en": "English"
+  },
+  "welcome": {
+    "tagline": "Never miss the jamaat at a masjid near you.",
+    "question": "How would you like to continue?",
+    "namaziTitle": "Namazi",
+    "namaziBody": "See timings straight away as a guest. Create an account for favourites and reminders.",
+    "intezamiaTitle": "Masjid management",
+    "intezamiaBody": "Register your masjid and update jamaat timings.",
+    "namaziLogin": "Have a namazi account? Log in",
+    "changeLanguage": "Change language"
+  },
+  "prayer": {
+    "fajr": "Fajr",
+    "sunrise": "Sunrise",
+    "zuhr": "Zuhr",
+    "asr": "Asr",
+    "maghrib": "Maghrib",
+    "isha": "Isha"
+  },
+  "special": {
+    "jumma": "Jumu'ah",
+    "taraweeh": "Taraweeh",
+    "eid_ul_fitr": "Eid-ul-Fitr",
+    "eid_ul_adha": "Eid-ul-Adha",
+    "custom": "Special"
+  },
+  "time": {
+    "am": "AM",
+    "pm": "PM",
+    "inMin": "in {{min}} min",
+    "inHours": "in {{h}} h {{m}} min",
+    "now": "now"
+  },
+  "tabs": {
+    "map": "Map",
+    "favourites": "My masjids",
+    "profile": "Profile"
+  },
+  "map": {
+    "search": "Search masjid or area",
+    "myLocation": "Back to my location",
+    "notifications": "Notifications, {{count}} new",
+    "notificationsNone": "Notifications",
+    "radius": "Search radius",
+    "km": "{{km}} km",
+    "nearby": "Nearby masjids",
+    "count": "{{n}} masjids · {{km}} km",
+    "away": "{{dist}} away",
+    "estimate": "Estimate",
+    "none": "No masjids in this radius. Try a bigger radius.",
+    "loadError": "Couldn't load masjids.",
+    "youAreHere": "Your location",
+    "noTimings": "No timings yet",
+    "searchArea": "Search this area",
+    "noResults": "No results"
+  },
+  "location": {
+    "deniedTitle": "Location is off",
+    "deniedBody": "Allow location to see masjids near you, or search an area.",
+    "allow": "Allow location",
+    "openSettings": "Open settings",
+    "usingDefault": "Showing Karachi. Search your area."
+  },
+  "detail": {
+    "backToMap": "Back to map",
+    "share": "Share",
+    "favAdd": "Add to favourites",
+    "favRemove": "Remove from favourites",
+    "addressDistance": "{{address}} · {{dist}} away",
+    "nextJamaat": "Next jamaat",
+    "walking": "{{min}} min walk",
+    "minShort": "{{min}} min",
+    "todaySchedule": "Today's schedule",
+    "azaanJamaat": "Azaan · Jamaat",
+    "khutbaJamaat": "Khutba {{khutba}} · Jamaat",
+    "expected": "expected",
+    "start": "Starts",
+    "updatedDaysAgo": "Updated {{n}} days ago",
+    "updatedToday": "Updated today",
+    "confirmedBy": "{{n}} people confirmed",
+    "timeCorrect": "Time is correct",
+    "thanks": "Thanks",
+    "reportLink": "Time wrong? Send an update or photo",
+    "directions": "Directions",
+    "remind": "Set reminder",
+    "remindOn": "Reminder on",
+    "notifyWhenAdded": "Notify when timings arrive",
+    "willNotify": "We'll let you know",
+    "upcomingChange": "From {{date}} jamaat {{time}}",
+    "notFound": "This masjid isn't available.",
+    "nextEstimate": "Next prayer · estimate",
+    "timeStarts": "Time starts",
+    "jamaatUnconfirmed": "Jamaat not confirmed",
+    "todayTimes": "Today's times",
+    "estimateBadge": "Estimate · from location",
+    "estimateNote": "Prayer start times calculated from the masjid's location ({{method}} method, {{school}} Asr). The actual jamaat is usually a little later and differs per masjid.",
+    "noTimingsCard": "This masjid's jamaat timings haven't been added yet",
+    "sendRequest": "Send request",
+    "requestSent": "Request sent",
+    "boardPhoto": "Board photo",
+    "estimateError": "Couldn't load estimated times right now",
+    "shareText": "{{name}} — next jamaat {{next}}. Waqt-e-Jamaat",
+    "noJamaatToday": "No jamaat times"
+  },
+  "method": {
+    "karachi": "Karachi",
+    "mwl": "Muslim World League",
+    "ummAlQura": "Umm al-Qura",
+    "isna": "ISNA"
+  },
+  "school": {
+    "hanafi": "Hanafi",
+    "shafi": "Shafi'i"
+  },
+  "gate": {
+    "favTitle": "Create an account to favourite masjids",
+    "remindTitle": "Create an account to set reminders",
+    "confirmTitle": "Create an account to confirm timings",
+    "body": "A free account keeps your favourite masjids and reminders, even if you change phones.",
+    "cta": "Create account or log in",
+    "notNow": "Not now"
+  }
+}

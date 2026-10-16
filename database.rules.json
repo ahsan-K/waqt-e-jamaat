@@ -1,0 +1,83 @@
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        "role": { ".validate": "newData.val() === 'namazi' || newData.val() === 'intezamia'" }
+      }
+    },
+
+    "favorites": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid && auth.provider !== 'anonymous'"
+      }
+    },
+
+    "geo": {
+      ".read": true,
+      ".indexOn": ["g"],
+      "$masjidId": {
+        ".write": "auth != null && auth.token.admin === true",
+        "hasTimings": {
+          ".write": "auth != null && root.child('masjids/' + $masjidId + '/ownerUid').val() === auth.uid",
+          ".validate": "newData.isBoolean()"
+        }
+      }
+    },
+
+    "masjids": {
+      "$masjidId": {
+        ".read": "data.child('status').val() === 'approved' || (auth != null && (data.child('ownerUid').val() === auth.uid || auth.token.admin === true))",
+        ".write": "auth != null && (auth.token.admin === true || (!data.exists() && auth.provider !== 'anonymous' && newData.child('ownerUid').val() === auth.uid && newData.child('status').val() === 'pending') || (data.exists() && newData.exists() && data.child('ownerUid').val() === auth.uid && newData.child('ownerUid').val() === auth.uid && newData.child('status').val() === data.child('status').val() && newData.child('geohash').val() === data.child('geohash').val()))",
+        ".validate": "newData.hasChildren(['name', 'lat', 'lng', 'geohash', 'status', 'ownerUid', 'timezone'])"
+      }
+    },
+
+    "masjidStats": {
+      "$masjidId": {
+        ".read": true,
+        "confirmations": {
+          ".write": "auth != null && auth.provider !== 'anonymous' && !root.child('confirmations/' + $masjidId + '/' + auth.uid).exists() && newData.parent().parent().parent().child('confirmations/' + $masjidId + '/' + auth.uid).exists()",
+          ".validate": "newData.isNumber() && newData.val() === (data.exists() ? data.val() : 0) + 1"
+        },
+        "requests": {
+          ".write": "auth != null && !root.child('timingRequests/' + $masjidId + '/' + auth.uid).exists() && newData.parent().parent().parent().child('timingRequests/' + $masjidId + '/' + auth.uid).exists()",
+          ".validate": "newData.isNumber() && newData.val() === (data.exists() ? data.val() : 0) + 1"
+        },
+        "favourites": {
+          ".write": "auth != null && auth.provider !== 'anonymous'",
+          ".validate": "newData.isNumber() && (newData.val() === (data.exists() ? data.val() : 0) + 1 || newData.val() === data.val() - 1)"
+        }
+      }
+    },
+
+    "confirmations": {
+      "$masjidId": {
+        "$uid": {
+          ".read": "auth != null && auth.uid === $uid",
+          ".write": "auth != null && auth.uid === $uid && auth.provider !== 'anonymous' && !data.exists() && root.child('masjids/' + $masjidId + '/status').val() === 'approved'"
+        }
+      }
+    },
+
+    "timingRequests": {
+      "$masjidId": {
+        ".read": "auth != null && (auth.token.admin === true || root.child('masjids/' + $masjidId + '/ownerUid').val() === auth.uid)",
+        "$uid": {
+          ".write": "auth != null && auth.uid === $uid && !data.exists()"
+        }
+      }
+    },
+
+    "reports": {
+      "$masjidId": {
+        ".read": "auth != null && (auth.token.admin === true || root.child('masjids/' + $masjidId + '/ownerUid').val() === auth.uid)",
+        "$reportId": {
+          ".write": "auth != null && !data.exists() && newData.child('uid').val() === auth.uid"
+        }
+      }
+    }
+  }
+}

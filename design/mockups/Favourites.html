@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Meri masjidein</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0F5C4A}a:hover{color:#0A4235}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #F6F4EE; font-family: 'Manrope', 'Segoe UI', sans-serif; color: #14201C; box-sizing: border-box; padding: 24px 20px 0; display: flex; flex-direction: column; gap: 18px">
+
+<div style="display: flex; flex-direction: column; gap: 6px; padding: 0 4px">
+<h1 style="margin: 0; font-size: 30px; font-weight: 800; letter-spacing: -0.02em">Meri masjidein</h1>
+<p style="margin: 0; font-size: 14px; font-weight: 500; color: #5B6660">Har masjid ke liye alag reminder on ya off karein.</p>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 12px">
+<sc-for list="{{favs}}" as="f" hint-placeholder-count="3">
+<div style="background: #FFFFFF; border: 1px solid #E4E1D7; border-radius: 28px; padding: 16px; display: flex; flex-direction: column; gap: 12px">
+<a href="Detail.dc.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: #14201C">
+<span style="width: 44px; height: 44px; border-radius: 22px; background: #E3EFEA; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0F5C4A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20V12a7 7 0 0 1 14 0v8"></path><path d="M3 20h18"></path><path d="M12 5V2"></path></svg>
+</span>
+<span style="flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0">
+<span style="font-size: 16px; font-weight: 800">{{f.name}}</span>
+<span style="font-size: 12px; font-weight: 600; color: #5B6660">{{f.dist}} door</span>
+</span>
+<span style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px">
+<span style="font-size: 16px; font-weight: 800; color: #0F5C4A">{{f.next}}</span>
+<span style="font-size: 11px; font-weight: 700; color: #8A4B0F">{{f.mins}}</span>
+</span>
+</a>
+<sc-if value="{{f.hasChange}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 16px; background: #FBEBD6; font-size: 12px; font-weight: 700; color: #6E3A0A">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A4B0F" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+{{f.change}}
+</div>
+</sc-if>
+<div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #ECEAE3; padding-top: 10px">
+<span style="font-size: 13px; font-weight: 700; color: #3E4A45">Jamaat reminder</span>
+<button type="button" role="switch" aria-checked="{{f.on}}" aria-label="{{f.name}} reminder" onClick="{{f.toggle}}" style="width: 52px; height: 32px; border: none; border-radius: 16px; background: {{f.track}}; padding: 3px; display: flex; justify-content: {{f.justify}}; cursor: pointer">
+<span style="width: 26px; height: 26px; border-radius: 13px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25)"></span>
+</button>
+</div>
+</div>
+</sc-for>
+</div>
+
+<nav aria-label="Main tabs" style="position: absolute; left: 16px; right: 16px; bottom: 18px; height: 68px; padding: 6px; box-sizing: border-box; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; background: rgba(255, 255, 255, 0.72); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.85); border-radius: 34px; box-shadow: 0 8px 24px rgba(20, 32, 28, 0.16)">
+<a href="Main.dc.html" style="border-radius: 28px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: #3E4A45; font-size: 11px; font-weight: 700; text-decoration: none">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3E4A45" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"></path><path d="M9 4v14M15 6v14"></path></svg>Map</a>
+<span aria-current="page" style="border-radius: 28px; background: #E3EFEA; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: #0F5C4A; font-size: 11px; font-weight: 800">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="#0F5C4A" stroke="#0F5C4A" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"></path></svg>Meri masjidein</span>
+<a href="Profile.dc.html" style="border-radius: 28px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: #3E4A45; font-size: 11px; font-weight: 700; text-decoration: none">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3E4A45" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>Profile</a>
+</nav>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const s = this.state || {};
+    const off = s.off || { 3: true };
+    const base = [
+      { id: 1, name: 'Masjid-e-Noor', dist: '0.5 km', next: 'Asr 4:45', mins: '18 min mein', hasChange: true, change: '1 Nov se Isha ki jamaat 7:45 par hogi' },
+      { id: 2, name: 'Jamia Masjid Al-Falah', dist: '1.0 km', next: 'Asr 4:50', mins: '23 min mein', hasChange: false, change: '' },
+      { id: 3, name: 'Masjid-e-Quba', dist: '1.9 km', next: 'Asr 4:40', mins: '13 min mein', hasChange: false, change: '' }
+    ];
+    const favs = base.map((f) => {
+      const on = !off[f.id];
+      return Object.assign({}, f, {
+        on: on,
+        track: on ? '#0F5C4A' : '#C9CCC7',
+        justify: on ? 'flex-end' : 'flex-start',
+        toggle: () => this.setState({ off: Object.assign({}, off, { [f.id]: on }) })
+      });
+    });
+    return { favs: favs };
+  }
+}
+</script>
+</body>
+</html>

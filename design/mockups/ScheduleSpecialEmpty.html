@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Schedule editor</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0F5C4A}a:hover{color:#0A4235}
+input::placeholder{color:#7A847F}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #F6F4EE; font-family: 'Manrope', 'Segoe UI', sans-serif; color: #14201C; box-sizing: border-box; padding: 16px 20px 0; display: flex; flex-direction: column; gap: 14px">
+
+<div style="display: flex; align-items: center; justify-content: space-between">
+<a href="Dashboard.dc.html" aria-label="Dashboard par wapas" style="width: 44px; height: 44px; border-radius: 22px; background: rgba(255, 255, 255, 0.7); border: 1px solid #E4E1D7; display: flex; align-items: center; justify-content: center">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#14201C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+</a>
+<sc-if value="{{isDaily}}" hint-placeholder-val="{{true}}">
+<button type="button" style="min-height: 40px; padding: 0 14px; border-radius: 20px; border: 1.5px dashed #B86B1E; background: #FBEBD6; font-family: inherit; font-size: 13px; font-weight: 800; color: #8A4B0F; display: flex; align-items: center; gap: 6px; cursor: pointer">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A4B0F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>
+Board ki photo se</button>
+</sc-if>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.02em">Schedule</h1>
+<p style="margin: 0; font-size: 13px; font-weight: 500; color: #5B6660">{{subtitle}}</p>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; padding: 4px; background: #ECE9E0; border-radius: 26px">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="2">
+<button type="button" onClick="{{t.pick}}" aria-pressed="{{t.on}}" style="min-height: 44px; border: none; border-radius: 22px; background: {{t.bg}}; font-family: inherit; font-size: 14px; font-weight: 800; color: #14201C; cursor: pointer">{{t.label}}</button>
+</sc-for>
+</div>
+
+<sc-if value="{{isDaily}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<sc-if value="{{dailyEmpty}}" hint-placeholder-val="{{false}}">
+<div style="background: #FFFFFF; border: 1px solid #E4E1D7; border-radius: 28px; padding: 26px 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center">
+<span style="width: 72px; height: 72px; border-radius: 36px; background: #E3EFEA; display: flex; align-items: center; justify-content: center">
+<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#0F5C4A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+</span>
+<h2 style="margin: 0; font-size: 20px; font-weight: 800">Rozana timings abhi add nahi hui</h2>
+<p style="margin: 0; font-size: 13px; line-height: 1.55; font-weight: 500; color: #5B6660">Jab tak timings nahi hongi, namaziyon ko map par is masjid ke saath "Timings dastiyab nahi" nazar aayega aur unki darkhwastein yahan aati rahengi.</p>
+<span style="padding: 6px 12px; border-radius: 14px; background: #FBEBD6; color: #6E3A0A; font-size: 12px; font-weight: 800">[N] namaziyon ne timings ki darkhwast ki hai</span>
+<button type="button" onClick="{{fillDaily}}" style="width: 100%; min-height: 52px; border: none; border-radius: 26px; background: #0F5C4A; color: #FFFFFF; font-family: inherit; font-size: 15px; font-weight: 800; cursor: pointer">Timings add karein</button>
+<button type="button" style="width: 100%; min-height: 50px; border-radius: 25px; border: 1.5px dashed #B86B1E; background: #FBEBD6; color: #8A4B0F; font-family: inherit; font-size: 14px; font-weight: 800; cursor: pointer">Timing board ki photo se bharein</button>
+</div>
+</sc-if>
+<sc-if value="{{hasDaily}}" hint-placeholder-val="{{true}}">
+<div style="background: #FFFFFF; border: 1px solid #E4E1D7; border-radius: 26px; padding: 4px 6px; display: flex; flex-direction: column">
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="5">
+<button type="button" onClick="{{r.open}}" aria-label="{{r.name}} edit karein" style="display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 8px 10px; border: none; border-bottom: {{r.border}}; background: transparent; font-family: inherit; text-align: left; cursor: pointer; color: #14201C">
+<span style="flex: 1; display: flex; flex-direction: column; gap: 3px">
+<span style="font-size: 16px; font-weight: 800">{{r.name}}</span>
+<span style="font-size: 12px; font-weight: 600; color: #5B6660">{{r.azaan}}</span>
+<sc-if value="{{r.hasUp}}" hint-placeholder-val="{{false}}">
+<span style="align-self: flex-start; margin-top: 2px; padding: 3px 9px; border-radius: 10px; background: #FBEBD6; color: #6E3A0A; font-size: 11px; font-weight: 800">{{r.up}}</span>
+</sc-if>
+</span>
+<span style="display: flex; flex-direction: column; align-items: flex-end; gap: 1px">
+<span style="font-size: 11px; font-weight: 700; color: #5B6660">Jamaat</span>
+<span style="font-size: 20px; font-weight: 800; color: #0F5C4A">{{r.jamaat}}</span>
+</span>
+<span aria-hidden="true" style="width: 36px; height: 36px; border-radius: 18px; background: #E3EFEA; display: flex; align-items: center; justify-content: center; flex-shrink: 0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F5C4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"></path><path d="M14 6l4 4"></path></svg></span>
+</button>
+</sc-for>
+</div>
+<p style="margin: 0; padding: 0 6px; font-size: 12px; line-height: 1.5; font-weight: 600; color: #5B6660">Kisi bhi namaz par tap kar ke azaan ya jamaat ka waqt badlein. Aap foran ya kisi aane wali tareekh se tabdeeli laga sakte hain.</p>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{isSpecial}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<sc-for list="{{items}}" as="it" hint-placeholder-count="3">
+<div style="background: #FFFFFF; border: 1px solid #E4E1D7; border-radius: 24px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 8px">
+<span style="font-size: 16px; font-weight: 800">{{it.name}}</span>
+<button type="button" aria-label="{{it.name}} edit karein" style="width: 40px; height: 40px; margin: -8px -6px -8px 0; border: none; border-radius: 20px; background: #E3EFEA; display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F5C4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"></path><path d="M14 6l4 4"></path></svg></button>
+</div>
+<span style="font-size: 13px; font-weight: 600; color: #3E4A45">{{it.times}}</span>
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<span style="display: flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 12px; background: #E3EFEA; color: #0F5C4A; font-size: 12px; font-weight: 800">
+<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0F5C4A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 2l4 4-4 4"></path><path d="M3 11V9a3 3 0 0 1 3-3h15"></path><path d="M7 22l-4-4 4-4"></path><path d="M21 13v2a3 3 0 0 1-3 3H3"></path></svg>{{it.repeat}}</span>
+<span style="padding: 4px 10px; border-radius: 12px; background: {{it.rangeBg}}; color: {{it.rangeColor}}; font-size: 12px; font-weight: 700">{{it.range}}</span>
+<sc-if value="{{it.remind}}" hint-placeholder-val="{{true}}">
+<span style="display: flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 12px; background: #F0EEE7; color: #3E4A45; font-size: 12px; font-weight: 700"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3E4A45" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"></path><path d="M10 21h4"></path></svg>1 din pehle yaad</span>
+</sc-if>
+</div>
+</div>
+</sc-for>
+<sc-if value="{{specialEmpty}}" hint-placeholder-val="{{false}}">
+<div style="background: #FFFFFF; border: 1px solid #E4E1D7; border-radius: 28px; padding: 26px 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center">
+<span style="width: 72px; height: 72px; border-radius: 36px; background: #FBEBD6; display: flex; align-items: center; justify-content: center">
+<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#8A4B0F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>
+</span>
+<h2 style="margin: 0; font-size: 20px; font-weight: 800">Koi special namaz schedule nahi</h2>
+<p style="margin: 0; font-size: 13px; line-height: 1.55; font-weight: 500; color: #5B6660">Jumu'ah, Taraweeh ya Eid ki timings yahan add karein. Har Juma ya har roz repeat bhi kar sakte hain.</p>
+<span style="font-size: 12px; font-weight: 800; color: #3E4A45">Jaldi shuru karein</span>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px">
+<sc-for list="{{quick}}" as="q" hint-placeholder-count="3">
+<button type="button" onClick="{{q.pick}}" style="min-height: 44px; padding: 0 16px; border-radius: 22px; border: 1.5px solid #0F5C4A; background: #E3EFEA; color: #0F5C4A; font-family: inherit; font-size: 14px; font-weight: 800; cursor: pointer">+ {{q.label}}</button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+<button type="button" onClick="{{openAdd}}" style="min-height: 54px; border-radius: 27px; border: 1.5px dashed #0F5C4A; background: transparent; font-family: inherit; font-size: 15px; font-weight: 800; color: #0F5C4A; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F5C4A" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+Special namaz add karein</button>
+</div>
+</sc-if>
+
+<sc-if value="{{saved}}" hint-placeholder-val="{{false}}">
+<div role="status" style="position: absolute; left: 20px; right: 20px; top: 16px; padding: 14px 16px; border-radius: 22px; background: #14201C; color: #FFFFFF; font-size: 13px; line-height: 1.45; font-weight: 700; box-shadow: 0 10px 30px rgba(20, 32, 28, 0.3)">{{toast}}</div>
+</sc-if>
+
+<sc-if value="{{adding}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; background: rgba(20, 32, 28, 0.45); display: flex; flex-direction: column; justify-content: flex-end; padding: 10px; box-sizing: border-box">
+<div role="dialog" aria-label="Special namaz add karein" style="background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 34px; padding: 20px 18px 14px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; justify-content: space-between; align-items: center">
+<h2 style="margin: 0; font-size: 20px; font-weight: 800">Special namaz</h2>
+<button type="button" onClick="{{closeAdd}}" aria-label="Band karein" style="width: 40px; height: 40px; border: none; border-radius: 20px; background: #ECE9E0; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#14201C" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 800; color: #5B6660; text-transform: uppercase; letter-spacing: 0.06em">Kaunsi namaz</span>
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{types}}" as="p" hint-placeholder-count="5">
+<button type="button" onClick="{{p.pick}}" aria-pressed="{{p.on}}" style="min-height: 40px; padding: 0 14px; border-radius: 20px; border: 1.5px solid {{p.border}}; background: {{p.bg}}; color: {{p.color}}; font-family: inherit; font-size: 13px; font-weight: 800; cursor: pointer">{{p.label}}</button>
+</sc-for>
+</div>
+<sc-if value="{{isOther}}" hint-placeholder-val="{{false}}">
+<input type="text" placeholder="Namaz ka naam, maslan Salat-ul-Kusoof" aria-label="Namaz ka naam" style="height: 46px; padding: 0 16px; font-family: inherit; font-size: 15px; border: 1.5px solid #DAD6CB; border-radius: 23px; background: #FFFFFF; color: #14201C; box-sizing: border-box">
+</sc-if>
+</div>
+
+<div style="display: flex; gap: 8px">
+<sc-for list="{{fields}}" as="f" hint-placeholder-count="2">
+<label style="flex: 1; display: flex; flex-direction: column; gap: 6px; min-width: 0">
+<span style="font-size: 12px; font-weight: 800; color: #5B6660">{{f.label}}</span>
+<input type="time" value="{{f.val}}" style="height: 44px; padding: 0 12px; font-family: inherit; font-size: 15px; font-weight: 800; color: #0F5C4A; border: 1.5px solid #0F5C4A; border-radius: 22px; background: #FFFFFF; box-sizing: border-box; width: 100%">
+</label>
+</sc-for>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 800; color: #5B6660; text-transform: uppercase; letter-spacing: 0.06em">Repeat</span>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px">
+<sc-for list="{{repeats}}" as="r" hint-placeholder-count="3">
+<button type="button" onClick="{{r.pick}}" aria-pressed="{{r.on}}" style="min-height: 42px; border-radius: 21px; border: 1.5px solid {{r.border}}; background: {{r.bg}}; color: {{r.color}}; font-family: inherit; font-size: 13px; font-weight: 800; cursor: pointer">{{r.label}}</button>
+</sc-for>
+</div>
+<sc-if value="{{isWeekly}}" hint-placeholder-val="{{false}}">
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px">
+<sc-for list="{{days}}" as="d" hint-placeholder-count="7">
+<button type="button" onClick="{{d.pick}}" aria-pressed="{{d.on}}" style="min-height: 38px; border-radius: 19px; border: 1.5px solid {{d.border}}; background: {{d.bg}}; color: {{d.color}}; font-family: inherit; font-size: 12px; font-weight: 800; cursor: pointer">{{d.label}}</button>
+</sc-for>
+</div>
+</sc-if>
+</div>
+
+<div style="display: flex; gap: 8px">
+<label style="flex: 1; display: flex; flex-direction: column; gap: 6px; min-width: 0">
+<span style="font-size: 12px; font-weight: 800; color: #5B6660">{{fromLabel}}</span>
+<input type="date" value="2026-11-06" style="height: 44px; padding: 0 10px; font-family: inherit; font-size: 13px; font-weight: 700; border: 1.5px solid #DAD6CB; border-radius: 22px; background: #FFFFFF; color: #14201C; box-sizing: border-box; width: 100%">
+</label>
+<sc-if value="{{hasUntil}}" hint-placeholder-val="{{true}}">
+<label style="flex: 1; display: flex; flex-direction: column; gap: 6px; min-width: 0">
+<span style="font-size: 12px; font-weight: 800; color: #5B6660">{{untilLabel}}</span>
+<input type="date" style="height: 44px; padding: 0 10px; font-family: inherit; font-size: 13px; font-weight: 700; border: 1.5px solid #DAD6CB; border-radius: 22px; background: #FFFFFF; color: #14201C; box-sizing: border-box; width: 100%">
+</label>
+</sc-if>
+</div>
+<sc-if value="{{isEid}}" hint-placeholder-val="{{false}}">
+<span style="font-size: 12px; line-height: 1.45; font-weight: 700; color: #6E3A0A; background: #FBEBD6; border-radius: 14px; padding: 8px 12px">Eid ki tareekh chaand ke elaan par depend karti hai. Abhi andaze ki tareekh daal dein, elaan ke baad confirm kar dein.</span>
+</sc-if>
+
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; border-radius: 20px; background: #F0EEE7">
+<span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 14px; font-weight: 800">1 din pehle mujhe yaad dilayein</span><span style="font-size: 12px; font-weight: 600; color: #5B6660">{{remindHint}}</span></span>
+<button type="button" role="switch" aria-checked="{{remindOn}}" aria-label="1 din pehle reminder" onClick="{{toggleRemind}}" style="width: 52px; height: 32px; border: none; border-radius: 16px; background: {{remindTrack}}; padding: 3px; display: flex; justify-content: {{remindJustify}}; cursor: pointer; flex-shrink: 0"><span style="width: 26px; height: 26px; border-radius: 13px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25)"></span></button>
+</div>
+
+<button type="button" onClick="{{addItem}}" style="min-height: 52px; border: none; border-radius: 26px; background: #0F5C4A; color: #FFFFFF; font-family: inherit; font-size: 15px; font-weight: 800; cursor: pointer">Save karein</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{editOpen}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; background: rgba(20, 32, 28, 0.45); display: flex; flex-direction: column; justify-content: flex-end; padding: 10px; box-sizing: border-box">
+<div role="dialog" aria-label="{{editTitle}}" style="background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 34px; padding: 20px 18px 14px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; justify-content: space-between; align-items: center">
+<h2 style="margin: 0; font-size: 20px; font-weight: 800">{{editTitle}}</h2>
+<button type="button" onClick="{{closeEdit}}" aria-label="Band karein" style="width: 40px; height: 40px; border: none; border-radius: 20px; background: #ECE9E0; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#14201C" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+
+<sc-for list="{{steppers}}" as="st" hint-placeholder-count="2">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px; border-radius: 22px; background: {{st.bg}}">
+<span style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 14px; font-weight: 800">{{st.label}}</span>
+<span style="font-size: 12px; font-weight: 600; color: #5B6660">{{st.was}}</span>
+</span>
+<span style="display: flex; align-items: center; gap: 8px">
+<button type="button" onClick="{{st.minus}}" aria-label="{{st.label}} 5 minute pehle" style="width: 44px; height: 44px; border-radius: 22px; border: 1.5px solid #DAD6CB; background: #FFFFFF; font-family: inherit; font-size: 20px; font-weight: 800; color: #14201C; cursor: pointer">&minus;</button>
+<span style="min-width: 64px; text-align: center; font-size: 24px; font-weight: 800; color: {{st.color}}">{{st.value}}</span>
+<button type="button" onClick="{{st.plus}}" aria-label="{{st.label}} 5 minute baad" style="width: 44px; height: 44px; border-radius: 22px; border: 1.5px solid #DAD6CB; background: #FFFFFF; font-family: inherit; font-size: 20px; font-weight: 800; color: #14201C; cursor: pointer">+</button>
+</span>
+</div>
+</sc-for>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 800; color: #5B6660; text-transform: uppercase; letter-spacing: 0.06em">Kab se lagu hoga</span>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px">
+<sc-for list="{{whenPills}}" as="w" hint-placeholder-count="3">
+<button type="button" onClick="{{w.pick}}" aria-pressed="{{w.on}}" style="min-height: 42px; border-radius: 21px; border: 1.5px solid {{w.border}}; background: {{w.bg}}; color: {{w.color}}; font-family: inherit; font-size: 13px; font-weight: 800; cursor: pointer">{{w.label}}</button>
+</sc-for>
+</div>
+<sc-if value="{{draftDated}}" hint-placeholder-val="{{false}}">
+<input type="date" value="2026-11-06" aria-label="Tareekh" style="height: 44px; padding: 0 12px; font-family: inherit; font-size: 14px; font-weight: 700; border: 1.5px solid #DAD6CB; border-radius: 22px; background: #FFFFFF; color: #14201C; box-sizing: border-box">
+</sc-if>
+</div>
+
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; border-radius: 20px; background: #F0EEE7">
+<span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 14px; font-weight: 800">Namaziyon ko ittela bhejein</span><span style="font-size: 12px; font-weight: 600; color: #5B6660">Jinhon ne masjid favourite ki hai</span></span>
+<button type="button" role="switch" aria-checked="{{notifyOn}}" aria-label="Namaziyon ko ittela" onClick="{{toggleNotify}}" style="width: 52px; height: 32px; border: none; border-radius: 16px; background: {{notifyTrack}}; padding: 3px; display: flex; justify-content: {{notifyJustify}}; cursor: pointer; flex-shrink: 0"><span style="width: 26px; height: 26px; border-radius: 13px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25)"></span></button>
+</div>
+
+<button type="button" onClick="{{saveEdit}}" disabled="{{noChange}}" style="min-height: 52px; border: none; border-radius: 26px; background: {{saveBg}}; color: #FFFFFF; font-family: inherit; font-size: 15px; font-weight: 800; cursor: pointer">{{saveText}}</button>
+</div>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  fmt(t) {
+    if (!t) return '';
+    const p = t.split(':'); let h = parseInt(p[0], 10);
+    if (h > 12) h -= 12; if (h === 0) h = 12;
+    return h + ':' + p[1];
+  }
+  pill(on) {
+    return { border: on ? '#0F5C4A' : '#DAD6CB', bg: on ? '#0F5C4A' : '#FFFFFF', color: on ? '#FFFFFF' : '#14201C' };
+  }
+  renderVals() {
+    const s = this.state || {};
+    const tab = s.tab || 'special';
+    const TYPES = {
+      jumma: { label: "Jumu'ah", fields: [['Khutba', '13:00'], ['Jamaat', '13:30']], repeat: 'weekly', day: 'Juma' },
+      taraweeh: { label: 'Taraweeh', fields: [['Shuru', '20:30']], repeat: 'daily' },
+      eidf: { label: 'Eid-ul-Fitr', fields: [['Pehli jamaat', '07:00'], ['Doosri jamaat', '08:00']], repeat: 'once' },
+      eida: { label: 'Eid-ul-Adha', fields: [['Pehli jamaat', '06:45'], ['Doosri jamaat', '07:45']], repeat: 'once' },
+      other: { label: 'Koi aur', fields: [['Jamaat', '']], repeat: 'once' }
+    };
+    const INIT_EMPTY = true;
+    const items = s.items || (INIT_EMPTY ? [] : [
+      { name: "Jumu'ah", times: 'Khutba 1:00 · Jamaat 1:30', repeat: 'Har Juma', range: 'Hamesha', warn: false, remind: false },
+      { name: 'Taraweeh', times: 'Shuru 8:30', repeat: 'Har roz', range: 'Ramzan ki tareekhon tak', warn: false, remind: true },
+      { name: 'Eid-ul-Fitr', times: 'Pehli jamaat 7:00 · Doosri 8:00', repeat: 'Ek dafa', range: 'Tareekh chaand ke baad confirm', warn: true, remind: true }
+    ]);
+    const form = s.form || { type: 'jumma', repeat: 'weekly', day: 'Juma', remind: false };
+    const remindOn = form.remind !== undefined ? form.remind : form.repeat !== 'weekly';
+    const T = TYPES[form.type];
+    const setForm = (patch) => this.setState({ form: Object.assign({}, form, patch) });
+    const types = Object.keys(TYPES).map((k) => Object.assign({ label: TYPES[k].label, on: k === form.type, pick: () => this.setState({ form: { type: k, repeat: TYPES[k].repeat, day: TYPES[k].day || 'Juma', remind: TYPES[k].repeat !== 'weekly' } }) }, this.pill(k === form.type)));
+    const repeatLabels = { once: 'Ek dafa', daily: 'Har roz', weekly: 'Har hafte' };
+    const repeats = ['once', 'daily', 'weekly'].map((r) => Object.assign({ label: repeatLabels[r], on: r === form.repeat, pick: () => setForm({ repeat: r }) }, this.pill(r === form.repeat)));
+    const days = ['Pir', 'Mangal', 'Budh', 'Jumerat', 'Juma', 'Hafta', 'Itwar'].map((d) => Object.assign({ label: d, on: d === form.day, pick: () => setForm({ day: d }) }, this.pill(d === form.day)));
+    const isEid = form.type === 'eidf' || form.type === 'eida';
+    const repeatText = form.repeat === 'weekly' ? 'Har ' + form.day : repeatLabels[form.repeat];
+    const decorated = items.map((it) => Object.assign({}, it, { rangeBg: it.warn ? '#FBEBD6' : '#F0EEE7', rangeColor: it.warn ? '#6E3A0A' : '#3E4A45' }));
+    const tabs = [['daily', 'Rozana'], ['special', 'Special']].map((t) => ({ label: t[1], on: t[0] === tab, bg: t[0] === tab ? '#FFFFFF' : 'transparent', pick: () => this.setState({ tab: t[0], saved: false }) }));
+    const INIT_EDIT = null, INIT_SHIFT = 0, INIT_WHEN = 'now';
+    const f = (m) => { let h = Math.floor(m / 60) % 24; const mm = String(m % 60).padStart(2, '0'); if (h > 12) h -= 12; if (h === 0) h = 12; return h + ':' + mm; };
+    const names = ['Fajr', 'Zuhr', 'Asr', 'Maghrib', 'Isha'];
+    const DEFAULT_DAILY = { Fajr: [312, 340], Zuhr: [744, 795], Asr: [980, 1005], Maghrib: [1078, 1083], Isha: [1155, 1200] };
+    const base = s.daily || (INIT_EMPTY ? null : DEFAULT_DAILY);
+    const upcoming = s.upcoming || (INIT_EMPTY ? {} : { Fajr: { label: '6 Nov se jamaat 5:50' } });
+    const editing = base ? (s.editing !== undefined ? s.editing : INIT_EDIT) : null;
+    const draft = s.draft || (editing ? { a: base[editing][0], b: base[editing][1] - INIT_SHIFT, when: INIT_WHEN, notify: true } : null);
+    const rows = !base ? [] : names.map((n, i) => ({
+      name: n, azaan: 'Azaan ' + f(base[n][0]), jamaat: f(base[n][1]),
+      hasUp: !!upcoming[n], up: upcoming[n] ? upcoming[n].label : '',
+      border: i === names.length - 1 ? 'none' : '1px solid #ECEAE3',
+      open: () => this.setState({ editing: n, draft: { a: base[n][0], b: base[n][1], when: 'now', notify: true } })
+    }));
+    const setDraft = (patch) => this.setState({ editing: editing, draft: Object.assign({}, draft, patch) });
+    let steppers = [], whenPills = [], editVals = {};
+    if (editing && draft) {
+      const mk = (label, key, idx) => {
+        const changed = draft[key] !== base[editing][idx];
+        return {
+          label: label, value: f(draft[key]),
+          was: changed ? 'Pehle ' + f(base[editing][idx]) : 'Abhi ' + f(base[editing][idx]),
+          bg: changed ? '#FBEBD6' : '#F6F4EE', color: changed ? '#8A4B0F' : '#0F5C4A',
+          minus: () => setDraft({ [key]: draft[key] - 5 }),
+          plus: () => setDraft({ [key]: draft[key] + 5 })
+        };
+      };
+      steppers = [mk('Azaan', 'a', 0), mk('Jamaat', 'b', 1)];
+      whenPills = [['now', 'Foran'], ['tomorrow', 'Kal se'], ['date', 'Tareekh se']].map((w) => Object.assign({ label: w[1], on: draft.when === w[0], pick: () => setDraft({ when: w[0] }) }, this.pill(draft.when === w[0])));
+      const noChange = draft.a === base[editing][0] && draft.b === base[editing][1];
+      const notifyOn = draft.notify !== false;
+      editVals = {
+        noChange: noChange,
+        saveBg: noChange ? '#9DB5AD' : '#0F5C4A',
+        saveText: noChange ? 'Koi tabdeeli nahi' : (draft.when === 'now' ? 'Abhi se lagu karein' : 'Schedule karein'),
+        draftDated: draft.when === 'date',
+        notifyOn: notifyOn,
+        notifyTrack: notifyOn ? '#0F5C4A' : '#C9CCC7',
+        notifyJustify: notifyOn ? 'flex-end' : 'flex-start',
+        toggleNotify: () => setDraft({ notify: !notifyOn }),
+        saveEdit: () => {
+          if (noChange) return;
+          const up = Object.assign({}, upcoming);
+          const nextDaily = Object.assign({}, base);
+          let toast;
+          if (draft.when === 'now') {
+            nextDaily[editing] = [draft.a, draft.b];
+            delete up[editing];
+            toast = editing + ' ki nayi timing abhi se lagu ho gayi.';
+          } else {
+            const when = draft.when === 'tomorrow' ? 'Kal se' : '6 Nov se';
+            up[editing] = { label: when + ' jamaat ' + f(draft.b) };
+            toast = editing + ' ki tabdeeli schedule ho gayi · ' + when + '.';
+          }
+          if (notifyOn) toast += ' Namaziyon ko ittela chali jayegi.';
+          this.setState({ daily: nextDaily, upcoming: up, editing: null, draft: null, saved: true, toast: toast });
+        }
+      };
+    }
+    return Object.assign({
+      tabs: tabs, isDaily: tab === 'daily', isSpecial: tab === 'special',
+      subtitle: tab === 'daily' ? 'Paanch waqt ki rozana timings · tap kar ke badlein' : "Jumu'ah, Taraweeh, Eid aur doosri khaas namazein",
+      rows: rows,
+      hasDaily: !!base, dailyEmpty: !base,
+      fillDaily: () => this.setState({ daily: DEFAULT_DAILY, editing: 'Fajr', draft: { a: DEFAULT_DAILY.Fajr[0], b: DEFAULT_DAILY.Fajr[1], when: 'now', notify: false } }),
+      specialEmpty: items.length === 0,
+      quick: [['jumma', "Jumu'ah"], ['taraweeh', 'Taraweeh'], ['eidf', 'Eid']].map((q) => ({ label: q[1], pick: () => this.setState({ adding: true, form: { type: q[0], repeat: TYPES[q[0]].repeat, day: TYPES[q[0]].day || 'Juma', remind: TYPES[q[0]].repeat !== 'weekly' } }) })),
+      editOpen: !!(editing && draft),
+      editTitle: editing ? editing + ' ki timing' : '',
+      closeEdit: () => this.setState({ editing: null, draft: null }),
+      steppers: steppers, whenPills: whenPills,
+      items: decorated,
+      saved: !!s.saved, toast: s.toast || '',
+      adding: !!s.adding,
+      openAdd: () => this.setState({ adding: true, saved: false }),
+      closeAdd: () => this.setState({ adding: false }),
+      types: types, isOther: form.type === 'other', isEid: isEid,
+      fields: T.fields.map((f) => ({ label: f[0], val: f[1] })),
+      repeats: repeats, isWeekly: form.repeat === 'weekly', days: days,
+      remindOn: remindOn,
+      remindTrack: remindOn ? '#0F5C4A' : '#C9CCC7',
+      remindJustify: remindOn ? 'flex-end' : 'flex-start',
+      remindHint: form.repeat === 'weekly' ? 'Har hafte event se pichle din shaam' : (form.repeat === 'daily' ? 'Shuru hone se pichle din shaam' : 'Event se pichle din shaam'),
+      toggleRemind: () => setForm({ remind: !remindOn }),
+      fromLabel: form.repeat === 'once' ? 'Tareekh' : 'Kab se',
+      hasUntil: form.repeat !== 'once',
+      untilLabel: form.repeat === 'daily' ? 'Kab tak' : 'Kab tak (optional)',
+      addItem: () => {
+        const times = T.fields.filter((f) => f[1]).map((f) => f[0] + ' ' + this.fmt(f[1])).join(' · ') || 'Time set karein';
+        const next = items.concat([{ name: T.label === 'Koi aur' ? 'Special namaz' : T.label, times: times, repeat: repeatText, range: isEid ? 'Tareekh chaand ke baad confirm' : (form.repeat === 'once' ? '6 Nov 2026' : '6 Nov 2026 se'), warn: isEid, remind: remindOn }]);
+        this.setState({ items: next, adding: false, saved: true, toast: T.label + ' schedule ho gaya · ' + repeatText });
+      }
+    }, editVals);
+  }
+}
+</script>
+</body>
+</html>

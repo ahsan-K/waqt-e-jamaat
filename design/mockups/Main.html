@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Nearby masjids map</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0F5C4A}a:hover{color:#0A4235}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #E8E4D8; font-family: 'Manrope', 'Segoe UI', sans-serif; color: #14201C">
+
+<div aria-hidden="true" style="position: absolute; left: 0; top: 318px; width: 390px; height: 16px; background: #FFFFFF"></div>
+<div aria-hidden="true" style="position: absolute; left: 0; top: 470px; width: 390px; height: 9px; background: #FFFFFF"></div>
+<div aria-hidden="true" style="position: absolute; left: 0; top: 230px; width: 390px; height: 7px; background: #F7F4EC"></div>
+<div aria-hidden="true" style="position: absolute; left: 112px; top: 0; width: 14px; height: 844px; background: #FFFFFF"></div>
+<div aria-hidden="true" style="position: absolute; left: 282px; top: 0; width: 9px; height: 844px; background: #FFFFFF"></div>
+<div aria-hidden="true" style="position: absolute; left: 30px; top: 0; width: 6px; height: 844px; background: #F7F4EC"></div>
+<div aria-hidden="true" style="position: absolute; left: 140px; top: 350px; width: 120px; height: 100px; border-radius: 14px; background: #D3DFC6"></div>
+<div aria-hidden="true" style="position: absolute; left: 300px; top: 250px; width: 80px; height: 55px; border-radius: 10px; background: #D3DFC6"></div>
+
+<div aria-hidden="true" style="position: absolute; left: {{cLeft}}px; top: {{cTop}}px; width: {{cSize}}px; height: {{cSize}}px; border-radius: 50%; background: rgba(15, 92, 74, 0.08); border: 2px dashed #0F5C4A; box-sizing: border-box"></div>
+
+<div aria-label="Aapki location" role="img" style="position: absolute; left: 186px; top: 331px; width: 18px; height: 18px; border-radius: 50%; background: #1D4ED8; border: 3px solid #FFFFFF; box-sizing: border-box; box-shadow: 0 0 0 8px rgba(29, 78, 216, 0.18)"></div>
+
+<sc-for list="{{all}}" as="m" hint-placeholder-count="4">
+<sc-if value="{{m.inside}}" hint-placeholder-val="{{true}}">
+<a href="Detail.dc.html" aria-label="{{m.name}}, {{m.dist}}" style="position: absolute; left: {{m.left}}px; top: {{m.top}}px; display: flex; align-items: center; gap: 6px; text-decoration: none">
+<span style="width: 36px; height: 36px; border-radius: 50%; background: #0F5C4A; border: 2px solid #FFFFFF; box-sizing: border-box; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(20, 32, 28, 0.25)">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20V12a7 7 0 0 1 14 0v8"></path><path d="M3 20h18"></path><path d="M12 5V2"></path><path d="M10 20v-4a2 2 0 0 1 4 0v4"></path></svg>
+</span>
+<sc-if value="{{m.showLabel}}" hint-placeholder-val="{{false}}">
+<span style="background: #FFFFFF; border-radius: 10px; padding: 6px 10px; font-size: 12px; font-weight: 700; color: #14201C; white-space: nowrap; box-shadow: 0 4px 10px rgba(20, 32, 28, 0.18)">{{m.next}}</span>
+</sc-if>
+</a>
+</sc-if>
+</sc-for>
+
+<div style="position: absolute; left: 16px; right: 16px; top: 16px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; gap: 10px; align-items: center">
+<label style="flex: 1; display: flex; align-items: center; gap: 10px; height: 50px; padding: 0 18px; background: rgba(255, 255, 255, 0.55); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.75); box-sizing: border-box; border-radius: 25px; box-shadow: 0 4px 14px rgba(20, 32, 28, 0.12)">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6660" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+<input type="text" placeholder="Masjid ya area search karein" aria-label="Masjid ya area search karein" style="border: none; outline: none; flex: 1; font-family: inherit; font-size: 15px; color: #14201C; background: transparent">
+</label>
+<button type="button" aria-label="Meri location par wapas jayein" style="width: 50px; height: 50px; border: 1px solid rgba(255, 255, 255, 0.75); border-radius: 25px; background: rgba(255, 255, 255, 0.55); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(20, 32, 28, 0.12); cursor: pointer">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F5C4A" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path></svg>
+</button>
+<a href="Notifications.dc.html" aria-label="Notifications, 2 nayi" style="position: relative; width: 50px; height: 50px; border: 1px solid rgba(255, 255, 255, 0.75); border-radius: 25px; background: rgba(255, 255, 255, 0.55); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(20, 32, 28, 0.12); box-sizing: border-box; flex-shrink: 0">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F5C4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"></path><path d="M10 21h4"></path></svg>
+<span aria-hidden="true" style="position: absolute; top: 6px; right: 6px; min-width: 18px; height: 18px; padding: 0 4px; box-sizing: border-box; border-radius: 9px; background: #B86B1E; color: #FFFFFF; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center">2</span>
+</a>
+</div>
+<div style="background: rgba(255, 255, 255, 0.55); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.75); border-radius: 26px; padding: 14px 18px; box-shadow: 0 4px 14px rgba(20, 32, 28, 0.12); display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; justify-content: space-between; align-items: baseline">
+<label for="radius" style="font-size: 13px; font-weight: 600; color: #5B6660">Search radius</label>
+<span style="font-size: 18px; font-weight: 800; color: #0F5C4A">{{radiusLabel}}</span>
+</div>
+<input id="radius" type="range" min="1" max="5" step="0.5" value="{{radius}}" onChange="{{onRadius}}" style="width: 100%; accent-color: #0F5C4A; height: 24px; margin: 0">
+<div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 600; color: #5B6660">
+<span>1 km</span><span>5 km</span>
+</div>
+</div>
+</div>
+
+<div style="position: absolute; left: 10px; right: 10px; bottom: 98px; height: 248px; background: rgba(255, 255, 255, 0.62); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 34px; box-shadow: 0 -6px 24px rgba(20, 32, 28, 0.14); padding: 10px 20px 20px; box-sizing: border-box; display: flex; flex-direction: column; gap: 12px">
+<div aria-hidden="true" style="width: 40px; height: 4px; border-radius: 2px; background: #D5D9D6; align-self: center"></div>
+<div style="display: flex; justify-content: space-between; align-items: baseline">
+<h2 style="margin: 0; font-size: 18px; font-weight: 800">Qareeb masjidein</h2>
+<span style="font-size: 13px; font-weight: 600; color: #5B6660">{{countLabel}}</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<sc-for list="{{top3}}" as="m" hint-placeholder-count="3">
+<a href="Detail.dc.html" style="display: flex; align-items: center; gap: 12px; padding: 8px 0; text-decoration: none; color: #14201C; min-height: 44px">
+<span style="width: 40px; height: 40px; border-radius: 12px; background: #E3EFEA; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F5C4A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20V12a7 7 0 0 1 14 0v8"></path><path d="M3 20h18"></path><path d="M12 5V2"></path></svg>
+</span>
+<span style="flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0">
+<span style="font-size: 15px; font-weight: 700">{{m.name}}</span>
+<span style="font-size: 12px; font-weight: 500; color: #5B6660">{{m.dist}} door</span>
+</span>
+<span style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px">
+<span style="font-size: 15px; font-weight: 800; color: #0F5C4A">{{m.next}}</span>
+<span style="font-size: 11px; font-weight: 700; color: #8A4B0F; background: #FBEBD6; border-radius: 6px; padding: 2px 6px">{{m.mins}}</span>
+</span>
+</a>
+</sc-for>
+</div>
+</div>
+
+<nav aria-label="Main tabs" style="position: absolute; left: 16px; right: 16px; bottom: 18px; height: 68px; padding: 6px; box-sizing: border-box; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; background: rgba(255, 255, 255, 0.62); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.85); border-radius: 34px; box-shadow: 0 8px 24px rgba(20, 32, 28, 0.16)">
+<span aria-current="page" style="border-radius: 28px; background: #E3EFEA; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: #0F5C4A; font-size: 11px; font-weight: 800">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0F5C4A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"></path><path d="M9 4v14M15 6v14"></path></svg>Map</span>
+<a href="Favourites.dc.html" style="border-radius: 28px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: #3E4A45; font-size: 11px; font-weight: 700; text-decoration: none">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3E4A45" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"></path></svg>Meri masjidein</a>
+<a href="Profile.dc.html" style="border-radius: 28px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: #3E4A45; font-size: 11px; font-weight: 700; text-decoration: none">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3E4A45" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>Profile</a>
+</nav>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const r = (this.state && this.state.radius) || 2;
+    const scale = 30, cx = 195, cy = 340;
+    const masjids = [
+      { id: 1, name: 'Masjid-e-Noor', dx: 0.4, dy: -0.3, next: 'Asr 4:45', mins: '18 min mein' },
+      { id: 2, name: 'Jamia Masjid Al-Falah', dx: -0.9, dy: 0.5, next: 'Asr 4:50', mins: '23 min mein' },
+      { id: 3, name: 'Masjid-e-Bilal', dx: 1.2, dy: 0.9, next: 'Asr 5:00', mins: '33 min mein' },
+      { id: 4, name: 'Masjid-e-Quba', dx: -1.6, dy: -1.1, next: 'Asr 4:40', mins: '13 min mein' },
+      { id: 5, name: 'Madina Masjid', dx: 2.3, dy: -1.4, next: 'Asr 4:45', mins: '18 min mein' },
+      { id: 6, name: 'Masjid-e-Rehmat', dx: -2.8, dy: 1.9, next: 'Asr 5:00', mins: '33 min mein' },
+      { id: 7, name: 'Jamia Masjid Usmania', dx: 3.4, dy: 2.2, next: 'Asr 4:50', mins: '23 min mein' },
+      { id: 8, name: 'Masjid-e-Ibrahim', dx: -0.2, dy: 3.6, next: 'Asr 4:55', mins: '28 min mein' },
+      { id: 9, name: 'Masjid-e-Ayesha', dx: 4.1, dy: -0.8, next: 'Asr 4:45', mins: '18 min mein' }
+    ];
+    const all = masjids.map((m) => {
+      const d = Math.sqrt(m.dx * m.dx + m.dy * m.dy);
+      return Object.assign({}, m, {
+        d: d,
+        dist: d.toFixed(1) + ' km',
+        left: Math.round(cx + m.dx * scale - 18),
+        top: Math.round(cy + m.dy * scale - 18),
+        inside: d <= r
+      });
+    });
+    const inside = all.filter((m) => m.inside).sort((a, b) => a.d - b.d);
+    const nearestId = inside.length ? inside[0].id : null;
+    all.forEach((m) => { m.showLabel = m.id === nearestId; });
+    return {
+      radius: r,
+      radiusLabel: r + ' km',
+      all: all,
+      top3: inside.slice(0, 3),
+      countLabel: inside.length + ' masjidein · ' + r + ' km',
+      cLeft: Math.round(cx - r * scale),
+      cTop: Math.round(cy - r * scale),
+      cSize: Math.round(2 * r * scale),
+      onRadius: (e) => this.setState({ radius: parseFloat(e.target.value) })
+    };
+  }
+}
+</script>
+</body>
+</html>

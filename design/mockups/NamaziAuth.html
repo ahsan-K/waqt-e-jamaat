@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Namazi account</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0F5C4A}a:hover{color:#0A4235}
+input::placeholder{color:#7A847F}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #F6F4EE; font-family: 'Manrope', 'Segoe UI', sans-serif; color: #14201C; box-sizing: border-box; padding: 16px 24px 20px; display: flex; flex-direction: column; gap: 18px">
+
+<a href="Detail.dc.html" aria-label="Wapas" style="width: 44px; height: 44px; border-radius: 22px; background: rgba(255, 255, 255, 0.7); border: 1px solid #E4E1D7; display: flex; align-items: center; justify-content: center">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#14201C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+</a>
+
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 12px; font-weight: 700; color: #0F5C4A; text-transform: uppercase; letter-spacing: 0.08em">Namazi account</span>
+<h1 style="margin: 0; font-size: 28px; line-height: 1.15; font-weight: 800; letter-spacing: -0.02em">{{heading}}</h1>
+<p style="margin: 0; font-size: 14px; line-height: 1.5; font-weight: 500; color: #5B6660">Pasandeeda masjidein aur jamaat reminders har phone par saath rahenge.</p>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; padding: 4px; background: #ECE9E0; border-radius: 26px">
+<button type="button" onClick="{{toReg}}" aria-pressed="{{isReg}}" style="min-height: 44px; border: none; border-radius: 22px; background: {{regBg}}; font-family: inherit; font-size: 14px; font-weight: 800; color: #14201C; cursor: pointer">Register</button>
+<button type="button" onClick="{{toLogin}}" aria-pressed="{{isLogin}}" style="min-height: 44px; border: none; border-radius: 22px; background: {{loginBg}}; font-family: inherit; font-size: 14px; font-weight: 800; color: #14201C; cursor: pointer">Login</button>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<a href="Favourites.dc.html" style="height: 52px; border-radius: 26px; background: #14201C; color: #FFFFFF; font-size: 15px; font-weight: 800; display: flex; align-items: center; justify-content: center; text-decoration: none">Apple ke saath jaari rakhein</a>
+<a href="Favourites.dc.html" style="height: 52px; border-radius: 26px; background: #FFFFFF; border: 1.5px solid #DAD6CB; box-sizing: border-box; color: #14201C; font-size: 15px; font-weight: 800; display: flex; align-items: center; justify-content: center; text-decoration: none">Google ke saath jaari rakhein</a>
+</div>
+
+<div aria-hidden="true" style="display: flex; align-items: center; gap: 12px; font-size: 12px; font-weight: 700; color: #5B6660">
+<span style="flex: 1; height: 1px; background: #DAD6CB"></span>ya email se<span style="flex: 1; height: 1px; background: #DAD6CB"></span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<sc-if value="{{isReg}}" hint-placeholder-val="{{true}}">
+<input type="text" placeholder="Aapka naam" aria-label="Naam" style="height: 52px; padding: 0 18px; font-family: inherit; font-size: 16px; border: 1.5px solid #DAD6CB; border-radius: 26px; background: #FFFFFF; color: #14201C; box-sizing: border-box; width: 100%">
+</sc-if>
+<input type="email" placeholder="Email" aria-label="Email" style="height: 52px; padding: 0 18px; font-family: inherit; font-size: 16px; border: 1.5px solid #DAD6CB; border-radius: 26px; background: #FFFFFF; color: #14201C; box-sizing: border-box">
+<input type="password" placeholder="Password" aria-label="Password" style="height: 52px; padding: 0 18px; font-family: inherit; font-size: 16px; border: 1.5px solid #DAD6CB; border-radius: 26px; background: #FFFFFF; color: #14201C; box-sizing: border-box">
+<a href="Favourites.dc.html" style="height: 52px; border-radius: 26px; background: #0F5C4A; color: #FFFFFF; font-size: 15px; font-weight: 800; display: flex; align-items: center; justify-content: center; text-decoration: none">{{submit}}</a>
+</div>
+
+<div style="flex: 1"></div>
+<a href="Main.dc.html" style="min-height: 44px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700">Guest ke taur par jaari rakhein</a>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const login = !!(this.state && this.state.login);
+    return {
+      isReg: !login,
+      isLogin: login,
+      heading: login ? 'Wapas khush aamdeed' : 'Free account banayein',
+      submit: login ? 'Login' : 'Account banayein',
+      regBg: login ? 'transparent' : '#FFFFFF',
+      loginBg: login ? '#FFFFFF' : 'transparent',
+      toReg: () => this.setState({ login: false }),
+      toLogin: () => this.setState({ login: true })
+    };
+  }
+}
+</script>
+</body>
+</html>

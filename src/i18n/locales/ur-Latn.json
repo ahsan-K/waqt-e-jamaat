@@ -1,0 +1,152 @@
+{
+  "appName": "Waqt-e-Jamaat",
+  "appNameUr": "وقتِ جماعت",
+  "common": {
+    "back": "Wapas",
+    "continue": "Jaari rakhein",
+    "cancel": "Cancel",
+    "save": "Save karein",
+    "retry": "Dobara koshish",
+    "loading": "Load ho raha hai…",
+    "restarting": "App restart ho rahi hai…",
+    "close": "Band karein",
+    "comingSoon": "Jald aa raha hai",
+    "error": "Kuch ghalat ho gaya.",
+    "offline": "Aap offline hain — saved data dikha rahe hain."
+  },
+  "language": {
+    "title": "Zaban chunein",
+    "subtitle": "Isay baad mein Profile se badal sakte hain.",
+    "group": "Zaban",
+    "previewLabel": "Preview",
+    "preview": "Agli jamaat: Asr {{time}}",
+    "preview2": "Masjid-e-Noor · {{min}} min mein",
+    "hint_ur-Latn": "Urdu, English huroof mein",
+    "hint_ur": "Urdu · daayen se baayen",
+    "hint_en": "English",
+    "name_ur-Latn": "Roman Urdu",
+    "name_ur": "اردو",
+    "name_en": "English"
+  },
+  "welcome": {
+    "tagline": "Apne qareeb ki masjid mein jamaat kabhi na chhootay.",
+    "question": "Aap kaise aagay barhna chahte hain?",
+    "namaziTitle": "Namazi",
+    "namaziBody": "Guest ke taur par seedha timings dekhein. Favourite aur reminders ke liye account banayein.",
+    "intezamiaTitle": "Masjid Intezamia",
+    "intezamiaBody": "Apni masjid register karein aur jamaat timings update karein.",
+    "namaziLogin": "Namazi account hai? Login karein",
+    "changeLanguage": "Zaban badlein"
+  },
+  "prayer": {
+    "fajr": "Fajr",
+    "sunrise": "Tulu-e-aftab",
+    "zuhr": "Zuhr",
+    "asr": "Asr",
+    "maghrib": "Maghrib",
+    "isha": "Isha"
+  },
+  "special": {
+    "jumma": "Jumu'ah",
+    "taraweeh": "Taraweeh",
+    "eid_ul_fitr": "Eid-ul-Fitr",
+    "eid_ul_adha": "Eid-ul-Adha",
+    "custom": "Special"
+  },
+  "time": {
+    "am": "AM",
+    "pm": "PM",
+    "inMin": "{{min}} min mein",
+    "inHours": "{{h}} ghante {{m}} min mein",
+    "now": "abhi"
+  },
+  "tabs": {
+    "map": "Map",
+    "favourites": "Meri masjidein",
+    "profile": "Profile"
+  },
+  "map": {
+    "search": "Masjid ya area search karein",
+    "myLocation": "Meri location par wapas jayein",
+    "notifications": "Notifications, {{count}} nayi",
+    "notificationsNone": "Notifications",
+    "radius": "Search radius",
+    "km": "{{km}} km",
+    "nearby": "Qareeb masjidein",
+    "count": "{{n}} masjidein · {{km}} km",
+    "away": "{{dist}} door",
+    "estimate": "Andaza",
+    "none": "Is radius mein koi masjid nahi. Radius barha kar dekhein.",
+    "loadError": "Masjidein load nahi ho sakin.",
+    "youAreHere": "Aapki location",
+    "noTimings": "Timings abhi nahi",
+    "searchArea": "Is area mein dhoondein",
+    "noResults": "Kuch nahi mila"
+  },
+  "location": {
+    "deniedTitle": "Location band hai",
+    "deniedBody": "Qareeb masjidein dekhne ke liye location ki ijazat dein, ya area search karein.",
+    "allow": "Location on karein",
+    "openSettings": "Settings kholein",
+    "usingDefault": "Karachi dikha rahe hain. Apna area search karein."
+  },
+  "detail": {
+    "backToMap": "Map par wapas",
+    "share": "Share",
+    "favAdd": "Favourite banayein",
+    "favRemove": "Favourite se hatayein",
+    "addressDistance": "{{address}} · {{dist}} door",
+    "nextJamaat": "Agli jamaat",
+    "walking": "paidal {{min}} min",
+    "minShort": "{{min}} min",
+    "todaySchedule": "Aaj ka schedule",
+    "azaanJamaat": "Azaan · Jamaat",
+    "khutbaJamaat": "Khutba {{khutba}} · Jamaat",
+    "expected": "mutawaqqa",
+    "start": "Shuru",
+    "updatedDaysAgo": "{{n}} din pehle update",
+    "updatedToday": "Aaj update hua",
+    "confirmedBy": "{{n}} logon ne confirm kiya",
+    "timeCorrect": "Time sahi hai",
+    "thanks": "Shukriya",
+    "reportLink": "Time ghalat hai? Update ya photo bhejein",
+    "directions": "Directions",
+    "remind": "Reminder lagayein",
+    "remindOn": "Reminder on",
+    "notifyWhenAdded": "Timings aane par batayein",
+    "willNotify": "Batayenge",
+    "upcomingChange": "{{date}} se jamaat {{time}}",
+    "notFound": "Ye masjid dastiyab nahi.",
+    "nextEstimate": "Agli namaz · andaza",
+    "timeStarts": "Waqt shuru",
+    "jamaatUnconfirmed": "Jamaat confirm nahi",
+    "todayTimes": "Aaj ke auqat",
+    "estimateBadge": "Andaza · location se",
+    "estimateNote": "Masjid ki location se calculate kiye gaye namaz ke shuru ke auqat ({{method}} method, {{school}} Asr). Asal jamaat in ke kuch der baad hoti hai aur masjid ke hisaab se mukhtalif ho sakti hai.",
+    "noTimingsCard": "Is masjid ki jamaat timings abhi add nahi hui",
+    "sendRequest": "Darkhwast bhejein",
+    "requestSent": "Darkhwast bhej di",
+    "boardPhoto": "Board ki photo",
+    "estimateError": "Andaze ke auqat abhi load nahi ho sake",
+    "shareText": "{{name}} — agli jamaat {{next}}. Waqt-e-Jamaat",
+    "noJamaatToday": "Jamaat times nahi"
+  },
+  "method": {
+    "karachi": "Karachi",
+    "mwl": "Muslim World League",
+    "ummAlQura": "Umm al-Qura",
+    "isna": "ISNA"
+  },
+  "school": {
+    "hanafi": "Hanafi",
+    "shafi": "Shafi"
+  },
+  "gate": {
+    "favTitle": "Masjid favourite karne ke liye account banayein",
+    "remindTitle": "Reminder lagane ke liye account banayein",
+    "confirmTitle": "Timings confirm karne ke liye account banayein",
+    "body": "Free account se aapki pasandeeda masjidein aur reminders save rahenge, phone badalne par bhi.",
+    "cta": "Account banayein ya login karein",
+    "notNow": "Abhi nahi"
+  }
+}

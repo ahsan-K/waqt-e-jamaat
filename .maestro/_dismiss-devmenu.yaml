@@ -1,0 +1,13 @@
+# Dev-build only: the dev menu onboarding can reappear after a JS reload.
+appId: com.ahsan.waqtejamaat
+---
+- runFlow:
+    when:
+      visible: "This is the developer menu.*"
+    commands:
+      - tapOn: "Continue"
+- runFlow:
+    when:
+      visible: "Runtime version.*"
+    commands:
+      - tapOn: "Close"

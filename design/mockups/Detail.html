@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Masjid detail and namaz schedule</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0F5C4A}a:hover{color:#0A4235}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #F6F4EE; font-family: 'Manrope', 'Segoe UI', sans-serif; color: #14201C; display: flex; flex-direction: column">
+
+<div style="background: #0F5C4A; color: #FFFFFF; padding: 16px 20px 24px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; justify-content: space-between; align-items: center">
+<a href="Main.dc.html" aria-label="Map par wapas" style="width: 44px; height: 44px; border-radius: 14px; background: rgba(255, 255, 255, 0.14); display: flex; align-items: center; justify-content: center">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+</a>
+<div style="display: flex; gap: 8px">
+<button type="button" aria-label="Share" style="width: 44px; height: 44px; border: none; border-radius: 14px; background: rgba(255, 255, 255, 0.14); display: flex; align-items: center; justify-content: center; cursor: pointer">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"></path><path d="M12 3v12"></path><path d="M7 8l5-5 5 5"></path></svg>
+</button>
+<button type="button" aria-label="{{favLabel}}" onClick="{{toggleFav}}" style="width: 44px; height: 44px; border: none; border-radius: 14px; background: rgba(255, 255, 255, 0.14); display: flex; align-items: center; justify-content: center; cursor: pointer">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="{{favFill}}" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"></path></svg>
+</button>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.01em">Masjid-e-Noor</h1>
+<p style="margin: 0; font-size: 14px; font-weight: 500; color: #CFE3DB">[Gali / Block], [Area], Karachi · 0.5 km door</p>
+</div>
+<div style="background: #FBEBD6; color: #14201C; border-radius: 18px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 12px; font-weight: 700; color: #8A4B0F; text-transform: uppercase; letter-spacing: 0.06em">Agli jamaat</span>
+<span style="font-size: 24px; font-weight: 800">Asr · 4:45 PM</span>
+</div>
+<div style="text-align: right; display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 22px; font-weight: 800; color: #8A4B0F">18 min</span>
+<span style="font-size: 12px; font-weight: 600; color: #5B4A3A">paidal 7 min</span>
+</div>
+</div>
+</div>
+
+<div style="flex: 1; padding: 18px 20px 0; display: flex; flex-direction: column; gap: 14px; overflow: hidden">
+<div style="display: flex; justify-content: space-between; align-items: baseline">
+<h2 style="margin: 0; font-size: 17px; font-weight: 800">Aaj ka schedule</h2>
+<span style="font-size: 12px; font-weight: 600; color: #5B6660">Azaan · Jamaat</span>
+</div>
+
+<div style="background: #FFFFFF; border-radius: 18px; padding: 4px 16px; display: flex; flex-direction: column">
+<sc-for list="{{prayers}}" as="p" hint-placeholder-count="5">
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) 72px 84px; align-items: center; min-height: 48px; border-bottom: {{p.border}}">
+<span style="display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: {{p.weight}}; color: #14201C">
+<sc-if value="{{p.isNext}}" hint-placeholder-val="{{false}}"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: #B86B1E"></span></sc-if>
+{{p.name}}
+</span>
+<span style="font-size: 14px; font-weight: 500; color: #5B6660; text-align: right">{{p.azaan}}</span>
+<span style="font-size: 15px; font-weight: 800; color: #0F5C4A; text-align: right">{{p.jamaat}}</span>
+</div>
+</sc-for>
+</div>
+
+<div style="background: #E3EFEA; border-radius: 18px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center">
+<span style="font-size: 15px; font-weight: 800">Jumu'ah</span>
+<span style="font-size: 13px; font-weight: 600; color: #3E4A45">Khutba 1:00 · Jamaat <span style="font-weight: 800; color: #0F5C4A">1:30</span></span>
+</div>
+
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 10px">
+<span style="font-size: 12px; font-weight: 600; color: #5B6660">3 din pehle update · {{confirmLabel}}</span>
+<button type="button" onClick="{{confirm}}" disabled="{{confirmed}}" style="min-height: 44px; padding: 0 14px; border: 1.5px solid #0F5C4A; border-radius: 12px; background: {{confirmBg}}; color: {{confirmColor}}; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap">{{confirmText}}</button>
+</div>
+<a href="#" style="font-size: 13px; font-weight: 600; align-self: flex-start">Time ghalat hai? Update ya photo bhejein</a>
+</div>
+
+<div style="margin: 0 12px 14px; padding: 8px; display: flex; gap: 8px; background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.85); border-radius: 34px; box-shadow: 0 8px 24px rgba(20, 32, 28, 0.12)">
+<button type="button" style="flex: 1; min-height: 52px; border: none; border-radius: 26px; background: #0F5C4A; color: #FFFFFF; font-family: inherit; font-size: 15px; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l18-8-8 18-2-8z"></path></svg>
+Directions
+</button>
+<button type="button" onClick="{{toggleRemind}}" aria-pressed="{{remind}}" style="flex: 1; min-height: 52px; border: 1.5px solid #0F5C4A; border-radius: 26px; background: {{remindBg}}; color: {{remindColor}}; font-family: inherit; font-size: 15px; font-weight: 800; cursor: pointer">{{remindText}}</button>
+</div>
+
+<sc-if value="{{gate}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; background: rgba(20, 32, 28, 0.45); display: flex; flex-direction: column; justify-content: flex-end; padding: 10px; box-sizing: border-box">
+<div role="dialog" aria-label="Account banayein" style="background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 34px; padding: 22px 20px 16px; display: flex; flex-direction: column; gap: 14px">
+<span style="width: 52px; height: 52px; border-radius: 26px; background: #E3EFEA; display: flex; align-items: center; justify-content: center">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0F5C4A" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"></path></svg>
+</span>
+<h2 style="margin: 0; font-size: 21px; line-height: 1.25; font-weight: 800">{{gateTitle}}</h2>
+<p style="margin: 0; font-size: 14px; line-height: 1.5; font-weight: 500; color: #4A5550">Free account se aapki pasandeeda masjidein aur reminders save rahenge, phone badalne par bhi.</p>
+<a href="NamaziAuth.dc.html" style="height: 52px; border-radius: 26px; background: #0F5C4A; color: #FFFFFF; font-size: 15px; font-weight: 800; display: flex; align-items: center; justify-content: center; text-decoration: none">Account banayein ya login karein</a>
+<button type="button" onClick="{{closeGate}}" style="min-height: 46px; border: none; background: transparent; font-family: inherit; font-size: 15px; font-weight: 700; color: #3E4A45; cursor: pointer">Abhi nahi</button>
+</div>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const s = this.state || {};
+    const fav = !!s.fav, remind = !!s.remind, confirmed = !!s.confirmed;
+    const guest = s.guest !== false, gate = !!s.gate, gateWhat = s.gateWhat || 'favourite';
+    const list = [
+      { name: 'Fajr', azaan: '5:12', jamaat: '5:40' },
+      { name: 'Zuhr', azaan: '12:24', jamaat: '1:15' },
+      { name: 'Asr', azaan: '4:20', jamaat: '4:45', isNext: true },
+      { name: 'Maghrib', azaan: '5:58', jamaat: '6:03' },
+      { name: 'Isha', azaan: '7:15', jamaat: '8:00' }
+    ];
+    const prayers = list.map((p, i) => Object.assign({ isNext: false }, p, {
+      border: i === list.length - 1 ? 'none' : '1px solid #ECEAE3',
+      weight: p.isNext ? 800 : 600
+    }));
+    const count = 12 + (confirmed ? 1 : 0);
+    return {
+      prayers: prayers,
+      favFill: fav ? '#FFFFFF' : 'none',
+      favLabel: fav ? 'Favourite se hatayein' : 'Favourite banayein',
+      toggleFav: () => (guest ? this.setState({ gate: true, gateWhat: 'favourite' }) : this.setState({ fav: !fav })),
+      gate: gate,
+      gateTitle: gateWhat === 'reminder' ? 'Reminder lagane ke liye account banayein' : 'Masjid favourite karne ke liye account banayein',
+      closeGate: () => this.setState({ gate: false }),
+      remind: remind,
+      remindText: remind ? 'Reminder on' : 'Reminder lagayein',
+      remindBg: remind ? '#E3EFEA' : '#FFFFFF',
+      remindColor: '#0F5C4A',
+      toggleRemind: () => (guest ? this.setState({ gate: true, gateWhat: 'reminder' }) : this.setState({ remind: !remind })),
+      confirmed: confirmed,
+      confirmLabel: count + ' logon ne confirm kiya',
+      confirmText: confirmed ? 'Shukriya' : 'Time sahi hai',
+      confirmBg: confirmed ? '#0F5C4A' : '#FFFFFF',
+      confirmColor: confirmed ? '#FFFFFF' : '#0F5C4A',
+      confirm: () => this.setState({ confirmed: true })
+    };
+  }
+}
+</script>
+</body>
+</html>

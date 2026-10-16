@@ -1,0 +1,58 @@
+# Phase 1: language switch incl. RTL reload. Run with Metro on :8081 and a dev build installed.
+appId: com.ahsan.waqtejamaat
+---
+- runFlow: _open-app.yaml
+- extendedWaitUntil:
+    visible:
+      id: "lang-pill"
+    timeout: 60000
+- extendedWaitUntil:
+    notVisible:
+      id: "js-splash"
+    timeout: 20000
+- takeScreenshot: .maestro/out/welcome-default
+- tapOn:
+    id: "lang-pill"
+- tapOn:
+    id: "lang-option-ur-Latn"
+- assertVisible: "Zaban chunein"
+- tapOn:
+    id: "lang-option-ur"
+- assertVisible: "زبان منتخب کریں"
+- takeScreenshot: .maestro/out/language-ur-preview
+- tapOn:
+    id: "lang-continue"
+# Reload: wait for the dev menu (dev builds) or the welcome tagline, after the JS splash.
+- extendedWaitUntil:
+    visible:
+      text: "This is the developer menu.*|.*جماعت کبھی.*|.*miss the jamaat.*"
+    timeout: 60000
+- extendedWaitUntil:
+    notVisible:
+      id: "js-splash"
+    timeout: 20000
+- runFlow: _dismiss-devmenu.yaml
+- assertVisible: "اپنے قریب کی مسجد میں جماعت کبھی نہ چھوٹے۔"
+- extendedWaitUntil:
+    notVisible:
+      id: "js-splash"
+    timeout: 20000
+- takeScreenshot: .maestro/out/welcome-ur
+- tapOn:
+    id: "lang-pill"
+- tapOn:
+    id: "lang-option-en"
+- tapOn:
+    id: "lang-continue"
+# Reload: wait for the dev menu (dev builds) or the welcome tagline, after the JS splash.
+- extendedWaitUntil:
+    visible:
+      text: "This is the developer menu.*|.*جماعت کبھی.*|.*miss the jamaat.*"
+    timeout: 60000
+- extendedWaitUntil:
+    notVisible:
+      id: "js-splash"
+    timeout: 20000
+- runFlow: _dismiss-devmenu.yaml
+- assertVisible: "Never miss the jamaat at a masjid near you."
+- takeScreenshot: .maestro/out/welcome-en

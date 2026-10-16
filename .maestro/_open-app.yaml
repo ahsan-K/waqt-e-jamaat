@@ -1,0 +1,22 @@
+# Shared: fresh launch of the dev build pointed at local Metro, dev-menu onboarding dismissed.
+appId: com.ahsan.waqtejamaat
+---
+- launchApp:
+    clearState: true
+    stopApp: true
+- openLink: "exp+waqt-e-jamaat://expo-development-client/?url=http%3A%2F%2F127.0.0.1%3A8081&__expo_disable_onboarding=1&__expo_disable_fab=1"
+- extendedWaitUntil:
+    visible:
+      text: "Continue|Waqt-e-Jamaat.*|وقتِ جماعت|Development Build"
+    timeout: 60000
+# Android dev launcher may ignore the link: pick the running server.
+- runFlow:
+    when:
+      visible: "Development Build"
+    commands:
+      - tapOn: "http://.*:8081"
+- extendedWaitUntil:
+    visible:
+      text: "Continue|Close|.*Jamaat.*|.*جماعت.*"
+    timeout: 90000
+- runFlow: _dismiss-devmenu.yaml

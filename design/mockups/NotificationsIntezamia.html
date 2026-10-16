@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Intezamia notifications</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0F5C4A}a:hover{color:#0A4235}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #F6F4EE; font-family: 'Manrope', 'Segoe UI', sans-serif; color: #14201C; box-sizing: border-box; padding: 16px 20px 0; display: flex; flex-direction: column; gap: 14px">
+
+<div style="display: flex; align-items: center; justify-content: space-between">
+<a href="{{backHref}}" aria-label="Wapas" style="width: 44px; height: 44px; border-radius: 22px; background: rgba(255, 255, 255, 0.7); border: 1px solid #E4E1D7; display: flex; align-items: center; justify-content: center">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#14201C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+</a>
+<button type="button" onClick="{{markAll}}" disabled="{{allRead}}" style="min-height: 40px; padding: 0 14px; border: none; border-radius: 20px; background: {{markBg}}; color: {{markColor}}; font-family: inherit; font-size: 13px; font-weight: 800; cursor: pointer">Sab parh liye</button>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-size: 28px; font-weight: 800; letter-spacing: -0.02em">Notifications</h1>
+<p style="margin: 0; font-size: 13px; font-weight: 600; color: #5B6660">{{unreadLabel}}</p>
+</div>
+
+<div style="display: flex; gap: 8px">
+<sc-for list="{{filters}}" as="f" hint-placeholder-count="3">
+<button type="button" onClick="{{f.pick}}" aria-pressed="{{f.on}}" style="min-height: 40px; padding: 0 14px; border-radius: 20px; border: 1.5px solid {{f.border}}; background: {{f.bg}}; color: {{f.color}}; font-family: inherit; font-size: 13px; font-weight: 800; cursor: pointer">{{f.label}}</button>
+</sc-for>
+</div>
+
+<sc-if value="{{isEmpty}}" hint-placeholder-val="{{false}}">
+<div style="margin-top: 40px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; padding: 0 20px">
+<span style="width: 72px; height: 72px; border-radius: 36px; background: #E3EFEA; display: flex; align-items: center; justify-content: center">
+<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0F5C4A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"></path><path d="M10 21h4"></path></svg>
+</span>
+<h2 style="margin: 0; font-size: 18px; font-weight: 800">Koi notification nahi</h2>
+<p style="margin: 0; font-size: 13px; line-height: 1.5; font-weight: 500; color: #5B6660">{{emptyText}}</p>
+</div>
+</sc-if>
+
+<div style="display: flex; flex-direction: column; gap: 14px">
+<sc-for list="{{groups}}" as="g" hint-placeholder-count="2">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="padding: 0 4px; font-size: 12px; font-weight: 800; color: #5B6660; text-transform: uppercase; letter-spacing: 0.06em">{{g.label}}</span>
+<div style="background: #FFFFFF; border: 1px solid #E4E1D7; border-radius: 24px; padding: 2px 6px; display: flex; flex-direction: column">
+<sc-for list="{{g.items}}" as="n" hint-placeholder-count="2">
+<a href="{{n.href}}" onClick="{{n.read}}" style="display: flex; align-items: flex-start; gap: 12px; padding: 12px 8px; border-bottom: {{n.border}}; text-decoration: none; color: #14201C">
+<span style="width: 40px; height: 40px; border-radius: 20px; background: {{n.iconBg}}; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{n.iconColor}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{n.icon}}"></path></svg>
+</span>
+<span style="flex: 1; display: flex; flex-direction: column; gap: 3px; min-width: 0">
+<span style="font-size: 14px; line-height: 1.35; font-weight: {{n.weight}}">{{n.title}}</span>
+<span style="font-size: 12px; line-height: 1.45; font-weight: 500; color: #5B6660">{{n.body}}</span>
+<span style="font-size: 11px; font-weight: 700; color: #7A847F">{{n.time}}</span>
+</span>
+<sc-if value="{{n.unread}}" hint-placeholder-val="{{true}}">
+<span aria-label="Naya" style="width: 10px; height: 10px; margin-top: 6px; border-radius: 5px; background: #B86B1E; flex-shrink: 0"></span>
+</sc-if>
+</a>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const ROLE = 'intezamia';
+    const s = this.state || {};
+    const ICON = {
+      change: 'M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18zM12 7v5l3 2',
+      reminder: 'M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 21h4',
+      added: 'M5 12.5l4.5 4.5L19 7.5',
+      special: 'M3 5h18v16H3zM3 10h18M8 3v4M16 3v4',
+      report: 'M12 3l9 16H3zM12 10v4M12 17v.5',
+      approved: 'M12 3l7 3v5c0 4.5-3 8-7 10c-4-2-7-5.5-7-10V6zM9 12l2 2 4-4'
+    };
+    const STYLE = {
+      change: ['#FBEBD6', '#8A4B0F'], reminder: ['#E3EFEA', '#0F5C4A'], added: ['#E3EFEA', '#0F5C4A'],
+      special: ['#F0EEE7', '#3E4A45'], report: ['#FDE8E6', '#B42318'], approved: ['#E3EFEA', '#0F5C4A']
+    };
+    const data = ROLE === 'namazi' ? {
+      back: 'Main.dc.html',
+      filters: [['all', 'Sab'], ['change', 'Timing changes'], ['reminder', 'Reminders']],
+      empty: 'Jab aapki masjidon ki timings badlengi ya reminder ka waqt hoga, yahan nazar aayega.',
+      items: [
+        { id: 1, g: 'Aaj', type: 'reminder', title: 'Asr ki jamaat 10 min mein', body: 'Jamia Masjid Al-Falah · 1.0 km', time: '35 min pehle', href: 'Detail.dc.html', unread: true },
+        { id: 2, g: 'Aaj', type: 'change', title: 'Masjid-e-Noor: Isha ka waqt badal raha hai', body: '6 Nov se Isha ki jamaat 8:00 ki bajaye 7:45 par hogi', time: '2 ghante pehle', href: 'Detail.dc.html', unread: true },
+        { id: 3, g: 'Kal', type: 'added', title: 'Masjid-e-Quba ne timings add kar di hain', body: 'Aapki darkhwast par. Ab aap reminder laga sakte hain.', time: 'Kal, 9:10 PM', href: 'Detail.dc.html', unread: false },
+        { id: 4, g: 'Is hafte', type: 'special', title: 'Eid-ul-Fitr ki tareekh confirm', body: 'Masjid-e-Noor · pehli jamaat 7:00, doosri 8:00', time: '3 din pehle', href: 'Detail.dc.html', unread: false, filter: 'change' },
+        { id: 5, g: 'Is hafte', type: 'change', title: "Jumu'ah ka khutba ab 1:15 par", body: 'Jamia Masjid Al-Falah · agle Juma se', time: '5 din pehle', href: 'Detail.dc.html', unread: false }
+      ]
+    } : {
+      back: 'Dashboard.dc.html',
+      filters: [['all', 'Sab'], ['reminder', 'Reminders'], ['report', 'Reports']],
+      empty: 'Reminders, namaziyon ki reports aur darkhwastein yahan nazar aayengi.',
+      items: [
+        { id: 1, g: 'Aaj', type: 'reminder', title: 'Kal Eid-ul-Fitr hai', body: 'Timings confirm karein ya badlein. Pehli jamaat 7:00 · Doosri 8:00', time: '1 ghanta pehle', href: 'Dashboard.dc.html', unread: true },
+        { id: 2, g: 'Aaj', type: 'report', title: '3 namaziyon ne Isha ka waqt ghalat bataya', body: 'Unke mutabiq jamaat 7:45 par ho rahi hai, app mein 8:00 hai', time: '3 ghante pehle', href: 'ScheduleDailyEdit.dc.html', unread: true },
+        { id: 3, g: 'Kal', type: 'report', title: 'Timing board ki nayi photo', body: 'Ek namazi ne board ki photo bheji hai, check kar ke timings update karein', time: 'Kal, 6:40 PM', href: 'Schedule.dc.html', unread: true },
+        { id: 4, g: 'Is hafte', type: 'reminder', title: 'Kal Jumu\u2019ah hai', body: 'Khutba 1:00 · Jamaat 1:30. Koi tabdeeli?', time: '6 din pehle', href: 'ScheduleSpecial.dc.html', unread: false },
+        { id: 5, g: 'Is hafte', type: 'approved', title: 'Masjid-e-Noor approve ho gayi', body: 'Aapki masjid ab map par namaziyon ko nazar aa rahi hai', time: '6 din pehle', href: 'Dashboard.dc.html', unread: false, filter: 'all' }
+      ]
+    };
+    const read = s.read || {};
+    const filter = s.filter || 'all';
+    const isUnread = (it) => it.unread && !read[it.id] && !s.allRead;
+    const visible = data.items.filter((it) => filter === 'all' || (it.filter || it.type) === filter);
+    const order = [];
+    visible.forEach((it) => { if (order.indexOf(it.g) < 0) order.push(it.g); });
+    const groups = order.map((g) => {
+      const list = visible.filter((it) => it.g === g);
+      return {
+        label: g,
+        items: list.map((it, i) => ({
+          title: it.title, body: it.body, time: it.time, href: it.href,
+          unread: isUnread(it), weight: isUnread(it) ? 800 : 600,
+          icon: ICON[it.type], iconBg: STYLE[it.type][0], iconColor: STYLE[it.type][1],
+          border: i === list.length - 1 ? 'none' : '1px solid #ECEAE3',
+          read: () => this.setState({ read: Object.assign({}, read, { [it.id]: true }) })
+        }))
+      };
+    });
+    const unreadCount = data.items.filter(isUnread).length;
+    const filters = data.filters.map((f) => {
+      const on = f[0] === filter;
+      return { label: f[1], on: on, border: on ? '#0F5C4A' : '#DAD6CB', bg: on ? '#0F5C4A' : '#FFFFFF', color: on ? '#FFFFFF' : '#14201C', pick: () => this.setState({ filter: f[0] }) };
+    });
+    return {
+      backHref: data.back,
+      groups: groups, filters: filters,
+      isEmpty: visible.length === 0, emptyText: data.empty,
+      unreadLabel: unreadCount ? unreadCount + ' nayi notifications' : 'Sab parh li gayin',
+      allRead: unreadCount === 0,
+      markBg: unreadCount ? '#E3EFEA' : 'transparent',
+      markColor: unreadCount ? '#0F5C4A' : '#7A847F',
+      markAll: () => this.setState({ allRead: true })
+    };
+  }
+}
+</script>
+</body>
+</html>
