@@ -12,6 +12,7 @@ import { AppText } from '@/components/AppText';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Segmented } from '@/components/Pill';
+import { useKeyboardVisible } from '@/hooks/useKeyboardVisible';
 import { useNativeHeader } from '@/navigation/header';
 import {
   appleAvailable,
@@ -47,6 +48,7 @@ export default function NamaziAuth() {
   const [info, setInfo] = useState<string | null>(null);
   const [apple, setApple] = useState(false);
   const settings = useSettings();
+  const keyboardVisible = useKeyboardVisible();
 
   useEffect(() => {
     void appleAvailable().then(setApple);
@@ -279,19 +281,21 @@ export default function NamaziAuth() {
           )}
         </View>
       </ScrollView>
-      {/* Pinned to the bottom (mockup), outside the scroll content so it's always visible. */}
-      <View style={[styles.footer, { paddingBottom: insets.bottom + 8 }]}>
-        <Button
-          variant="ghost"
-          size="sm"
-          testID="continue-guest"
-          label={t('auth.continueGuest')}
-          onPress={() => {
-            settings.setOnboarded(true);
-            router.dismissTo('/map');
-          }}
-        />
-      </View>
+      {/* Pinned to the bottom (mockup); hidden while typing so it never covers the fields. */}
+      {!keyboardVisible && (
+        <View style={[styles.footer, { paddingBottom: insets.bottom + 8 }]}>
+          <Button
+            variant="ghost"
+            size="sm"
+            testID="continue-guest"
+            label={t('auth.continueGuest')}
+            onPress={() => {
+              settings.setOnboarded(true);
+              router.dismissTo('/map');
+            }}
+          />
+        </View>
+      )}
     </KeyboardAvoidingView>
   );
 }

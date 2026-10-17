@@ -2,6 +2,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import { QueryClient } from '@tanstack/react-query';
 
+import { firebaseConfig, useEmulator } from './firebase/config';
+
 /** RTDB reads cached in memory and persisted to AsyncStorage for offline use (PLAN §2). */
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -16,7 +18,8 @@ export const queryClient = new QueryClient({
 
 export const queryPersister = createAsyncStoragePersister({
   storage: AsyncStorage,
-  key: 'rq-cache-v1',
+  // Separate caches per backend so emulator data never shows up against the real project.
+  key: `rq-cache-v1:${useEmulator ? 'emulator' : firebaseConfig.projectId}`,
   throttleTime: 2000,
 });
 

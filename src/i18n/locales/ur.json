@@ -242,14 +242,17 @@
     "mgmtTitle": "کل {{name}} ہے",
     "mgmtBody": "اوقات کی تصدیق کریں یا بدلیں۔",
     "mgmtEidBody": "چاند کے اعلان کے بعد تاریخ اور اوقات کی تصدیق کریں۔",
-    "reportsTitle": "{{n}} نمازیوں نے {{prayer}} کا وقت غلط بتایا",
-    "reportsTitleGeneric": "{{n}} نئی اوقات کی رپورٹس",
-    "requestsTitle": "{{n}} نمازیوں نے اوقات کی درخواست کی",
     "requestsBody": "روزانہ اوقات شامل کریں تاکہ انہیں جماعت کا وقت نظر آئے۔",
     "approvedTitle": "{{name}} منظور ہو گئی",
     "approvedBody": "آپ کی مسجد اب نقشے پر نمازیوں کو نظر آ رہی ہے۔",
     "rejectedTitle": "{{name}} منظور نہیں ہوئی",
-    "rejectedBody": "تفصیلات چیک کریں یا ہم سے رابطہ کریں۔"
+    "rejectedBody": "تفصیلات چیک کریں یا ہم سے رابطہ کریں۔",
+    "reportsTitle_one": "{{n}} نمازی نے {{prayer}} کا وقت غلط بتایا",
+    "reportsTitle_other": "{{n}} نمازیوں نے {{prayer}} کا وقت غلط بتایا",
+    "requestsTitle_one": "{{n}} نمازی نے اوقات کی درخواست کی",
+    "requestsTitle_other": "{{n}} نمازیوں نے اوقات کی درخواست کی",
+    "reportsTitleGeneric_one": "{{n}} نئی اوقات کی رپورٹ",
+    "reportsTitleGeneric_other": "{{n}} نئی اوقات کی رپورٹس"
   },
   "report": {
     "title": "غلط وقت رپورٹ کریں",

@@ -242,14 +242,17 @@
     "mgmtTitle": "Kal {{name}} hai",
     "mgmtBody": "Timings confirm karein ya badlein.",
     "mgmtEidBody": "Chaand ke elaan ke baad tareekh aur timings confirm karein.",
-    "reportsTitle": "{{n}} namaziyon ne {{prayer}} ka waqt ghalat bataya",
-    "reportsTitleGeneric": "{{n}} nayi timing reports",
-    "requestsTitle": "{{n}} namaziyon ne timings ki darkhwast ki",
     "requestsBody": "Rozana timings add karein taake unhein jamaat ka waqt nazar aaye.",
     "approvedTitle": "{{name}} approve ho gayi",
     "approvedBody": "Aapki masjid ab map par namaziyon ko nazar aa rahi hai.",
     "rejectedTitle": "{{name}} approve nahi hui",
-    "rejectedBody": "Details check karein ya humse rabta karein."
+    "rejectedBody": "Details check karein ya humse rabta karein.",
+    "reportsTitle_one": "{{n}} namazi ne {{prayer}} ka waqt ghalat bataya",
+    "reportsTitle_other": "{{n}} namaziyon ne {{prayer}} ka waqt ghalat bataya",
+    "requestsTitle_one": "{{n}} namazi ne timings ki darkhwast ki",
+    "requestsTitle_other": "{{n}} namaziyon ne timings ki darkhwast ki",
+    "reportsTitleGeneric_one": "{{n}} nayi timing report",
+    "reportsTitleGeneric_other": "{{n}} nayi timing reports"
   },
   "report": {
     "title": "Ghalat waqt report karein",

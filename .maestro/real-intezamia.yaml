@@ -1,0 +1,56 @@
+# Real-backend E2E (intezamia): log in → dashboard counters from real namazi activity →
+# report notification → schedule Isha +5 from tomorrow. Pass -e EMAIL=... -e PASSWORD=...
+appId: com.ahsan.waqtejamaat
+---
+- runFlow: _open-app.yaml
+- extendedWaitUntil:
+    visible:
+      id: "welcome-intezamia"
+    timeout: 60000
+- tapOn:
+    id: "welcome-intezamia"
+- tapOn:
+    id: "iz-email"
+- inputText: ${EMAIL}
+- tapOn: "Log in"
+- tapOn:
+    id: "iz-password"
+- inputText: ${PASSWORD}
+- tapOn: "Log in"
+- tapOn:
+    id: "iz-login"
+- extendedWaitUntil:
+    visible:
+      text: "Save Password.*|Approved.*"
+    timeout: 30000
+- runFlow:
+    when:
+      visible: "Save Password.*"
+    commands:
+      - tapOn: "Not Now"
+- extendedWaitUntil:
+    visible:
+      id: "status-approved"
+    timeout: 20000
+- takeScreenshot: .maestro/out/real-dashboard
+- tapOn:
+    id: "dash-bell"
+- extendedWaitUntil:
+    visible: ".*reported Isha time as wrong.*"
+    timeout: 20000
+- takeScreenshot: .maestro/out/real-iz-notifications
+- runFlow: _go-back.yaml
+- tapOn: "Schedule"
+- tapOn:
+    id: "edit-isha"
+- tapOn:
+    id: "jamaat-plus"
+- tapOn:
+    id: "when-tomorrow"
+- tapOn:
+    id: "daily-save"
+- extendedWaitUntil:
+    visible:
+      id: "toast"
+    timeout: 15000
+- takeScreenshot: .maestro/out/real-schedule

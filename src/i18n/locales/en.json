@@ -242,14 +242,17 @@
     "mgmtTitle": "Tomorrow is {{name}}",
     "mgmtBody": "Confirm or change the timings.",
     "mgmtEidBody": "Confirm the date after the moon announcement, and the timings.",
-    "reportsTitle": "{{n}} namazis reported {{prayer}} time as wrong",
-    "reportsTitleGeneric": "{{n}} new timing reports",
-    "requestsTitle": "{{n}} namazis asked for timings",
     "requestsBody": "Add daily timings so they can see jamaat times.",
     "approvedTitle": "{{name}} is approved",
     "approvedBody": "Your masjid is now visible to namazis on the map.",
     "rejectedTitle": "{{name}} wasn't approved",
-    "rejectedBody": "Please check the details or contact us."
+    "rejectedBody": "Please check the details or contact us.",
+    "reportsTitle_one": "{{n}} namazi reported {{prayer}} time as wrong",
+    "reportsTitle_other": "{{n}} namazis reported {{prayer}} time as wrong",
+    "requestsTitle_one": "{{n}} namazi asked for timings",
+    "requestsTitle_other": "{{n}} namazis asked for timings",
+    "reportsTitleGeneric_one": "{{n}} new timing report",
+    "reportsTitleGeneric_other": "{{n}} new timing reports"
   },
   "report": {
     "title": "Report wrong time",

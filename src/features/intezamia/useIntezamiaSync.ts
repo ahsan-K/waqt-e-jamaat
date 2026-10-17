@@ -96,8 +96,12 @@ export function useIntezamiaSync() {
         at: latest,
         title:
           prayer === '_'
-            ? t('notif.reportsTitleGeneric', { n })
-            : t('notif.reportsTitle', { n, prayer: t(`prayer.${prayer as PrayerKey}`) }),
+            ? t('notif.reportsTitleGeneric', { count: rows.length, n })
+            : t('notif.reportsTitle', {
+                count: rows.length,
+                n,
+                prayer: t(`prayer.${prayer as PrayerKey}`),
+              }),
         body: rows
           .map((r) => r.note)
           .filter(Boolean)
@@ -111,7 +115,10 @@ export function useIntezamiaSync() {
         id: `request:${requests.length}`,
         type: 'request',
         at: Math.max(...requests.map((r) => r.at || 0)),
-        title: t('notif.requestsTitle', { n: localizeDigits(requests.length, language) }),
+        title: t('notif.requestsTitle', {
+          count: requests.length,
+          n: localizeDigits(requests.length, language),
+        }),
         body: t('notif.requestsBody'),
         route: '/schedule',
       });

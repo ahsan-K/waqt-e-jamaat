@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "demo-waqt-e-jamaat"
+    "default": "demo-waqt-e-jamaat",
+    "prod": "waqt-e-jamaat"
   }
 }

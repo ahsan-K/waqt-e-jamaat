@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Modal, Pressable, StyleSheet, View } from 'react-native';
+import { KeyboardAvoidingView, Modal, Platform, Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AppText } from '@/components/AppText';
@@ -36,7 +36,11 @@ export function ReportSheet({ visible, onClose, onSubmit }: Props) {
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={close}>
       <Pressable style={styles.backdrop} onPress={close} accessibilityLabel={t('common.close')} />
-      <View style={[styles.wrap, { paddingBottom: insets.bottom + 10 }]} pointerEvents="box-none">
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={[styles.wrap, { paddingBottom: insets.bottom + 10 }]}
+        pointerEvents="box-none"
+      >
         <Glass style={styles.sheet}>
           <AppText size={20} weight="extrabold" accessibilityRole="header">
             {t('report.title')}
@@ -90,7 +94,7 @@ export function ReportSheet({ visible, onClose, onSubmit }: Props) {
             </>
           )}
         </Glass>
-      </View>
+      </KeyboardAvoidingView>
     </Modal>
   );
 }

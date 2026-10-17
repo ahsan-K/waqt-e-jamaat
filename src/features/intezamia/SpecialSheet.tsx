@@ -1,6 +1,14 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Modal,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AppText } from '@/components/AppText';
@@ -49,9 +57,13 @@ export function SpecialSheet(props: Props) {
         onPress={props.onClose}
         accessibilityLabel={t('common.close')}
       />
-      <View style={[styles.wrap, { paddingBottom: insets.bottom + 10 }]} pointerEvents="box-none">
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={[styles.wrap, { paddingBottom: insets.bottom + 10 }]}
+        pointerEvents="box-none"
+      >
         <Body {...props} initial={props.initial} />
-      </View>
+      </KeyboardAvoidingView>
     </Modal>
   );
 }

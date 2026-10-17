@@ -44,6 +44,7 @@ appId: com.ahsan.waqtejamaat
 - tapOn:
     id: "auth-email"
 - inputText: ${output.email}
+- tapOn: "Namazi account"
 - tapOn:
     id: "auth-password"
 - inputText: "secret123"

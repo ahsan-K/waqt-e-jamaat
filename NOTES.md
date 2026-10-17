@@ -61,6 +61,20 @@ See `.env.example` and FIREBASE_SETUP.md. Summary:
 
 ## Status / resume point
 
+- **Now running against the real Firebase project `waqt-e-jamaat`** (`.env`: `EXPO_PUBLIC_USE_FIREBASE_EMULATOR=false`).
+  Rules deployed with `firebase deploy --only database --project prod`. Switch back to the
+  emulator by setting it to `true` (and restart Metro with `--clear`); the React Query cache is
+  kept per backend so data doesn't mix.
+- Real E2E (2026-10-17): masjid registered from the app (Android) → approved via CLI → namazi on
+  iOS: map, detail, login, reminder, confirm, report → intezamia: dashboard counters, report
+  notification, Isha change → namazi gets the change alert. Flows: `.maestro/real-namazi.yaml`,
+  `.maestro/real-intezamia.yaml` (pass `-e EMAIL=... [-e PASSWORD=...]`).
+- Test data left in the real project: masjid "Masjid-e-Naya" (`-P4A6JI5-1zaaCbsd3un`, approved),
+  its intezamia account, three `namazi.e2e.*@example.com` accounts and a couple of anonymous
+  users. Delete them from the console before launch.
+- Approving without a service account: `firebase database:update / approve.json --project prod`
+  with `{"masjids/<id>/status":"approved","geo/<id>":{g,lat,lng,hasTimings}}`.
+
 - All phases 1–7 done and committed. Phase 7 prepared everything repo-side (store listings in
   `store/`, privacy policy draft, EAS build/submit config, RELEASE.md); TestFlight / Play internal
   uploads need the owner's Apple / Google / Expo accounts (see RELEASE.md).

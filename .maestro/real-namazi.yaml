@@ -1,0 +1,110 @@
+# Real-backend E2E (namazi): approved masjid near the device → detail → log in → reminder,
+# confirm, report → My masjids. Pass the account with: -e EMAIL=... (password secret123).
+appId: com.ahsan.waqtejamaat
+---
+- runFlow: _open-app.yaml
+- extendedWaitUntil:
+    visible:
+      id: "welcome-namazi"
+    timeout: 60000
+- tapOn:
+    id: "welcome-namazi"
+- extendedWaitUntil:
+    visible:
+      text: "Allow While Using App|While using the app|.*masjid.*"
+    timeout: 20000
+- runFlow: _allow-location.yaml
+- extendedWaitUntil:
+    visible:
+      id: "nearby--.*"
+    timeout: 30000
+- takeScreenshot: .maestro/out/real-map
+- tapOn:
+    id: "nearby--.*"
+- extendedWaitUntil:
+    visible:
+      id: "next-card"
+    timeout: 20000
+- tapOn:
+    id: "remind-btn"
+- tapOn:
+    id: "gate-cta"
+- tapOn:
+    id: "tab-login"
+- tapOn:
+    id: "auth-email"
+- inputText: ${EMAIL}
+- tapOn: "Namazi account"
+- tapOn:
+    id: "auth-password"
+- inputText: "secret123"
+- tapOn: "Namazi account"
+- tapOn:
+    id: "auth-submit"
+- waitForAnimationToEnd
+# The first tap can just end editing; tap again if we're still on the form.
+- runFlow:
+    when:
+      visible:
+        id: "auth-submit"
+    commands:
+      - tapOn:
+          id: "auth-submit"
+- extendedWaitUntil:
+    visible:
+      text: "Save Password.*|Set reminder|Reminder on"
+    timeout: 30000
+- runFlow:
+    when:
+      visible: "Save Password.*"
+    commands:
+      - tapOn: "Not Now"
+- extendedWaitUntil:
+    visible:
+      id: "remind-btn"
+    timeout: 20000
+- tapOn:
+    id: "remind-btn"
+# First reminder → the OS notification permission prompt (asked only now, per PLAN §11).
+- extendedWaitUntil:
+    visible:
+      text: ".*Would Like to Send You Notifications|Reminder on"
+    timeout: 15000
+- runFlow:
+    when:
+      visible: ".*Would Like to Send You Notifications"
+    commands:
+      - tapOn:
+          text: "Allow"
+          optional: true
+- extendedWaitUntil:
+    visible: "Reminder on"
+    timeout: 15000
+- tapOn:
+    id: "confirm-btn"
+- extendedWaitUntil:
+    visible: "Thanks"
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      text: "Time wrong.*"
+- tapOn: "Time wrong.*"
+- tapOn: "Isha"
+- tapOn:
+    id: "report-note"
+- inputText: "Jamaat 8:15 par hui"
+- tapOn: "Report wrong time"
+- tapOn:
+    id: "report-send"
+- extendedWaitUntil:
+    visible: "Thanks — the masjid will be told."
+    timeout: 15000
+- tapOn: "Done"
+- takeScreenshot: .maestro/out/real-detail
+- runFlow: _go-back.yaml
+- tapOn: "My masjids"
+- extendedWaitUntil:
+    visible:
+      id: "fav--.*"
+    timeout: 15000
+- takeScreenshot: .maestro/out/real-favourites

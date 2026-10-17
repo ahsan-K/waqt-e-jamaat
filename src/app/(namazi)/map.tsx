@@ -43,8 +43,11 @@ export default function MapScreen() {
   const queryRadius = useDebounced(radiusKm, 300);
   const loc = useUserLocation();
   const [searchOrigin, setSearchOrigin] = useState<LatLng | null>(null);
+  // Centre on the user's own location; fall back to Karachi only when location is denied /
+  // unavailable (never while the first fix is still on its way).
+  const locationOff = loc.status === 'denied' || loc.status === 'unavailable';
   const origin: LatLng | null =
-    searchOrigin ?? loc.location ?? (loc.status === 'loading' ? null : DEFAULT_CENTER);
+    searchOrigin ?? loc.location ?? (locationOff ? DEFAULT_CENTER : null);
   const [region, setRegion] = useState<MapRegion | null>(null);
   const [query, setQuery] = useState('');
   const [searchFailed, setSearchFailed] = useState(false);
@@ -63,6 +66,15 @@ export default function MapScreen() {
 
   const fit = (center: LatLng, r: number) =>
     mapRef.current?.animateToRegion(regionForRadius(center, r), 400);
+
+  // When the user's location (re)arrives, move the map so the radius circle is on screen.
+  const userLat = loc.location?.lat;
+  const userLng = loc.location?.lng;
+  useEffect(() => {
+    if (searchOrigin || userLat === undefined || userLng === undefined) return;
+    mapRef.current?.animateToRegion(regionForRadius({ lat: userLat, lng: userLng }, radiusKm), 400);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only on new location fixes
+  }, [userLat, userLng, searchOrigin]);
 
   const onRadius = (v: number) => {
     setRadiusKm(v);
