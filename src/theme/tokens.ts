@@ -18,7 +18,7 @@ export const colors = {
   pinGrey: '#8A938E',
   white: '#FFFFFF',
   glassLight: 'rgba(255,255,255,0.72)',
-  glassLightFallback: 'rgba(255,255,255,0.9)',
+  glassLightFallback: 'rgba(250,251,250,0.94)',
   glassOnPrimary: 'rgba(255,255,255,0.16)',
   glassOnPrimaryBorder: 'rgba(255,255,255,0.32)',
   overlay: 'rgba(20,32,28,0.35)',

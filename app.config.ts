@@ -7,7 +7,9 @@ const BUNDLE_ID = 'com.ahsan.waqtejamaat';
 const IOS_GOOGLE_SERVICES = process.env.GOOGLE_SERVICES_PLIST ?? './GoogleService-Info.plist';
 const ANDROID_GOOGLE_SERVICES = process.env.GOOGLE_SERVICES_JSON ?? './google-services.json';
 const GOOGLE_IOS_URL_SCHEME = process.env.GOOGLE_IOS_URL_SCHEME;
-const GOOGLE_MAPS_IOS_API_KEY = process.env.GOOGLE_MAPS_IOS_API_KEY;
+// iOS uses Apple Maps for now; set USE_GOOGLE_MAPS_IOS=true to link the Google Maps SDK again.
+const GOOGLE_MAPS_IOS_API_KEY =
+  process.env.USE_GOOGLE_MAPS_IOS === 'true' ? process.env.GOOGLE_MAPS_IOS_API_KEY : undefined;
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,

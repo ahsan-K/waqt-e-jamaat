@@ -2,7 +2,7 @@ import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, TextInput, View } from 'react-native';
+import { Dimensions, PixelRatio, Platform, StyleSheet, TextInput, View } from 'react-native';
 import MapView, { Circle, Marker } from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -25,7 +25,8 @@ import { useLanguage } from '@/i18n/useLanguage';
 import { useDebounced } from '@/hooks/useDebounced';
 import { useNow } from '@/hooks/useNow';
 import { localizeDigits } from '@/lib/digits';
-import { distanceKm, regionForRadius } from '@/lib/geo';
+import { circleBounds, distanceKm, regionForRadius } from '@/lib/geo';
+import { tabBarSpace } from '@/navigation/FloatingTabBar';
 import { useLastLocation } from '@/store/location';
 import { useSettings } from '@/store/settings';
 import { colors, radii, TOUCH } from '@/theme/tokens';
@@ -83,15 +84,41 @@ export default function MapScreen() {
     return () => clearTimeout(t);
   }, [markerKey]);
 
-  const fit = (center: LatLng, r: number) =>
-    mapRef.current?.animateToRegion(regionForRadius(center, r), 400);
+  // Heights of the floating UI over the map; the circle is fitted into the space between them.
+  const [overlay, setOverlay] = useState({ top: 0, bottom: 0 });
+  const fit = (center: LatLng, r: number, animated = true) => {
+    const { height } = Dimensions.get('window');
+    // Android takes edge padding in physical pixels, iOS in points.
+    const k = Platform.OS === 'android' ? PixelRatio.get() : 1;
+    const top = overlay.top || insets.top + 250;
+    const bottom = overlay.bottom || height * 0.3;
+    mapRef.current?.fitToCoordinates(
+      circleBounds(center, r).map((p) => ({ latitude: p.lat, longitude: p.lng })),
+      {
+        edgePadding: {
+          top: (top + 12) * k,
+          bottom: (bottom + 12) * k,
+          left: 16 * k,
+          right: 16 * k,
+        },
+        animated,
+      },
+    );
+  };
+
+  // Re-fit once the real overlay heights are known (they're measured after the first frame).
+  useEffect(() => {
+    if (!overlay.top || !overlay.bottom || !origin) return;
+    fit(origin, radiusKm);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only when the overlays resize
+  }, [overlay.top, overlay.bottom]);
 
   // When the user's location (re)arrives, move the map so the radius circle is on screen.
   const userLat = loc.location?.lat;
   const userLng = loc.location?.lng;
   useEffect(() => {
     if (searchOrigin || userLat === undefined || userLng === undefined) return;
-    mapRef.current?.animateToRegion(regionForRadius({ lat: userLat, lng: userLng }, radiusKm), 400);
+    fit({ lat: userLat, lng: userLng }, radiusKm);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- only on new location fixes
   }, [userLat, userLng, searchOrigin]);
 
@@ -145,12 +172,14 @@ export default function MapScreen() {
           style={StyleSheet.absoluteFill}
           initialRegion={regionForRadius(origin, radiusKm)}
           onRegionChangeComplete={setRegion}
-          onMapReady={() => setRegion(regionForRadius(origin, radiusKm))}
+          onMapReady={() => {
+            setRegion(regionForRadius(origin, radiusKm));
+            fit(origin, radiusKm, false);
+          }}
           showsUserLocation={loc.status === 'granted'}
           showsMyLocationButton={false}
           showsPointsOfInterests={false}
           toolbarEnabled={false}
-          mapPadding={{ top: 170, bottom: 300, left: 0, right: 0 }}
         >
           <Circle
             center={{ latitude: origin.lat, longitude: origin.lng }}
@@ -207,7 +236,13 @@ export default function MapScreen() {
         <View style={[StyleSheet.absoluteFill, { backgroundColor: colors.mapBase }]} />
       )}
 
-      <View style={[styles.top, { top: insets.top + 8 }]}>
+      <View
+        style={[styles.top, { top: insets.top + 8 }]}
+        onLayout={(e) => {
+          const h = insets.top + 8 + e.nativeEvent.layout.height;
+          setOverlay((o) => (Math.abs(o.top - h) > 4 ? { ...o, top: h } : o));
+        }}
+      >
         <View style={styles.searchRow}>
           <Touchable
             testID="map-back"
@@ -318,7 +353,13 @@ export default function MapScreen() {
         )}
       </View>
 
-      <View style={[styles.bottom, { bottom: insets.bottom + 8 }]}>
+      <View
+        style={[styles.bottom, { bottom: insets.bottom + 8 + tabBarSpace() }]}
+        onLayout={(e) => {
+          const h = insets.bottom + 8 + tabBarSpace() + e.nativeEvent.layout.height;
+          setOverlay((o) => (Math.abs(o.bottom - h) > 4 ? { ...o, bottom: h } : o));
+        }}
+      >
         <NearbySheet
           items={visible}
           radiusKm={radiusKm}

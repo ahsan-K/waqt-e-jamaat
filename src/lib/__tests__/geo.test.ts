@@ -60,3 +60,12 @@ describe('directionsUrls', () => {
     ]);
   });
 });
+
+describe('circleBounds', () => {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { circleBounds, distanceKm: d } = require('../geo') as typeof import('../geo');
+  it('returns points ~radius away in each direction', () => {
+    const c = { lat: 24.86, lng: 67.0 };
+    for (const p of circleBounds(c, 2)) expect(Math.abs(d(c, p) - 2)).toBeLessThan(0.02);
+  });
+});

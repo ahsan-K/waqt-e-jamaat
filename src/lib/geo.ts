@@ -59,3 +59,15 @@ export function regionForRadius(center: LatLng, radiusKm: number, padding = 1.25
     longitudeDelta: lngDelta,
   };
 }
+
+/** North / south / east / west points of a circle — fit these to show the whole radius. */
+export function circleBounds(center: LatLng, radiusKm: number): LatLng[] {
+  const dLat = radiusKm / 110.574;
+  const dLng = radiusKm / (111.32 * Math.max(0.2, Math.cos((center.lat * Math.PI) / 180)));
+  return [
+    { lat: center.lat + dLat, lng: center.lng },
+    { lat: center.lat - dLat, lng: center.lng },
+    { lat: center.lat, lng: center.lng + dLng },
+    { lat: center.lat, lng: center.lng - dLng },
+  ];
+}

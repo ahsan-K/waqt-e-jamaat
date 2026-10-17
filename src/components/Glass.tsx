@@ -83,15 +83,19 @@ export function Glass({ children, style, variant = 'light', interactive }: Props
     );
   }
 
+  // Android / Reduce Transparency: no backdrop blur (Android can't blur a Google Map surface),
+  // so fake frosted glass — high-opacity white, bright rim and a thin top highlight.
   return (
     <View
       style={[
         styles.clip,
         border,
+        onPrimary ? null : styles.frostRim,
         { backgroundColor: onPrimary ? colors.glassOnPrimary : colors.glassLightFallback },
         style,
       ]}
     >
+      {!onPrimary && <View pointerEvents="none" style={styles.frostHighlight} />}
       {children}
     </View>
   );
@@ -99,4 +103,13 @@ export function Glass({ children, style, variant = 'light', interactive }: Props
 
 const styles = StyleSheet.create({
   clip: { overflow: 'hidden' },
+  frostRim: { borderColor: 'rgba(255,255,255,0.95)', borderWidth: 1 },
+  frostHighlight: {
+    position: 'absolute',
+    top: 0,
+    start: 0,
+    end: 0,
+    height: '45%',
+    backgroundColor: 'rgba(255,255,255,0.35)',
+  },
 });
