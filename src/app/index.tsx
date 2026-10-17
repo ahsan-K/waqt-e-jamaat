@@ -1,9 +1,14 @@
 import { Redirect } from 'expo-router';
 
+import { useAuth } from '@/features/auth/AuthProvider';
 import { useSettings } from '@/store/settings';
 
-/** Route guard: first launch → welcome; afterwards → map. Role routing is added with auth. */
+/** Route guard (PLAN §7): first launch → welcome; intezamia → dashboard; namazi / guest → map. */
 export default function Index() {
   const onboarded = useSettings((s) => s.onboarded);
-  return <Redirect href={onboarded ? '/map' : '/welcome'} />;
+  const { profile, profileLoaded, isRegistered } = useAuth();
+  if (!onboarded) return <Redirect href="/welcome" />;
+  if (isRegistered && !profileLoaded) return null;
+  if (profile?.role === 'intezamia') return <Redirect href="/dashboard" />;
+  return <Redirect href="/map" />;
 }

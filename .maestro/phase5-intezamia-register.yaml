@@ -1,0 +1,66 @@
+# Phase 5: register a new masjid (3-step wizard) → submitted → dashboard shows "pending".
+# Run on Android (iOS simulator strong-password autofill interferes with typing new passwords).
+# The keyboard is dismissed (tap on the heading) after every field: with the keyboard open the
+# layout shifts and Maestro's next tap can miss the field.
+appId: com.ahsan.waqtejamaat
+---
+- runFlow: _open-app.yaml
+- extendedWaitUntil:
+    visible:
+      id: "welcome-intezamia"
+    timeout: 60000
+- tapOn:
+    id: "welcome-intezamia"
+- tapOn:
+    id: "iz-register"
+- tapOn:
+    id: "reg-password"
+- inputText: "secret1234"
+- tapOn: "Your details"
+- tapOn:
+    id: "reg-name"
+- inputText: "Hafiz Test"
+- tapOn: "Your details"
+- tapOn:
+    id: "reg-email"
+- inputRandomEmail
+- tapOn: "Your details"
+- tapOn:
+    id: "reg-next"
+- tapOn:
+    id: "reg-name-en"
+- inputText: "Masjid-e-Naya"
+- tapOn: "Masjid details"
+- tapOn:
+    id: "reg-address"
+- inputText: "Block 3, Karachi"
+- tapOn: "Masjid details"
+- tapOn:
+    id: "reg-use-location"
+- runFlow: _allow-location.yaml
+- extendedWaitUntil:
+    visible: "Coordinates: .*"
+    timeout: 15000
+- takeScreenshot: .maestro/out/register-step2
+- tapOn:
+    id: "reg-next"
+- extendedWaitUntil:
+    visible:
+      id: "reg-time-fajr"
+    timeout: 5000
+- takeScreenshot: .maestro/out/register-step3
+- tapOn:
+    id: "reg-next"
+- extendedWaitUntil:
+    visible:
+      id: "reg-dashboard"
+    timeout: 30000
+- tapOn:
+    id: "reg-dashboard"
+- extendedWaitUntil:
+    visible:
+      id: "status-pending"
+    timeout: 20000
+- assertVisible:
+    id: "pending-banner"
+- takeScreenshot: .maestro/out/dashboard-pending

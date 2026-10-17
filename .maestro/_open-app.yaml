@@ -32,3 +32,12 @@ appId: com.ahsan.waqtejamaat
       text: "Continue|Close|.*Jamaat.*|.*جماعت.*"
     timeout: 90000
 - runFlow: _dismiss-devmenu.yaml
+# Android dev builds: move the dev-client floating button away from header actions.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - swipe:
+          start: "90%, 9%"
+          end: "8%, 55%"
+          duration: 600

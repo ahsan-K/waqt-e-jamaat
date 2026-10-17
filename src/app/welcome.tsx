@@ -124,6 +124,7 @@ export default function Welcome() {
           iconColor={colors.accentText}
           title={t('welcome.intezamiaTitle')}
           body={t('welcome.intezamiaBody')}
+          testID="welcome-intezamia"
           onPress={() => go('/login')}
         />
         <Touchable

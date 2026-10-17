@@ -27,6 +27,9 @@ Living log of decisions not spelled out in PLAN.md, deviations, and things the o
 15. **Radius slider** is a custom gesture-handler component (no extra native dep), accessible as an adjustable control, mirrored in RTL.
 16. **Clustering** uses `supercluster` directly (react-native-map-clustering is unmaintained).
 17. **Map search:** first matches loaded masjid names, otherwise geocodes the text with `expo-location` and re-centres. A "Search this area" button appears when the map is panned outside the radius.
+18b. **Intezamia routes:** `/login`, `/register` (the 3-step wizard is one screen with internal steps + progress bar, so form state survives Back — PLAN §3 listed one file per step), `/dashboard` + `/schedule` as native tabs in `(intezamia)/(manage)`.
+18c. **Rozana edits:** "Foran" edits the active daily entry (and future entries that still had the old value); "Kal se" / "Tareekh se" add an entry from that day's start (copy of the times then in force). Older entries are pruned on save; expired one-off / ranged specials are removed when a special is saved. Azaan in registration step 3 is derived from the jamaat time using the typical gap; editable in Schedule.
+18d. **Management reminders** are local (19:00 the evening before; weekly every occurrence, daily range only before the first day, once before the date; next 30 days). Reports / timing requests are turned into inbox items live from RTDB.
 18a. **RTDB root ref:** `ref(db, '')` is invalid in Firebase JS 13 — multi-path updates use `ref(db)` (`dbRef('')`).
 18. **Routes `/masjid/[id]` deep-link:** `waqtejamaat://masjid/<id>`.
 19. **AlAdhan:** `GET /v1/calendar/{year}/{month}?latitude&longitude&method&school&timezonestring` (verified 2026-10-17). Cached per rounded coords (2 dp) + method + school + month in AsyncStorage; current + next month kept.
@@ -49,8 +52,8 @@ See `.env.example` and FIREBASE_SETUP.md. Summary:
 
 ## Status / resume point
 
-- Phases 1–4 done and committed; Maestro flows phase1–phase4 pass on the iOS 26.5 simulator
-  ("iPhone 17 Pro") and the Android emulator. Next: Phase 5 (Intezamia).
+- Phases 1–5 done and committed; Maestro flows pass on the iOS 26.5 simulator ("iPhone 17 Pro")
+  and the Android emulator (phase5 register wizard: Android only). Next: Phase 6 (rules tests, hardening).
 - Android Google Maps key is in `.env` but Google still answers "Authorization failure"
   (check Maps SDK for Android enabled, billing linked, and the restriction
   `com.ahsan.waqtejamaat` + debug SHA-1 `5E:8F:16:06:2E:A3:CD:2C:4A:0D:54:78:76:BA:A6:F3:8C:AB:F6:25`).

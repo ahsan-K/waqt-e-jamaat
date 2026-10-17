@@ -1,0 +1,83 @@
+# Phase 5: intezamia login → dashboard ("Kal" card) → Rozana edit (Kal se) → Special add → logout.
+appId: com.ahsan.waqtejamaat
+---
+- runFlow: _open-app.yaml
+- extendedWaitUntil:
+    visible:
+      id: "welcome-intezamia"
+    timeout: 60000
+- runScript: scripts/create-manager.js
+- tapOn:
+    id: "welcome-intezamia"
+- tapOn:
+    id: "iz-email"
+- inputText: ${output.email}
+- tapOn:
+    id: "iz-password"
+- inputText: "secret123"
+- tapOn: "Log in"
+- tapOn:
+    id: "iz-login"
+- extendedWaitUntil:
+    visible:
+      text: "Save Password.*|Masjid-e-Test"
+    timeout: 30000
+- runFlow:
+    when:
+      visible: "Save Password.*"
+    commands:
+      - tapOn: "Not Now"
+- extendedWaitUntil:
+    visible:
+      id: "status-approved"
+    timeout: 20000
+- assertVisible:
+    id: "kal-card"
+- takeScreenshot: .maestro/out/dashboard
+- tapOn:
+    id: "kal-yes"
+- extendedWaitUntil:
+    notVisible:
+      id: "kal-card"
+    timeout: 10000
+# Rozana: move Isha jamaat +5 from tomorrow.
+- tapOn: "Schedule"
+- tapOn:
+    id: "edit-isha"
+- tapOn:
+    id: "jamaat-plus"
+- tapOn:
+    id: "when-tomorrow"
+- takeScreenshot: .maestro/out/daily-edit
+- tapOn:
+    id: "daily-save"
+- extendedWaitUntil:
+    visible:
+      id: "toast"
+    timeout: 10000
+- assertVisible: ".*jamaat 8:05.*"
+- takeScreenshot: .maestro/out/schedule-daily
+# Special: add Taraweeh via the sheet.
+- tapOn:
+    id: "tab-special"
+- tapOn:
+    id: "add-special"
+- tapOn:
+    id: "type-taraweeh"
+- takeScreenshot: .maestro/out/special-add
+- scrollUntilVisible:
+    element:
+      id: "special-save"
+- tapOn:
+    id: "special-save"
+- extendedWaitUntil:
+    visible: "Taraweeh"
+    timeout: 10000
+- takeScreenshot: .maestro/out/schedule-special
+- tapOn: "Dashboard"
+- tapOn:
+    id: "dash-logout"
+- extendedWaitUntil:
+    visible:
+      id: "welcome-namazi"
+    timeout: 10000

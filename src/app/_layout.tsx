@@ -15,7 +15,6 @@ import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -23,6 +22,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { JsSplash } from '@/components/JsSplash';
 import { AuthProvider, useAuth } from '@/features/auth/AuthProvider';
+import { useIntezamiaSync } from '@/features/intezamia/useIntezamiaSync';
 import { useNamaziSync } from '@/features/notifications/useNamaziSync';
 import { ensureDirection } from '@/i18n/applyLanguage';
 import { listenForTaps } from '@/services/notifications';
@@ -38,6 +38,7 @@ const JS_SPLASH_MS = 1200;
 /** Background effects that need auth + providers (local notifications, inbox). */
 function AppEffects() {
   useNamaziSync();
+  useIntezamiaSync();
   useEffect(() => listenForTaps(), []);
   return null;
 }
@@ -91,6 +92,7 @@ function RootNavigator() {
       >
         <Stack.Screen name="language" options={{ presentation: 'card' }} />
         <Stack.Screen name="(namazi)" options={{ animation: 'fade' }} />
+        <Stack.Screen name="(intezamia)/(manage)" options={{ animation: 'fade' }} />
       </Stack>
       <AppEffects />
       {showJsSplash && <JsSplash />}
@@ -107,7 +109,6 @@ export default function RootLayout() {
           persistOptions={{ persister: queryPersister, maxAge: 7 * 24 * 60 * 60 * 1000 }}
         >
           <AuthProvider>
-            <StatusBar style="dark" />
             <RootNavigator />
           </AuthProvider>
         </PersistQueryClientProvider>
