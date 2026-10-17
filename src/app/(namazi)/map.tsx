@@ -45,7 +45,14 @@ export default function MapScreen() {
   const [searchOrigin, setSearchOrigin] = useState<LatLng | null>(null);
   // Centre on the user's own location; fall back to Karachi only when location is denied /
   // unavailable (never while the first fix is still on its way).
-  const locationOff = loc.status === 'denied' || loc.status === 'unavailable';
+  // Wait briefly for the first fix, then show the map anyway; it moves to the user when the fix lands.
+  const [waited, setWaited] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setWaited(true), 4000);
+    return () => clearTimeout(t);
+  }, []);
+  const locationOff =
+    loc.status === 'denied' || loc.status === 'unavailable' || loc.timedOut || waited;
   const origin: LatLng | null =
     searchOrigin ?? loc.location ?? (locationOff ? DEFAULT_CENTER : null);
   const [region, setRegion] = useState<MapRegion | null>(null);
@@ -63,6 +70,18 @@ export default function MapScreen() {
     [nearby.items, radiusKm],
   );
   const points = useMemo(() => (region ? clusterItems(visible, region) : []), [visible, region]);
+  // Google Maps snapshots custom marker views; let them render once (fonts, labels) before
+  // freezing, otherwise iOS shows an empty grey box and Android can drop the label.
+  const pointsKey = points
+    .map((p) => `${p.id}:${p.kind === 'masjid' ? (p.item.next?.time ?? '') : p.count}`)
+    .join('|');
+  const markerKey = `${pointsKey}#${language}`;
+  const [frozenKey, setFrozenKey] = useState<string | null>(null);
+  const trackMarkers = frozenKey !== markerKey;
+  useEffect(() => {
+    const t = setTimeout(() => setFrozenKey(markerKey), 800);
+    return () => clearTimeout(t);
+  }, [markerKey]);
 
   const fit = (center: LatLng, r: number) =>
     mapRef.current?.animateToRegion(regionForRadius(center, r), 400);
@@ -157,7 +176,7 @@ export default function MapScreen() {
                     350,
                   )
                 }
-                tracksViewChanges={false}
+                tracksViewChanges={trackMarkers}
               >
                 <MasjidPin estimated={false} count={p.count} />
               </Marker>
@@ -169,7 +188,7 @@ export default function MapScreen() {
                 anchor={{ x: 0.05, y: 0.5 }}
                 onPress={() => router.push({ pathname: '/masjid/[id]', params: { id: p.id } })}
                 accessibilityLabel={`${p.item.masjid ? masjidName(p.item.masjid, language) : ''}, ${formatKm(p.item.distanceKm, language, t)}`}
-                tracksViewChanges={false}
+                tracksViewChanges={trackMarkers}
               >
                 <MasjidPin
                   estimated={p.item.estimated}

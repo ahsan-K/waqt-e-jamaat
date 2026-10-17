@@ -16,6 +16,7 @@ export function useUserLocation() {
   const [status, setStatus] = useState<LocationStatus>('loading');
   const [location, setLocation] = useState<LatLng | null>(null);
   const [canAskAgain, setCanAskAgain] = useState(true);
+  const [timedOut, setTimedOut] = useState(false);
 
   const locate = useCallback(async (ask: boolean) => {
     try {
@@ -28,9 +29,17 @@ export function useUserLocation() {
         return null;
       }
       setStatus('granted');
-      const last = await Location.getLastKnownPositionAsync({ maxAge: 5 * 60 * 1000 });
+      const last = await Location.getLastKnownPositionAsync({ maxAge: 30 * 60 * 1000 });
       if (last) setLocation({ lat: last.coords.latitude, lng: last.coords.longitude });
-      const cur = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
+      // A first GPS fix can take a while (or never come on some simulators): don't wait forever.
+      const cur = await Promise.race([
+        Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced }),
+        new Promise<null>((r) => setTimeout(() => r(null), 15_000)),
+      ]);
+      if (!cur) {
+        setTimedOut(true);
+        return last ? { lat: last.coords.latitude, lng: last.coords.longitude } : null;
+      }
       const p = { lat: cur.coords.latitude, lng: cur.coords.longitude };
       setLocation(p);
       return p;
@@ -54,7 +63,24 @@ export function useUserLocation() {
     return locate(true);
   }, [canAskAgain, locate]);
 
-  return { status, location, canAskAgain, refresh: () => locate(false), requestAgain };
+  // Keep following the user so the radius circle moves with them (and late first fixes land).
+  useEffect(() => {
+    if (status !== 'granted') return;
+    let sub: Location.LocationSubscription | undefined;
+    let cancelled = false;
+    void Location.watchPositionAsync(
+      { accuracy: Location.Accuracy.Balanced, distanceInterval: 50 },
+      (pos) => setLocation({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+    )
+      .then((s) => (cancelled ? s.remove() : (sub = s)))
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+      sub?.remove();
+    };
+  }, [status]);
+
+  return { status, location, timedOut, canAskAgain, refresh: () => locate(false), requestAgain };
 }
 
 /** Area search via the platform geocoder (used sparingly: on submit only). */

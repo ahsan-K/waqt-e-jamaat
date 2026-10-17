@@ -80,6 +80,9 @@ See `.env.example` and FIREBASE_SETUP.md. Summary:
   uploads need the owner's Apple / Google / Expo accounts (see RELEASE.md).
 - Maestro flows pass on the iOS 26.5 simulator ("iPhone 17 Pro") and the Android emulator
   (phase5 register wizard: Android only).
+- **iOS now uses Google Maps** (iOS key set; SDK 9.4 linked). Tiles are blank on both platforms
+  until billing is linked. After changing Maps keys, rebuild the native app AND restart Metro
+  with `--clear` (the JS reads `extra.iosGoogleMaps` from the dev-server manifest).
 - Android map tiles don't load: Google rejects the key with **"You must enable Billing on the
   Google Cloud Project"** (checked via the Geocoding/Static Maps endpoints). Link a billing
   account to the key's project; keep the restriction `com.ahsan.waqtejamaat` + debug SHA-1
