@@ -179,19 +179,25 @@ export default function RegisterMasjid() {
         }}
       />
       <StatusBar style="dark" />
-      <View style={styles.progress} accessibilityElementsHidden importantForAccessibility="no">
-        {[1, 2, 3].map((i) => (
-          <View
-            key={i}
-            style={[styles.bar, { backgroundColor: step >= i ? colors.primary : '#DAD6CB' }]}
-          />
-        ))}
-      </View>
       <ScrollView
         ref={scrollRef}
         keyboardShouldPersistTaps="handled"
+        // Native header is translucent on iOS: inset the content below it, keep the bar sticky.
+        contentInsetAdjustmentBehavior="automatic"
+        stickyHeaderIndices={[0]}
         contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + 120 }]}
       >
+        {/* Sticky headers get wrapped by RN, so the row lives in an inner view. */}
+        <View style={styles.progress} accessibilityElementsHidden importantForAccessibility="no">
+          <View style={styles.progressRow}>
+            {[1, 2, 3].map((i) => (
+              <View
+                key={i}
+                style={[styles.bar, { backgroundColor: step >= i ? colors.primary : '#DAD6CB' }]}
+              />
+            ))}
+          </View>
+        </View>
         {step === 1 && (
           <>
             <View style={styles.heading}>
@@ -476,7 +482,13 @@ export default function RegisterMasjid() {
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.background },
-  progress: { flexDirection: 'row', gap: 6, paddingHorizontal: 24, paddingVertical: 8 },
+  progress: {
+    marginHorizontal: -24,
+    paddingHorizontal: 24,
+    paddingVertical: 8,
+    backgroundColor: colors.background,
+  },
+  progressRow: { flexDirection: 'row', gap: 6 },
   bar: { flex: 1, height: 4, borderRadius: 2 },
   content: { paddingHorizontal: 24, paddingTop: 8, gap: 14 },
   heading: { gap: 6, marginBottom: 4 },

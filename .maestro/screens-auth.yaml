@@ -1,0 +1,33 @@
+# Visual check of the auth-related screens (screenshots only).
+appId: com.ahsan.waqtejamaat
+---
+- runFlow: _open-app.yaml
+- extendedWaitUntil:
+    visible:
+      id: "welcome-namazi"
+    timeout: 60000
+- takeScreenshot: .maestro/out/s-welcome
+- tapOn: "Have a namazi account.*"
+- extendedWaitUntil:
+    visible:
+      id: "continue-guest"
+    timeout: 10000
+- takeScreenshot: .maestro/out/s-auth-login
+- tapOn:
+    id: "tab-register"
+- takeScreenshot: .maestro/out/s-auth-register
+- runFlow: _go-back.yaml
+- tapOn:
+    id: "welcome-intezamia"
+- extendedWaitUntil:
+    visible:
+      id: "iz-login"
+    timeout: 10000
+- takeScreenshot: .maestro/out/s-iz-login
+- tapOn:
+    id: "iz-register"
+- extendedWaitUntil:
+    visible:
+      id: "reg-next"
+    timeout: 10000
+- takeScreenshot: .maestro/out/s-iz-register

@@ -148,7 +148,7 @@ export default function NamaziAuth() {
       <StatusBar style="dark" />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + 20 }]}
+        contentContainerStyle={[styles.content, { paddingBottom: 20 }]}
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.heading}>
@@ -278,7 +278,9 @@ export default function NamaziAuth() {
             <Button variant="ghost" size="sm" label={t('auth.forgot')} onPress={onForgot} />
           )}
         </View>
-
+      </ScrollView>
+      {/* Pinned to the bottom (mockup), outside the scroll content so it's always visible. */}
+      <View style={[styles.footer, { paddingBottom: insets.bottom + 8 }]}>
         <Button
           variant="ghost"
           size="sm"
@@ -289,7 +291,7 @@ export default function NamaziAuth() {
             router.dismissTo('/map');
           }}
         />
-      </ScrollView>
+      </View>
     </KeyboardAvoidingView>
   );
 }
@@ -304,4 +306,5 @@ const styles = StyleSheet.create({
   divider: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   line: { flex: 1, height: 1, backgroundColor: '#DAD6CB' },
   flex: { flex: 1 },
+  footer: { alignItems: 'center', paddingTop: 4, backgroundColor: colors.background },
 });
