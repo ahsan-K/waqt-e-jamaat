@@ -71,3 +71,13 @@ export function circleBounds(center: LatLng, radiusKm: number): LatLng[] {
     { lat: center.lat, lng: center.lng - dLng },
   ];
 }
+
+/** Polygon approximating a circle (for map masks / holes). */
+export function circlePolygon(center: LatLng, radiusKm: number, steps = 72): LatLng[] {
+  const dLat = radiusKm / 110.574;
+  const dLng = radiusKm / (111.32 * Math.max(0.2, Math.cos((center.lat * Math.PI) / 180)));
+  return Array.from({ length: steps }, (_, i) => {
+    const a = (i / steps) * 2 * Math.PI;
+    return { lat: center.lat + dLat * Math.sin(a), lng: center.lng + dLng * Math.cos(a) };
+  });
+}

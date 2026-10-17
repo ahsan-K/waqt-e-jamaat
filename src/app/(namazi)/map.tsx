@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dimensions, PixelRatio, Platform, StyleSheet, TextInput, View } from 'react-native';
-import MapView, { Circle, Marker } from 'react-native-maps';
+import MapView, { Circle, Marker, Polygon } from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AppText } from '@/components/AppText';
@@ -25,7 +25,7 @@ import { useLanguage } from '@/i18n/useLanguage';
 import { useDebounced } from '@/hooks/useDebounced';
 import { useNow } from '@/hooks/useNow';
 import { localizeDigits } from '@/lib/digits';
-import { circleBounds, distanceKm, regionForRadius } from '@/lib/geo';
+import { circleBounds, circlePolygon, distanceKm, regionForRadius } from '@/lib/geo';
 import { tabBarSpace } from '@/navigation/FloatingTabBar';
 import { useLastLocation } from '@/store/location';
 import { useSettings } from '@/store/settings';
@@ -86,6 +86,25 @@ export default function MapScreen() {
 
   // Heights of the floating UI over the map; the circle is fitted into the space between them.
   const [overlay, setOverlay] = useState({ top: 0, bottom: 0 });
+  // Spotlight: everything outside the search radius is veiled so only that area reads as "the map".
+  const maskHole = useMemo(
+    () =>
+      origin
+        ? circlePolygon(origin, radiusKm).map((p) => ({ latitude: p.lat, longitude: p.lng }))
+        : [],
+    [origin, radiusKm],
+  );
+  const maskOuter = useMemo(() => {
+    if (!origin) return [];
+    const d = 3; // degrees — comfortably beyond the max 5 km view
+    return [
+      { latitude: origin.lat + d, longitude: origin.lng - d },
+      { latitude: origin.lat + d, longitude: origin.lng + d },
+      { latitude: origin.lat - d, longitude: origin.lng + d },
+      { latitude: origin.lat - d, longitude: origin.lng - d },
+    ];
+  }, [origin]);
+
   const fit = (center: LatLng, r: number, animated = true) => {
     const { height } = Dimensions.get('window');
     // Android takes edge padding in physical pixels, iOS in points.
@@ -179,15 +198,27 @@ export default function MapScreen() {
           showsUserLocation={loc.status === 'granted'}
           showsMyLocationButton={false}
           showsPointsOfInterests={false}
+          // Google labels draw above shapes: hide POIs/transit so the radius mask stays clean.
+          customMapStyle={GOOGLE_MAP_STYLE}
           toolbarEnabled={false}
         >
+          <Polygon
+            coordinates={maskOuter}
+            holes={[maskHole]}
+            fillColor="rgba(232,228,216,0.82)"
+            strokeColor="transparent"
+            strokeWidth={0}
+            tappable={false}
+            zIndex={1}
+          />
           <Circle
             center={{ latitude: origin.lat, longitude: origin.lng }}
             radius={radiusKm * 1000}
             strokeColor={colors.primary}
             strokeWidth={2}
-            fillColor="rgba(15,92,74,0.08)"
+            fillColor="rgba(15,92,74,0.04)"
             lineDashPattern={[8, 6]}
+            zIndex={2}
           />
           {points.map((p) =>
             p.kind === 'cluster' ? (
@@ -371,6 +402,11 @@ export default function MapScreen() {
     </View>
   );
 }
+
+const GOOGLE_MAP_STYLE = [
+  { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+  { featureType: 'transit', stylers: [{ visibility: 'off' }] },
+];
 
 const shadow = {
   shadowColor: colors.ink,

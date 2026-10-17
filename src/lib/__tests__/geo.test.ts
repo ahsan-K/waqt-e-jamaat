@@ -69,3 +69,14 @@ describe('circleBounds', () => {
     for (const p of circleBounds(c, 2)) expect(Math.abs(d(c, p) - 2)).toBeLessThan(0.02);
   });
 });
+
+describe('circlePolygon', () => {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { circlePolygon, distanceKm: d } = require('../geo') as typeof import('../geo');
+  it('all points lie on the radius', () => {
+    const c = { lat: 24.86, lng: 67.0 };
+    const pts = circlePolygon(c, 3, 36);
+    expect(pts).toHaveLength(36);
+    for (const p of pts) expect(Math.abs(d(c, p) - 3)).toBeLessThan(0.03);
+  });
+});
