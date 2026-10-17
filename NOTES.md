@@ -23,6 +23,8 @@ Living log of decisions not spelled out in PLAN.md, deviations, and things the o
 11. **First launch** goes to Welcome (language pill on Welcome opens the Language screen), matching the mockup flow Splash → Welcome.
 12. **expo-localization removed.** Its iOS module resets `I18nManager.forceRTL` on every launch, which made the Urdu RTL flip impossible. Device locale now comes from `SettingsManager.AppleLanguages` (iOS) / `I18nManager.localeIdentifier` (Android) in `src/i18n/deviceLocale.ts`. `CFBundleLocalizations: [en, ur]` declared so iOS allows RTL.
 13. **Google Maps on iOS and Android** (owner decision, overrides PLAN §2 Apple Maps). The iOS Google Maps SDK is only linked when `GOOGLE_MAPS_IOS_API_KEY` is set at build time — until then iOS dev builds fall back to Apple Maps (`src/features/map/provider.ts`). Android uses a placeholder key when none is set so dev builds don't crash (tiles stay blank until a real key is added).
+14a. **Round back button on Android too** (owner request): `src/navigation/RoundBackButton.tsx` replaces the Android header arrow via `headerLeft`; iOS keeps the native (iOS 26 Liquid Glass) button.
+14b. **"Continue as guest"** always goes to the map (`router.dismissTo('/map')`); login opened from Welcome continues to the map, login from a masjid's sign-in sheet returns to that masjid. The Welcome logo badge also opens the map.
 14. **Native header back buttons everywhere** (owner decision, overrides the mockups' round back buttons): `src/navigation/header.ts` (`useNativeHeader`, `useNativeHeaderOnPrimary`). Header actions (share / favourite) live in `headerRight`.
 15. **Radius slider** is a custom gesture-handler component (no extra native dep), accessible as an adjustable control, mirrored in RTL.
 16. **Clustering** uses `supercluster` directly (react-native-map-clustering is unmaintained).
@@ -64,9 +66,10 @@ See `.env.example` and FIREBASE_SETUP.md. Summary:
   uploads need the owner's Apple / Google / Expo accounts (see RELEASE.md).
 - Maestro flows pass on the iOS 26.5 simulator ("iPhone 17 Pro") and the Android emulator
   (phase5 register wizard: Android only).
-- Android Google Maps key is in `.env` but Google still answers "Authorization failure"
-  (check Maps SDK for Android enabled, billing linked, and the restriction
-  `com.ahsan.waqtejamaat` + debug SHA-1 `5E:8F:16:06:2E:A3:CD:2C:4A:0D:54:78:76:BA:A6:F3:8C:AB:F6:25`).
+- Android map tiles don't load: Google rejects the key with **"You must enable Billing on the
+  Google Cloud Project"** (checked via the Geocoding/Static Maps endpoints). Link a billing
+  account to the key's project; keep the restriction `com.ahsan.waqtejamaat` + debug SHA-1
+  `5E:8F:16:06:2E:A3:CD:2C:4A:0D:54:78:76:BA:A6:F3:8C:AB:F6:25`. No rebuild needed after that.
   iOS key not set yet → iOS dev builds use Apple Maps.
 - Maestro phase4 logs in with a user created through the Auth emulator REST API
   (`.maestro/scripts/create-user.js`); iOS strong-password autofill makes typing into the

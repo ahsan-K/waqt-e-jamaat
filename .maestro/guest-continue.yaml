@@ -1,0 +1,53 @@
+# "Continue as guest" on the namazi auth screen always lands on the map.
+appId: com.ahsan.waqtejamaat
+---
+- runFlow: _open-app.yaml
+- extendedWaitUntil:
+    visible:
+      id: "welcome-namazi"
+    timeout: 60000
+# (a) From Welcome's "Have a namazi account? Log in"
+- tapOn: "Have a namazi account.*"
+- extendedWaitUntil:
+    visible:
+      id: "continue-guest"
+    timeout: 10000
+- tapOn:
+    id: "continue-guest"
+- extendedWaitUntil:
+    visible:
+      text: "Allow While Using App|While using the app|.*masjid.*"
+    timeout: 20000
+- runFlow: _allow-location.yaml
+- extendedWaitUntil:
+    visible:
+      id: "nearby-seed-01"
+    timeout: 30000
+# (b) From a masjid's sign-in sheet
+- tapOn:
+    id: "nearby-seed-01"
+- tapOn:
+    id: "remind-btn"
+- tapOn:
+    id: "gate-cta"
+- tapOn:
+    id: "continue-guest"
+- extendedWaitUntil:
+    visible:
+      id: "nearby-seed-01"
+    timeout: 10000
+- assertNotVisible:
+    id: "next-card"
+# (c) Map back → Welcome; tapping the logo badge also opens the map
+- tapOn:
+    id: "map-back"
+- extendedWaitUntil:
+    visible:
+      id: "welcome-logo"
+    timeout: 10000
+- tapOn:
+    id: "welcome-logo"
+- extendedWaitUntil:
+    visible:
+      id: "nearby-seed-01"
+    timeout: 20000

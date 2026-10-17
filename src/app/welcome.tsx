@@ -59,6 +59,8 @@ export default function Welcome() {
     if (href === '/language') return router.push(href);
     setOnboarded(true);
     if (href === '/map') router.replace(href);
+    else if (href === '/auth/namazi')
+      router.push({ pathname: href, params: { mode: 'login', next: 'map' } });
     else router.push(href);
   };
 
@@ -80,9 +82,14 @@ export default function Welcome() {
 
       <View style={styles.header}>
         <View style={styles.topRow}>
-          <View style={styles.logoBadge}>
+          <Touchable
+            testID="welcome-logo"
+            onPress={() => go('/map')}
+            accessibilityLabel={t('tabs.map')}
+            style={styles.logoBadge}
+          >
             <Icon name="mosque" size={28} color={colors.white} strokeWidth={1.8} />
-          </View>
+          </Touchable>
           <Touchable
             testID="lang-pill"
             onPress={() => go('/language')}

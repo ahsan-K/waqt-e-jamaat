@@ -174,7 +174,8 @@ export default function RegisterMasjid() {
         options={{
           ...header,
           title: step < 4 ? t('reg.step', { n: localizeDigits(step, language) }) : t('reg.done'),
-          headerBackVisible: step < 4,
+          headerBackVisible: step < 4 && header.headerBackVisible !== false,
+          ...(step === 4 ? { headerLeft: () => null } : {}),
         }}
       />
       <StatusBar style="dark" />

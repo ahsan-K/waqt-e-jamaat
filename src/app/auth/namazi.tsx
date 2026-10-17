@@ -40,7 +40,7 @@ export default function NamaziAuth() {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const header = useNativeHeader();
-  const params = useLocalSearchParams<{ mode?: Mode }>();
+  const params = useLocalSearchParams<{ mode?: Mode; next?: 'map' }>();
   const [mode, setMode] = useState<Mode>(params.mode === 'login' ? 'login' : 'register');
   const [busy, setBusy] = useState<null | 'email' | 'apple' | 'google'>(null);
   const [error, setError] = useState<string | null>(null);
@@ -73,8 +73,9 @@ export default function NamaziAuth() {
       changeAlerts: settings.changeAlerts,
     }).catch(() => undefined);
     settings.setOnboarded(true);
-    if (router.canGoBack()) router.back();
-    else router.replace('/map');
+    // Opened from Welcome → continue to the map; opened from a gate (detail) → go back there.
+    if (params.next === 'map' || !router.canGoBack()) router.dismissTo('/map');
+    else router.back();
   };
 
   const fail = (e: unknown) => {
@@ -278,12 +279,15 @@ export default function NamaziAuth() {
           )}
         </View>
 
-        <View style={styles.flex} />
         <Button
           variant="ghost"
           size="sm"
+          testID="continue-guest"
           label={t('auth.continueGuest')}
-          onPress={() => (router.canGoBack() ? router.back() : router.replace('/map'))}
+          onPress={() => {
+            settings.setOnboarded(true);
+            router.dismissTo('/map');
+          }}
         />
       </ScrollView>
     </KeyboardAvoidingView>

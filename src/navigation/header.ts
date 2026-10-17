@@ -1,11 +1,13 @@
 import { Platform } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import type { Stack } from 'expo-router';
-import type { ComponentProps } from 'react';
+import { createElement, type ComponentProps } from 'react';
 
 import { useLanguage } from '@/i18n/useLanguage';
 import { colors } from '@/theme/tokens';
 import { fontFamilyFor } from '@/theme/typography';
+
+import { RoundBackButton } from './RoundBackButton';
 
 type ScreenOptions = Exclude<
   NonNullable<ComponentProps<typeof Stack.Screen>['options']>,
@@ -14,7 +16,8 @@ type ScreenOptions = Exclude<
 
 /**
  * Native stack header options (owner decision: platform back button everywhere).
- * Light screens: background-coloured bar, emerald back chevron.
+ * Light screens: background-coloured bar, emerald back chevron. On Android a round back button
+ * (matching iOS 26) replaces the default arrow.
  */
 export function useNativeHeader(title = ''): ScreenOptions {
   const { t } = useTranslation();
@@ -31,6 +34,16 @@ export function useNativeHeader(title = ''): ScreenOptions {
     headerStyle: Platform.OS === 'ios' ? undefined : { backgroundColor: colors.background },
     headerTintColor: colors.primary,
     headerTitleStyle: { fontFamily: fontFamilyFor(language, 'extrabold'), color: colors.ink },
+    ...androidRoundBack('light'),
+  };
+}
+
+/** Android: replace the arrow with the same round back button iOS 26 shows natively. */
+function androidRoundBack(variant: 'light' | 'onPrimary'): ScreenOptions {
+  if (Platform.OS !== 'android') return {};
+  return {
+    headerBackVisible: false,
+    headerLeft: ({ canGoBack }) => (canGoBack ? createElement(RoundBackButton, { variant }) : null),
   };
 }
 
@@ -42,5 +55,6 @@ export function useNativeHeaderOnPrimary(): ScreenOptions {
     headerTransparent: true,
     headerStyle: { backgroundColor: 'transparent' },
     headerTintColor: colors.white,
+    ...androidRoundBack('onPrimary'),
   };
 }

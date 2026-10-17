@@ -123,7 +123,6 @@ export default function IntezamiaLogin() {
           )}
           <Button testID="iz-login" label={t('auth.login')} onPress={onLogin} loading={busy} />
         </View>
-        <View style={styles.flex} />
         <View style={styles.newCard}>
           <AppText size={15} weight="extrabold">
             {t('iz.notListedTitle')}
