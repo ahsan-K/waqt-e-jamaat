@@ -9,6 +9,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppText } from '@/components/AppText';
 import { Button } from '@/components/Button';
 import { Icon } from '@/components/Icon';
+import { OfflineBanner } from '@/components/OfflineBanner';
 import { Touchable } from '@/components/Pressable';
 import { useManagedMasjid } from '@/features/intezamia/useManagedMasjid';
 import { useUnreadCount } from '@/features/notifications/useUnreadCount';
@@ -161,6 +162,7 @@ export default function Dashboard() {
         </View>
 
         <View style={styles.body}>
+          <OfflineBanner />
           {kal.map(({ id: sid, special, date }) => (
             <View key={sid} style={styles.kalCard} testID="kal-card">
               <View style={styles.kalTop}>

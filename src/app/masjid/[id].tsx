@@ -17,6 +17,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppText } from '@/components/AppText';
 import { Button } from '@/components/Button';
 import { Glass } from '@/components/Glass';
+import { OfflineBanner } from '@/components/OfflineBanner';
+import { Skeleton } from '@/components/Skeleton';
 import { Icon, type IconName } from '@/components/Icon';
 import { Touchable } from '@/components/Pressable';
 import { SignInSheet, type GateReason } from '@/components/SignInSheet';
@@ -100,9 +102,17 @@ export default function MasjidDetail() {
 
   if (masjidQ.isLoading) {
     return (
-      <View style={[styles.root, styles.center]}>
-        <Stack.Screen options={headerPlain} />
-        <ActivityIndicator color={colors.primary} size="large" />
+      <View style={styles.root} accessible accessibilityLabel={t('common.loading')}>
+        <Stack.Screen options={headerOnPrimary} />
+        <View style={[styles.header, { paddingTop: headerHeight + 4 }]}>
+          <Skeleton width="60%" height={26} style={styles.skelOnPrimary} />
+          <Skeleton width="45%" height={14} style={styles.skelOnPrimary} />
+          <Skeleton height={72} radius={18} style={styles.skelOnPrimary} />
+        </View>
+        <View style={styles.body}>
+          <Skeleton width="40%" height={18} />
+          <Skeleton height={240} radius={18} />
+        </View>
       </View>
     );
   }
@@ -242,6 +252,7 @@ export default function MasjidDetail() {
         </View>
 
         <View style={styles.body}>
+          <OfflineBanner />
           {withTimings ? (
             <>
               <View style={styles.sectionHead}>
@@ -440,6 +451,7 @@ export default function MasjidDetail() {
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.background },
+  skelOnPrimary: { backgroundColor: 'rgba(255,255,255,0.18)' },
   center: { alignItems: 'center', justifyContent: 'center', gap: 16 },
   flex: { flex: 1 },
   header: {

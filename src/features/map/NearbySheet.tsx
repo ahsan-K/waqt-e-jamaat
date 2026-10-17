@@ -1,12 +1,13 @@
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { AppText } from '@/components/AppText';
 import { Button } from '@/components/Button';
 import { Glass } from '@/components/Glass';
 import { Icon } from '@/components/Icon';
 import { Touchable } from '@/components/Pressable';
+import { Skeleton } from '@/components/Skeleton';
 import { formatKm, formatMinutesLeft, masjidName, nextShortLabel } from '@/i18n/format';
 import { useLanguage } from '@/i18n/useLanguage';
 import { localizeDigits } from '@/lib/digits';
@@ -44,7 +45,18 @@ export function NearbySheet({ items, radiusKm, loading, error, onRetry }: Props)
       </View>
 
       {loading && items.length === 0 ? (
-        <ActivityIndicator color={colors.primary} style={styles.state} />
+        <View style={styles.list} accessibilityLabel={t('common.loading')} accessible>
+          {[0, 1, 2].map((i) => (
+            <View key={i} style={styles.row}>
+              <Skeleton width={40} height={40} radius={12} />
+              <View style={styles.rowText}>
+                <Skeleton width="70%" height={14} />
+                <Skeleton width="40%" height={10} />
+              </View>
+              <Skeleton width={70} height={18} />
+            </View>
+          ))}
+        </View>
       ) : error && items.length === 0 ? (
         <View style={styles.state}>
           <AppText size={14} color="muted">

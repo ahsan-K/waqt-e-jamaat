@@ -9,6 +9,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppText } from '@/components/AppText';
 import { Button } from '@/components/Button';
 import { Glass } from '@/components/Glass';
+import { OfflineBanner } from '@/components/OfflineBanner';
 import { Icon } from '@/components/Icon';
 import { Touchable } from '@/components/Pressable';
 import { RadiusSlider } from '@/components/RadiusSlider';
@@ -258,6 +259,7 @@ export default function MapScreen() {
             </AppText>
           </View>
         </Glass>
+        <OfflineBanner />
         {(loc.status === 'denied' || loc.status === 'unavailable') && !searchOrigin && (
           <Glass style={styles.notice}>
             <AppText size={14} weight="bold">

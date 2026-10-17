@@ -1,0 +1,27 @@
+# Phase 6: app stays usable with location denied (falls back to central Karachi + banner).
+appId: com.ahsan.waqtejamaat
+---
+- runFlow: _open-app.yaml
+- extendedWaitUntil:
+    visible:
+      id: "welcome-namazi"
+    timeout: 60000
+- tapOn:
+    id: "welcome-namazi"
+- extendedWaitUntil:
+    visible:
+      text: "Don.t Allow|Don.t allow|.*masjid.*"
+    timeout: 20000
+- runFlow:
+    when:
+      visible: "Don.t Allow|Don.t allow"
+    commands:
+      - tapOn: "Don.t Allow|Don.t allow"
+- extendedWaitUntil:
+    visible: "Location is off"
+    timeout: 20000
+- extendedWaitUntil:
+    visible:
+      id: "nearby-seed-01"
+    timeout: 30000
+- takeScreenshot: .maestro/out/location-denied

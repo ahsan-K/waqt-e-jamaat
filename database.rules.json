@@ -4,14 +4,30 @@
       "$uid": {
         ".read": "auth != null && auth.uid === $uid",
         ".write": "auth != null && auth.uid === $uid",
-        "role": { ".validate": "newData.val() === 'namazi' || newData.val() === 'intezamia'" }
+        "role": { ".validate": "newData.val() === 'namazi' || newData.val() === 'intezamia'" },
+        "name": { ".validate": "newData.isString() && newData.val().length <= 80" },
+        "email": { ".validate": "newData.isString() && newData.val().length <= 120" },
+        "language": { ".validate": "newData.val() === 'en' || newData.val() === 'ur' || newData.val() === 'ur-Latn'" },
+        "reminderMinutes": { ".validate": "newData.val() === 5 || newData.val() === 10 || newData.val() === 15 || newData.val() === 20" },
+        "defaultRadiusKm": { ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 5" },
+        "changeAlerts": { ".validate": "newData.isBoolean()" },
+        "masjidId": { ".validate": "newData.isString() && newData.val().length <= 40" },
+        "roleInMasjid": { ".validate": "newData.val() === 'imam' || newData.val() === 'muazzin' || newData.val() === 'committee'" },
+        "createdAt": { ".validate": "newData.isNumber()" },
+        "$other": { ".validate": false }
       }
     },
 
     "favorites": {
       "$uid": {
         ".read": "auth != null && auth.uid === $uid",
-        ".write": "auth != null && auth.uid === $uid && auth.provider !== 'anonymous'"
+        ".write": "auth != null && auth.uid === $uid && auth.provider !== 'anonymous'",
+        "$masjidId": {
+          ".validate": "newData.hasChildren(['reminderOn'])",
+          "reminderOn": { ".validate": "newData.isBoolean()" },
+          "createdAt": { ".validate": "newData.isNumber()" },
+          "$other": { ".validate": false }
+        }
       }
     },
 
@@ -20,18 +36,88 @@
       ".indexOn": ["g"],
       "$masjidId": {
         ".write": "auth != null && auth.token.admin === true",
+        ".validate": "newData.hasChildren(['g', 'lat', 'lng', 'hasTimings'])",
+        "g": { ".validate": "newData.isString() && newData.val().length <= 12" },
+        "lat": { ".validate": "newData.isNumber() && newData.val() >= -90 && newData.val() <= 90" },
+        "lng": { ".validate": "newData.isNumber() && newData.val() >= -180 && newData.val() <= 180" },
         "hasTimings": {
-          ".write": "auth != null && root.child('masjids/' + $masjidId + '/ownerUid').val() === auth.uid",
+          ".write": "auth != null && data.parent().child('g').exists() && root.child('masjids/' + $masjidId + '/ownerUid').val() === auth.uid",
           ".validate": "newData.isBoolean()"
-        }
+        },
+        "$other": { ".validate": false }
       }
     },
 
     "masjids": {
       "$masjidId": {
         ".read": "data.child('status').val() === 'approved' || (auth != null && (data.child('ownerUid').val() === auth.uid || auth.token.admin === true))",
-        ".write": "auth != null && (auth.token.admin === true || (!data.exists() && auth.provider !== 'anonymous' && newData.child('ownerUid').val() === auth.uid && newData.child('status').val() === 'pending') || (data.exists() && newData.exists() && data.child('ownerUid').val() === auth.uid && newData.child('ownerUid').val() === auth.uid && newData.child('status').val() === data.child('status').val() && newData.child('geohash').val() === data.child('geohash').val()))",
-        ".validate": "newData.hasChildren(['name', 'lat', 'lng', 'geohash', 'status', 'ownerUid', 'timezone'])"
+        ".write": "auth != null && (auth.token.admin === true || (!data.exists() && auth.provider !== 'anonymous' && newData.child('ownerUid').val() === auth.uid && newData.child('status').val() === 'pending') || (data.exists() && newData.exists() && data.child('ownerUid').val() === auth.uid && newData.child('ownerUid').val() === auth.uid && newData.child('status').val() === data.child('status').val() && newData.child('geohash').val() === data.child('geohash').val() && newData.child('lat').val() === data.child('lat').val() && newData.child('lng').val() === data.child('lng').val()))",
+        ".validate": "newData.hasChildren(['name', 'lat', 'lng', 'geohash', 'status', 'ownerUid', 'timezone'])",
+        "name": {
+          ".validate": "newData.hasChildren(['en', 'ur'])",
+          "en": { ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 80" },
+          "ur": { ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 80" },
+          "$other": { ".validate": false }
+        },
+        "address": { ".validate": "newData.isString() && newData.val().length <= 200" },
+        "lat": { ".validate": "newData.isNumber() && newData.val() >= -90 && newData.val() <= 90" },
+        "lng": { ".validate": "newData.isNumber() && newData.val() >= -180 && newData.val() <= 180" },
+        "geohash": { ".validate": "newData.isString() && newData.val().length <= 12" },
+        "timezone": { ".validate": "newData.isString() && newData.val().length <= 40" },
+        "status": { ".validate": "newData.val() === 'pending' || newData.val() === 'approved' || newData.val() === 'rejected'" },
+        "ownerUid": { ".validate": "newData.isString()" },
+        "timingsUpdatedAt": { ".validate": "newData.isNumber()" },
+        "createdAt": { ".validate": "newData.isNumber()" },
+        "daily": {
+          "$entryId": {
+            ".validate": "newData.hasChildren(['effectiveFrom', 'times', 'createdBy'])",
+            "effectiveFrom": { ".validate": "newData.isNumber()" },
+            "createdBy": { ".validate": "newData.isString()" },
+            "notify": { ".validate": "newData.isBoolean()" },
+            "times": {
+              ".validate": "newData.hasChildren(['fajr', 'zuhr', 'asr', 'maghrib', 'isha'])",
+              "$prayer": {
+                ".validate": "($prayer === 'fajr' || $prayer === 'zuhr' || $prayer === 'asr' || $prayer === 'maghrib' || $prayer === 'isha') && newData.hasChildren(['azaan', 'jamaat'])",
+                "azaan": { ".validate": "newData.isString() && newData.val().matches(/^([01][0-9]|2[0-3]):[0-5][0-9]$/)" },
+                "jamaat": { ".validate": "newData.isString() && newData.val().matches(/^([01][0-9]|2[0-3]):[0-5][0-9]$/)" },
+                "$other": { ".validate": false }
+              }
+            },
+            "$other": { ".validate": false }
+          }
+        },
+        "specials": {
+          "$specialId": {
+            ".validate": "newData.hasChildren(['type', 'times', 'repeat', 'dateConfirmed', 'remindManagement', 'updatedAt'])",
+            "type": { ".validate": "newData.val() === 'jumma' || newData.val() === 'taraweeh' || newData.val() === 'eid_ul_fitr' || newData.val() === 'eid_ul_adha' || newData.val() === 'custom'" },
+            "customName": {
+              "en": { ".validate": "newData.isString() && newData.val().length <= 80" },
+              "ur": { ".validate": "newData.isString() && newData.val().length <= 80" },
+              "$other": { ".validate": false }
+            },
+            "times": {
+              "$label": {
+                ".validate": "($label === 'khutba' || $label === 'jamaat' || $label === 'first_jamaat' || $label === 'second_jamaat' || $label === 'start') && newData.isString() && newData.val().matches(/^([01][0-9]|2[0-3]):[0-5][0-9]$/)"
+              }
+            },
+            "repeat": {
+              ".validate": "newData.child('kind').val() === 'once' ? newData.hasChildren(['date']) : (newData.child('kind').val() === 'daily' ? newData.hasChildren(['from', 'until']) : (newData.child('kind').val() === 'weekly' && newData.hasChildren(['weekday', 'from'])))",
+              "kind": { ".validate": "newData.isString()" },
+              "date": { ".validate": "newData.isString() && newData.val().matches(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/)" },
+              "from": { ".validate": "newData.isString() && newData.val().matches(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/)" },
+              "until": { ".validate": "newData.isString() && newData.val().matches(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/)" },
+              "weekday": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 6" },
+              "$other": { ".validate": false }
+            },
+            "dateConfirmed": { ".validate": "newData.isBoolean()" },
+            "remindManagement": { ".validate": "newData.isBoolean()" },
+            "lastConfirmedFor": { ".validate": "newData.isString() && newData.val().matches(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/)" },
+            "replacesPrayer": { ".validate": "newData.val() === 'zuhr' || newData.val() === 'isha'" },
+            "updatedAt": { ".validate": "newData.isNumber()" },
+            "$other": { ".validate": false }
+          }
+        },
+        "$other": { ".validate": false }
       }
     },
 
@@ -48,8 +134,9 @@
         },
         "favourites": {
           ".write": "auth != null && auth.provider !== 'anonymous'",
-          ".validate": "newData.isNumber() && (newData.val() === (data.exists() ? data.val() : 0) + 1 || newData.val() === data.val() - 1)"
-        }
+          ".validate": "newData.isNumber() && ((newData.val() === (data.exists() ? data.val() : 0) + 1 && !root.child('favorites/' + auth.uid + '/' + $masjidId).exists() && newData.parent().parent().parent().child('favorites/' + auth.uid + '/' + $masjidId).exists()) || (newData.val() === (data.exists() ? data.val() : 0) - 1 && newData.val() >= 0 && root.child('favorites/' + auth.uid + '/' + $masjidId).exists() && !newData.parent().parent().parent().child('favorites/' + auth.uid + '/' + $masjidId).exists()))"
+        },
+        "$other": { ".validate": false }
       }
     },
 
@@ -57,7 +144,11 @@
       "$masjidId": {
         "$uid": {
           ".read": "auth != null && auth.uid === $uid",
-          ".write": "auth != null && auth.uid === $uid && auth.provider !== 'anonymous' && !data.exists() && root.child('masjids/' + $masjidId + '/status').val() === 'approved'"
+          ".write": "auth != null && auth.uid === $uid && auth.provider !== 'anonymous' && !data.exists() && root.child('masjids/' + $masjidId + '/status').val() === 'approved'",
+          ".validate": "newData.hasChildren(['at', 'timingsVersion'])",
+          "at": { ".validate": "newData.isNumber()" },
+          "timingsVersion": { ".validate": "newData.isNumber()" },
+          "$other": { ".validate": false }
         }
       }
     },
@@ -66,7 +157,11 @@
       "$masjidId": {
         ".read": "auth != null && (auth.token.admin === true || root.child('masjids/' + $masjidId + '/ownerUid').val() === auth.uid)",
         "$uid": {
-          ".write": "auth != null && auth.uid === $uid && !data.exists()"
+          ".write": "auth != null && auth.uid === $uid && !data.exists()",
+          ".validate": "newData.hasChildren(['at'])",
+          "at": { ".validate": "newData.isNumber()" },
+          "notifyWhenAdded": { ".validate": "newData.isBoolean()" },
+          "$other": { ".validate": false }
         }
       }
     },
@@ -75,7 +170,14 @@
       "$masjidId": {
         ".read": "auth != null && (auth.token.admin === true || root.child('masjids/' + $masjidId + '/ownerUid').val() === auth.uid)",
         "$reportId": {
-          ".write": "auth != null && !data.exists() && newData.child('uid').val() === auth.uid"
+          ".write": "auth != null && !data.exists() && newData.child('uid').val() === auth.uid",
+          ".validate": "newData.hasChildren(['uid', 'at'])",
+          "uid": { ".validate": "newData.isString()" },
+          "at": { ".validate": "newData.isNumber()" },
+          "prayer": { ".validate": "newData.val() === 'fajr' || newData.val() === 'zuhr' || newData.val() === 'asr' || newData.val() === 'maghrib' || newData.val() === 'isha'" },
+          "note": { ".validate": "newData.isString() && newData.val().length <= 500" },
+          "photoUrl": { ".validate": "newData.isString() && newData.val().length <= 500" },
+          "$other": { ".validate": false }
         }
       }
     }

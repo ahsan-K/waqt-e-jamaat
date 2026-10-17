@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppText } from '@/components/AppText';
 import { Button } from '@/components/Button';
 import { Icon } from '@/components/Icon';
+import { OfflineBanner } from '@/components/OfflineBanner';
 import { Touchable } from '@/components/Pressable';
 import { Switch } from '@/components/Switch';
 import { useAuth } from '@/features/auth/AuthProvider';
@@ -64,6 +65,7 @@ export default function Favourites() {
         )}
       </View>
 
+      <OfflineBanner />
       {!isRegistered ? (
         <View style={styles.empty}>
           <View style={styles.emptyIcon}>

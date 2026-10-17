@@ -80,7 +80,9 @@
     "test": "jest",
     "format": "prettier --write .",
     "emulators": "firebase emulators:start --only auth,database --project demo-waqt-e-jamaat --import=./.emulator-data --export-on-exit",
-    "seed": "tsx scripts/seed.ts"
+    "seed": "tsx scripts/seed.ts",
+    "test:rules": "jest -c jest.rules.config.js",
+    "test:rules:ci": "firebase emulators:exec --only database --project demo-waqt-e-jamaat 'jest -c jest.rules.config.js'"
   },
   "private": true,
   "jest": {
