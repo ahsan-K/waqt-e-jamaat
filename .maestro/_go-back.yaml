@@ -1,0 +1,13 @@
+# Navigate back: native header back button on iOS, system back on Android.
+appId: com.ahsan.waqtejamaat
+---
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn: "Back"
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back

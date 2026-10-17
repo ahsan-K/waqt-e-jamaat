@@ -36,8 +36,14 @@ appId: com.ahsan.waqtejamaat
       id: "gate-cta"
     timeout: 5000
 - takeScreenshot: .maestro/out/gate
-- back
+- tapOn: "Not now"
 - openLink: "waqtejamaat://masjid/seed-10"
+# iOS 26 confirms opening a custom-scheme link.
+- runFlow:
+    when:
+      visible: "Open in .*"
+    commands:
+      - tapOn: "Open"
 - extendedWaitUntil:
     visible:
       id: "next-card-estimate"

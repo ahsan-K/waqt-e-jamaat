@@ -27,6 +27,7 @@ Living log of decisions not spelled out in PLAN.md, deviations, and things the o
 15. **Radius slider** is a custom gesture-handler component (no extra native dep), accessible as an adjustable control, mirrored in RTL.
 16. **Clustering** uses `supercluster` directly (react-native-map-clustering is unmaintained).
 17. **Map search:** first matches loaded masjid names, otherwise geocodes the text with `expo-location` and re-centres. A "Search this area" button appears when the map is panned outside the radius.
+18a. **RTDB root ref:** `ref(db, '')` is invalid in Firebase JS 13 — multi-path updates use `ref(db)` (`dbRef('')`).
 18. **Routes `/masjid/[id]` deep-link:** `waqtejamaat://masjid/<id>`.
 19. **AlAdhan:** `GET /v1/calendar/{year}/{month}?latitude&longitude&method&school&timezonestring` (verified 2026-10-17). Cached per rounded coords (2 dp) + method + school + month in AsyncStorage; current + next month kept.
 
@@ -46,17 +47,19 @@ See `.env.example` and FIREBASE_SETUP.md. Summary:
   `maestro test .maestro/phase1-language-rtl.yaml` etc.
 - Firebase emulators need **JDK 21+** (firebase-tools 15).
 
-## Status / resume point (2026-10-17, end of session)
+## Status / resume point
 
-- Phases 1–3 done and committed (tested on iOS sim + Android emulator).
-- Phase 4 in progress (WIP commit): auth service (anonymous → link), namazi auth screen,
-  favourites, profile, notifications inbox, local reminders + change alerts, report sheet.
-  Remaining: (1) Maestro phase4 flow — password field focus flake in the iOS simulator;
-  (2) on the iOS 18.6 sim "Set reminder" after registering showed "Something went wrong" —
-  the same multi-path writes succeed against the emulator from Node, so debug in-app
-  (dev alert now shows the error message); (3) run on Android; (4) commit Phase 4.
-- Use the **iOS 26.5 "iPhone 17 Pro"** simulator to see Liquid Glass (round back button,
-  glass tab bar). "iPhone 16 Pro*" sims run iOS 18.6.
+- Phases 1–4 done and committed; Maestro flows phase1–phase4 pass on the iOS 26.5 simulator
+  ("iPhone 17 Pro") and the Android emulator. Next: Phase 5 (Intezamia).
+- Android Google Maps key is in `.env` but Google still answers "Authorization failure"
+  (check Maps SDK for Android enabled, billing linked, and the restriction
+  `com.ahsan.waqtejamaat` + debug SHA-1 `5E:8F:16:06:2E:A3:CD:2C:4A:0D:54:78:76:BA:A6:F3:8C:AB:F6:25`).
+  iOS key not set yet → iOS dev builds use Apple Maps.
+- Maestro phase4 logs in with a user created through the Auth emulator REST API
+  (`.maestro/scripts/create-user.js`); iOS strong-password autofill makes typing into the
+  register form flaky in the simulator. Guest → account linking is checked by
+  `node scripts/e2e-link-test.mjs`.
+- Map screen has a round back button before the search bar (owner request) → Welcome.
 
 ## Open questions
 

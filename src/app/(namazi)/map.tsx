@@ -177,6 +177,15 @@ export default function MapScreen() {
 
       <View style={[styles.top, { top: insets.top + 8 }]}>
         <View style={styles.searchRow}>
+          <Touchable
+            testID="map-back"
+            onPress={() => (router.canGoBack() ? router.back() : router.replace('/welcome'))}
+            accessibilityLabel={t('common.back')}
+          >
+            <Glass style={styles.circleBtn} interactive>
+              <Icon name="back" color={colors.ink} />
+            </Glass>
+          </Touchable>
           <Glass style={styles.search}>
             <Icon name="search" size={18} color={colors.muted} />
             <TextInput
@@ -299,12 +308,12 @@ const shadow = {
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.mapBase },
   top: { position: 'absolute', start: 16, end: 16, gap: 10 },
-  searchRow: { flexDirection: 'row', gap: 10, alignItems: 'center' },
+  searchRow: { flexDirection: 'row', gap: 8, alignItems: 'center' },
   search: {
     flex: 1,
     height: 50,
     borderRadius: 25,
-    paddingHorizontal: 18,
+    paddingHorizontal: 14,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
@@ -312,9 +321,9 @@ const styles = StyleSheet.create({
   },
   input: { flex: 1, fontSize: 15, color: colors.ink, paddingVertical: 0, textAlign: 'auto' },
   circleBtn: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     alignItems: 'center',
     justifyContent: 'center',
     ...shadow,

@@ -1,4 +1,6 @@
-# Phase 4: guest → register (links the anonymous user) → favourite + reminder → favourites → logout.
+# Phase 4: guest gating → login → favourite + reminder + confirm → favourites → profile → logout.
+# (Registering + linking the guest is covered by scripts/e2e-link-test.mjs; iOS strong-password
+# autofill makes typing into the register form flaky in the simulator.)
 appId: com.ahsan.waqtejamaat
 ---
 - runFlow: _open-app.yaml
@@ -36,15 +38,12 @@ appId: com.ahsan.waqtejamaat
     visible:
       id: "auth-email"
     timeout: 10000
+- runScript: scripts/create-user.js
 - tapOn:
-    id: "auth-name"
-- inputText: "Test Namazi"
+    id: "tab-login"
 - tapOn:
     id: "auth-email"
-- inputRandomEmail
-- tapOn:
-    id: "auth-password"
-- waitForAnimationToEnd
+- inputText: ${output.email}
 - tapOn:
     id: "auth-password"
 - inputText: "secret123"
@@ -52,6 +51,16 @@ appId: com.ahsan.waqtejamaat
 - tapOn: "Namazi account"
 - tapOn:
     id: "auth-submit"
+# iOS may offer to save the password.
+- extendedWaitUntil:
+    visible:
+      text: "Save Password.*|Set reminder|Reminder on"
+    timeout: 20000
+- runFlow:
+    when:
+      visible: "Save Password.*"
+    commands:
+      - tapOn: "Not Now"
 # Back on the detail screen as a registered user.
 - extendedWaitUntil:
     visible:
@@ -59,11 +68,6 @@ appId: com.ahsan.waqtejamaat
     timeout: 20000
 - tapOn:
     id: "remind-btn"
-- runFlow:
-    when:
-      visible: "Allow"
-    commands:
-      - tapOn: "Allow"
 - extendedWaitUntil:
     visible: "Reminder on"
     timeout: 10000
@@ -73,7 +77,7 @@ appId: com.ahsan.waqtejamaat
     visible: "Thanks"
     timeout: 10000
 - takeScreenshot: .maestro/out/detail-registered
-- back
+- runFlow: _go-back.yaml
 - tapOn: "My masjids"
 - extendedWaitUntil:
     visible:

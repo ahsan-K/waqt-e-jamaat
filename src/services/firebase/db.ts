@@ -17,6 +17,7 @@ export const paths = {
   reports: (masjidId: string) => `reports/${masjidId}`,
 } as const;
 
+/** Ref for a path; empty path = database root (used for multi-path updates). */
 export function dbRef(path: string): DatabaseReference {
-  return ref(db, path);
+  return path ? ref(db, path) : ref(db);
 }
