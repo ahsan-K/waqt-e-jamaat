@@ -1,6 +1,11 @@
 import type { ConfigContext, ExpoConfig } from 'expo/config';
 
+import { existsSync } from 'node:fs';
+
 const BUNDLE_ID = 'com.ahsan.waqtejamaat';
+// Firebase platform config files (git-ignored; on EAS provide them as file env vars).
+const IOS_GOOGLE_SERVICES = process.env.GOOGLE_SERVICES_PLIST ?? './GoogleService-Info.plist';
+const ANDROID_GOOGLE_SERVICES = process.env.GOOGLE_SERVICES_JSON ?? './google-services.json';
 const GOOGLE_IOS_URL_SCHEME = process.env.GOOGLE_IOS_URL_SCHEME;
 const GOOGLE_MAPS_IOS_API_KEY = process.env.GOOGLE_MAPS_IOS_API_KEY;
 
@@ -15,6 +20,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   userInterfaceStyle: 'light',
   ios: {
     bundleIdentifier: BUNDLE_ID,
+    ...(existsSync(IOS_GOOGLE_SERVICES) ? { googleServicesFile: IOS_GOOGLE_SERVICES } : {}),
     supportsTablet: false,
     usesAppleSignIn: true,
     infoPlist: {
@@ -25,6 +31,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   android: {
     package: BUNDLE_ID,
+    ...(existsSync(ANDROID_GOOGLE_SERVICES) ? { googleServicesFile: ANDROID_GOOGLE_SERVICES } : {}),
     adaptiveIcon: {
       backgroundColor: '#0F5C4A',
       foregroundImage: './assets/images/adaptive-icon.png',
@@ -40,7 +47,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         // Google Maps on both platforms (owner decision). The iOS Google Maps SDK is only
         // linked when an iOS key is present; until then iOS dev builds fall back to Apple Maps.
         // Placeholder keeps dev builds from crashing ("API key not found"); tiles need a real key.
-        androidGoogleMapsApiKey: process.env.GOOGLE_MAPS_ANDROID_API_KEY || 'MISSING_GOOGLE_MAPS_ANDROID_KEY',
+        androidGoogleMapsApiKey:
+          process.env.GOOGLE_MAPS_ANDROID_API_KEY || 'MISSING_GOOGLE_MAPS_ANDROID_KEY',
         ...(GOOGLE_MAPS_IOS_API_KEY ? { iosGoogleMapsApiKey: GOOGLE_MAPS_IOS_API_KEY } : {}),
       },
     ],
