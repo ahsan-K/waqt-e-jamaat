@@ -59,8 +59,11 @@ See `.env.example` and FIREBASE_SETUP.md. Summary:
 
 ## Status / resume point
 
-- Phases 1–6 done and committed; Maestro flows pass on the iOS 26.5 simulator ("iPhone 17 Pro")
-  and the Android emulator (phase5 register wizard: Android only). Next: Phase 7 (release prep).
+- All phases 1–7 done and committed. Phase 7 prepared everything repo-side (store listings in
+  `store/`, privacy policy draft, EAS build/submit config, RELEASE.md); TestFlight / Play internal
+  uploads need the owner's Apple / Google / Expo accounts (see RELEASE.md).
+- Maestro flows pass on the iOS 26.5 simulator ("iPhone 17 Pro") and the Android emulator
+  (phase5 register wizard: Android only).
 - Android Google Maps key is in `.env` but Google still answers "Authorization failure"
   (check Maps SDK for Android enabled, billing linked, and the restriction
   `com.ahsan.waqtejamaat` + debug SHA-1 `5E:8F:16:06:2E:A3:CD:2C:4A:0D:54:78:76:BA:A6:F3:8C:AB:F6:25`).

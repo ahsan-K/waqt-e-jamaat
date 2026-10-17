@@ -18,6 +18,11 @@ export const firebaseConfig = {
   appId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID || undefined,
 };
 
+if (!useEmulator && !process.env.EXPO_PUBLIC_FIREBASE_API_KEY) {
+  // Release builds must get the Firebase config from EAS environment variables (RELEASE.md §2).
+  console.error('Firebase config missing: set EXPO_PUBLIC_FIREBASE_* or enable the emulator.');
+}
+
 /**
  * Host where the Emulator Suite is reachable from the device:
  * explicit env override → Metro dev-server host (works on simulators and LAN devices)

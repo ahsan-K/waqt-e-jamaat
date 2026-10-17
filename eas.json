@@ -7,6 +7,7 @@
     "development": {
       "developmentClient": true,
       "distribution": "internal",
+      "environment": "development",
       "env": { "EXPO_PUBLIC_USE_FIREBASE_EMULATOR": "true" }
     },
     "development-simulator": {
@@ -15,14 +16,28 @@
     },
     "preview": {
       "distribution": "internal",
-      "env": { "EXPO_PUBLIC_USE_FIREBASE_EMULATOR": "false" }
+      "environment": "preview",
+      "env": { "EXPO_PUBLIC_USE_FIREBASE_EMULATOR": "false" },
+      "android": { "buildType": "apk" }
     },
     "production": {
       "autoIncrement": true,
-      "env": { "EXPO_PUBLIC_USE_FIREBASE_EMULATOR": "false" }
+      "environment": "production",
+      "env": { "EXPO_PUBLIC_USE_FIREBASE_EMULATOR": "false" },
+      "android": { "buildType": "app-bundle" }
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "ascAppId": "REPLACE_WITH_APP_STORE_CONNECT_APP_ID",
+        "appleTeamId": "REPLACE_WITH_APPLE_TEAM_ID"
+      },
+      "android": {
+        "serviceAccountKeyPath": "../keys/play-service-account.json",
+        "track": "internal",
+        "releaseStatus": "draft"
+      }
+    }
   }
 }
