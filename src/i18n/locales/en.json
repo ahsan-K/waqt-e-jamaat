@@ -182,7 +182,8 @@
       "cancelled": "Sign-in cancelled.",
       "not-configured": "Google sign-in isn't set up yet.",
       "unknown": "Something went wrong. Try again.",
-      "nameRequired": "Enter your name."
+      "nameRequired": "Enter your name.",
+      "google-config": "Google sign-in isn't set up for this app build yet (missing SHA-1 in Firebase). Use email for now."
     }
   },
   "fav": {

@@ -182,7 +182,8 @@
       "cancelled": "Login cancel ho gaya.",
       "not-configured": "Google login abhi set up nahi.",
       "unknown": "Kuch ghalat ho gaya. Dobara koshish karein.",
-      "nameRequired": "Apna naam likhein."
+      "nameRequired": "Apna naam likhein.",
+      "google-config": "Is app build ke liye Google login abhi set up nahi (Firebase mein SHA-1 nahi). Abhi email se login karein."
     }
   },
   "fav": {

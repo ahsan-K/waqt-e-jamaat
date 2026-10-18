@@ -27,6 +27,7 @@ export type AuthErrorCode =
   | 'network'
   | 'cancelled'
   | 'not-configured'
+  | 'google-config'
   | 'unknown';
 
 export class AuthError extends Error {
@@ -37,6 +38,7 @@ export class AuthError extends Error {
 
 function mapError(e: unknown): AuthError {
   if (e instanceof AuthError) return e;
+  if (__DEV__) console.warn('[auth]', e);
   const code = (e as { code?: string })?.code ?? '';
   if (code.includes('email-already-in-use') || code.includes('credential-already-in-use')) {
     return new AuthError('email-in-use');
@@ -52,7 +54,16 @@ function mapError(e: unknown): AuthError {
   if (code.includes('weak-password')) return new AuthError('weak-password');
   if (code.includes('invalid-email')) return new AuthError('invalid-email');
   if (code.includes('network')) return new AuthError('network');
-  if (code === 'ERR_REQUEST_CANCELED' || code.includes('cancel')) return new AuthError('cancelled');
+  if (
+    code === 'ERR_REQUEST_CANCELED' ||
+    code.includes('cancel') ||
+    code === 'SIGN_IN_CANCELLED' ||
+    code === '12501'
+  ) {
+    return new AuthError('cancelled');
+  }
+  // Google Sign-In DEVELOPER_ERROR: app SHA-1 / OAuth client missing in Firebase (config, not user).
+  if (code === '10' || code === 'DEVELOPER_ERROR') return new AuthError('google-config');
   return new AuthError('unknown');
 }
 

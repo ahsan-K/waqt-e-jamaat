@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import * as Location from 'expo-location';
 import { useEffect, useRef, useState, type ComponentRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, ScrollView, StyleSheet, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { z } from 'zod';
@@ -168,7 +168,8 @@ export default function RegisterMasjid() {
   return (
     <KeyboardAvoidingView
       style={styles.root}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      // Android is edge-to-edge (SDK 58), so adjustResize no longer shrinks the window: pad here too.
+      behavior="padding"
     >
       <Stack.Screen
         options={{
